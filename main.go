@@ -75,10 +75,10 @@ func rude(cache string) {
 	for _, file := range files {
 
 		name := file.Name()
-		//fmt.Println(name)
+		Tabs[name] = []Node{}
 
 		// func ReadFile(filename string) ([]byte, error)
-		bloc, err := ioutil.ReadFile(cache + "/" + file.Name())
+		bloc, err := ioutil.ReadFile(cache + "/" + name)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -89,17 +89,17 @@ func rude(cache string) {
 
 		for {
 			// func (b *Buffer) ReadString(delim byte) (line string, err error)
+			// assumes \r\n not the reverse
 			line, err := buf.ReadString(LF)
 			if err != nil {
 				break
 			}
+
 			// func Trim(s string, cutset string) string
-			line = strings.Trim(line, "\r\n")
-			// AGS format terminated with redundant \r\n
+			line = strings.Trim(line, " \r\n")
+
+			// AGS format terminated with marking \r\n
 			if len(line) == 0 {
-				if Tabs[name] == nil {
-					Tabs[name] = make([]Node, 0)
-				}
 				Tabs[name] = append(Tabs[name], *node)
 				node = new(Node)
 				continue
@@ -114,7 +114,8 @@ func rude(cache string) {
 			// func Split(s, sep string) []string
 			for _, token := range strings.Split(line, ",") {
 				// strip quotes
-				token = strings.Trim(token, "\"")
+				token = strings.Trim(token, " \"")
+
 				// set new mode
 				if head {
 					mode = token
