@@ -16,6 +16,11 @@ package ags4
 // uneditable by a windows users... sigh!!..
 
 
+// Dreaded SPEC and DEF
+// AGS4 "UNITS", spec/def will be loaded into
+// this var at startup.. later we need hotreload
+var Units = map[string]Unit
+
 
 type Unit struct {
 
