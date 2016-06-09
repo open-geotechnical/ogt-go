@@ -17,7 +17,7 @@ ags2go is a toolkit that
 - parses AGS files
 - validates AGS files
 - browses the AGS spec.
-- and acts as a microservice for all of above
+- and acts as a microservice for all of the above
 
 
 
