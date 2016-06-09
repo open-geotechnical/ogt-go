@@ -10,12 +10,26 @@ import (
 	"strings"
 )
 
-import(
-	"bitbucket.org/daffodil/ags2go/ags4"
+const (
+	LF = 10
+
+	DATA    = "DATA"
+	GROUP   = "GROUP"
+	HEADING = "HEADING"
+	TYPE    = "TYPE"
+	UNIT    = "UNIT"
 )
 
+// AGS order
+type Node struct {
+	Group   string     `json:"GROUP"`
+	Heading []string   `json:"HEADING"`
+	Unit    []string   `json:"UNIT"`
+	Type    []string   `json:"TYPE"`
+	Data    [][]string `json:"DATA"`
+}
 
-var Tabs = make(map[string][]ags4.Group)
+var Tabs = make(map[string][]Node)
 
 func main() {
 
