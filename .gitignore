@@ -1,3 +1,11 @@
+
+
+workspace/
+temp/
+
+*.pyc
+
+
 .idea
 *.iml
 .project
