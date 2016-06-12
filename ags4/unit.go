@@ -14,11 +14,11 @@ package ags4
 // even though golang is UTF8.. SIGH!
 // But if we go to UTF-* then we can have a proper Degree^C symbol
 // uneditable by a windows users... sigh!!..
-
-
+//
+//
 // Dreaded SPEC and DEF
 // AGS4 "UNITS", spec/def will be loaded into
-// this var at startup.. later we need hotreload
+// this var at startup.. later we need hot..reload
 var Units = map[string]Unit
 
 
@@ -45,6 +45,8 @@ func UnitExists(unit string) bool {
 }
 
 // Unit autocomplete and valid an hints
+// expect a request every  second.. whikst session engaged..
+// or we cache to clinet.. Over to @bill
 func UnitAutocomplete(txt string) (bool, []string){
 	// imagine the user has types in a k/m when K/m was means
 	// first we hekp with valid unit ?
@@ -61,6 +63,10 @@ func UnitsMatching(txt string) []string {
 	matches := make(string,0,0)
 	// Do some clever searches
 	// of the memtree and terun some matchin, case insensitive
+	// meed some rapid magic..
+	// et wahat tz ? planet..
+	// U in USA ? imperial
+	// Default = Metric ;;-)))
 
 
 	return matches
