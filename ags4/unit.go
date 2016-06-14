@@ -19,13 +19,25 @@ package ags4
 // Dreaded SPEC and DEF
 // AGS4 "UNITS", spec/def will be loaded into
 // this var at startup.. later we need hot..reload
+
+/*
+"GROUP","UNIT"
+"HEADING","UNIT_UNIT","UNIT_DESC"
+"UNIT","",""
+"TYPE","X","X"
+"DATA","yyyy-mm-dd","day month year"
+"DATA","yyyy-mm-ddThh:mm","day month year hours minutes"
+"DATA","m","metre"
+"DATA","degC","Degrees Celsius"
+*/
+
 var Units = map[string]Unit
 
 
 type Unit struct {
 
 	// eg DegC, kN/m2  (latin remember)
-	Unit string 		` json:"unit" db:"unit" `
+	Unit string 		` json:"unit" db:"unit" ags:"UNIT_UNIT" `
 
 	// eg kiloNewtons per square metre (latin)
 	Description string 	` json:"description" db:"description" `
