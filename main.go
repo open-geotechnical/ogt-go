@@ -1,6 +1,7 @@
 package main
 
 import (
+	"archive/zip"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -21,7 +22,7 @@ const (
 )
 
 // AGS order
-type Node struct {
+type Tab struct {
 	Group   string     `json:"GROUP"`
 	Heading []string   `json:"HEADING"`
 	Unit    []string   `json:"UNIT"`
@@ -29,7 +30,7 @@ type Node struct {
 	Data    [][]string `json:"DATA"`
 }
 
-var Tabs = make(map[string][]Node)
+var Tabs = make(map[string][]Tab)
 
 func main() {
 
@@ -42,50 +43,38 @@ func main() {
 }
 
 /*
-	// alternate to pretty print (above)
-	for name, nodes := range Tabs {
-		fmt.Println(name)
-		for _, node := range nodes {
-			fmt.Println("GROUP " + node.Group)
-			fmt.Print("HEADING ")
-			fmt.Println(node.Heading)
-			fmt.Print("TYPE ")
-			fmt.Println(node.Type)
-			fmt.Print("UNIT ")
-			fmt.Println(node.Unit)
-			fmt.Print("DATA ")
-			fmt.Println(node.Data)
-			fmt.Println()
-		}
-	}
+Function rude is a rudimentary parser for AGS standard data.
 */
+func rude(archive string) {
 
-/*
-Function rude is a rudimentary parser for AGS standard data. It takes as an argument the name of
-the directory containing the AGS definition files.
-*/
-func rude(cache string) {
-
-	// func ReadDir(dirname string) ([]os.FileInfo, error)
-	files, err := ioutil.ReadDir(cache)
+	// func OpenReader(name string) (*ReadCloser, error)
+	rc, err := zip.OpenReader(archive)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer rc.Close()
 
-	for _, file := range files {
+	for _, file := range rc.File {
 
-		name := file.Name()
-		Tabs[name] = []Node{}
+		name := file.Name
+		Tabs[name] = []Tab{}
 
-		// func ReadFile(filename string) ([]byte, error)
-		bloc, err := ioutil.ReadFile(cache + "/" + name)
+		// func (f *File) Open() (rc io.ReadCloser, err error)
+		rc1, err := file.Open()
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer rc1.Close()
+
+		// func ReadAll(r io.Reader) ([]byte, error)
+		bloc, err := ioutil.ReadAll(rc1)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		// func NewBuffer(buf []byte) *Buffer
 		buf := bytes.NewBuffer(bloc)
-		node := new(Node)
+		tab := new(Tab)
 
 		for {
 			// func (b *Buffer) ReadString(delim byte) (line string, err error)
@@ -98,10 +87,10 @@ func rude(cache string) {
 			// func Trim(s string, cutset string) string
 			line = strings.Trim(line, " \r\n")
 
-			// AGS format terminated with marking \r\n
+			// AGS format terminated with redundant \r\n sentinel
 			if len(line) == 0 {
-				Tabs[name] = append(Tabs[name], *node)
-				node = new(Node)
+				Tabs[name] = append(Tabs[name], *tab)
+				tab = new(Tab)
 				continue
 			}
 
@@ -127,18 +116,18 @@ func rude(cache string) {
 				case DATA:
 					data = append(data, token)
 				case GROUP:
-					node.Group = token
+					tab.Group = token
 				case HEADING:
-					node.Heading = append(node.Heading, token)
+					tab.Heading = append(tab.Heading, token)
 				case TYPE:
-					node.Type = append(node.Type, token)
+					tab.Type = append(tab.Type, token)
 				case UNIT:
-					node.Unit = append(node.Unit, token)
+					tab.Unit = append(tab.Unit, token)
 				}
 			}
 
 			if mode == DATA {
-				node.Data = append(node.Data, data)
+				tab.Data = append(tab.Data, data)
 			}
 		}
 	}
