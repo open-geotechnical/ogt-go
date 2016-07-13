@@ -28,7 +28,7 @@ type Project struct {
 	//Location string
 }
 
-func NewProjectFromAGS(ags_block string ) Project {
+func NewProjectFromAGSFile(ags_block string ) Project {
 
 	p := new(Project)
 	p.ID = "Project factorty ?"
