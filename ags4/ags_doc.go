@@ -7,10 +7,8 @@ package ags4
 // for an ags file
 // The "struct should be
 // cool and funky and serialiabled into json, yaml and AGS
-// <NO xml.hell please ie no arrays said Bigll>
+// <NO xml.hell please ie no arrays said bill>
 //
-
-
 
 type AGS4Doc struct {
 

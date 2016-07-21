@@ -2,23 +2,19 @@
 
 package ags4
 
-// AGS Units are defined by AGS..
+// Units are defined by AGS..
 // eg
-// "%" = "percentage"
-// "MPN/100ml" = "most probable number per 100 millilitres",
-// "DegC" = "degree Celsius"
+//   "%" = "percentage"
+//   "MPN/100ml" = "most probable number per 100 millilitres",
+//   "DegC" = "degree Celsius"
 //
-// NOte that AGS is latin chars, so not of them windows
+// Note that AGS is latin chars, so not of them windows
 // and unicodec haracters in there.. (which crashed my system)
 // So we need to validate that,
 // even though golang is UTF8.. SIGH!
 // But if we go to UTF-* then we can have a proper Degree^C symbol
 // uneditable by a windows users... sigh!!..
 //
-//
-// Dreaded SPEC and DEF
-// AGS4 "UNITS", spec/def will be loaded into
-// this var at startup.. later we need hot..reload
 
 /*
 "GROUP","UNIT"
@@ -31,20 +27,26 @@ package ags4
 "DATA","degC","Degrees Celsius"
 */
 
-var Units = map[string]Unit
-
-
 type Unit struct {
 
 	// eg DegC, kN/m2  (latin remember)
 	Unit string 		` json:"unit" db:"unit" ags:"UNIT_UNIT" `
 
 	// eg kiloNewtons per square metre (latin)
-	Description string 	` json:"description" db:"description" `
+	Description string 	` json:"description" db:"todo" `
 
-	// This is daffo special of OC. proper with UTF-8 symbol
+	// This is daffo special with a proper with UTF-8 symbol (breaks spec)
 	Symbol string 	` json:"symbol" db:"symbol" `
 }
+
+// The memory cache variable loaded at startup (and relodable raperly expected)
+var Units map[string]Unit
+
+
+func init() {
+
+}
+
 
 // Returns true if the unit exists
 // Whist this is a "definition endevour"
@@ -72,7 +74,7 @@ func UnitAutocomplete(txt string) (bool, []string){
 
 func UnitsMatching(txt string) []string {
 
-	matches := make(string,0,0)
+	matches := make([]string, 0, 0)
 	// Do some clever searches
 	// of the memtree and terun some matchin, case insensitive
 	// meed some rapid magic..

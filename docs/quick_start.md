@@ -1,6 +1,12 @@
 AGS Quick Start
 =============================
 
+To understand AGS, one must loof at it froma geotechnical engineers
+perspective, where a site is one of more  projects
+think - bridges, rivers, sand, gravel roads
+or railway embenkments and earthworks at the end of the garden
+your own house subsidence and movements in a new house..
+
 Spreadsheets and calculations basically
 run a modern GEOTechnical capers..
 
@@ -42,5 +48,9 @@ and if its connected..
 send "data" to office in email and atachment..
 
 
-Othersiwe u
- 
+GEO Engineer Results
+=====================
+Geo engineer can report ack the data for the project..
+and probably monitor it as it goes on..
+
+

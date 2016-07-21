@@ -8,9 +8,7 @@ import (
 	"log"
 	"os"
 	"strings"
-)
 
-import(
 	"bitbucket.org/daffodil/ags2go/ags4"
 )
 

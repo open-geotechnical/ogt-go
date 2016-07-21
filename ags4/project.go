@@ -3,9 +3,11 @@
 package ags4
 
 
-// The "Project"(PROJ)
-// is the "main sheet/tab" for ags
+// The "Project"(PROJ) is the "main sheet/tab" for ags and is mandataory
+// as it contains the top level client, location details
+// see Rule 13
 //
+
 /*
 "GROUP","PROJ"
 "HEADING","PROJ_ID","PROJ_NAME","PROJ_LOC","PROJ_CLNT","PROJ_CONT","PROJ_ENG"
@@ -30,7 +32,7 @@ type Project struct {
 
 func NewProjectFromAGSFile(ags_block string ) Project {
 
-	p := new(Project)
+	p := Project{}
 	p.ID = "Project factorty ?"
 	// Do Rude Parser
 	return p

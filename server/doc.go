@@ -1,5 +1,5 @@
 
-// The ags server is cool and hunky,funky server not clunky yet..
+// The ags server is the rest/ajax/http interface
 package server
 
 // The AGS server is considered to be a microservice..
@@ -8,3 +8,5 @@ package server
 
 // at its most basic it provides some urls..
 // and url_routing.go is where to find this
+
+
