@@ -15,17 +15,37 @@ import (
 
 )
 
+/* WTF ???? said pedro
+SupportedFormats  := map[string]string{
+	"json":	"application/json",
+	"js":	"application/json",
+	"yaml":	"text/yaml",
+	"txt":	"text/plain",
+	"ags4":	"text/plain???",
+}
+*/
 
-// sends the  `payload` formatted, json/yaml types for now
-func SendAjaxPayload(resp http.ResponseWriter, request *http.Request, payload interface{}  ) {
 
-	// return indented data (notably json) is ?pretty=1 in url
+// SendPayload is the "main function" that sends the http reply
+// machine encoded `payload` formatted,  ie a serialiser
+// html should not hit here, but otherwise expected is
+// a reply with the "bites" in the particular machine readable format
+// and correct mime type etc eg json, yaml and xml.hell in m$.excel
+func SendPayload(resp http.ResponseWriter, request *http.Request, payload interface{}  ) {
+
+	// pretty returns indents data and readable (notably json) is ?pretty=1 in url
 	pretty := request.URL.Query().Get("pretty") == "1"
 
 	// Determine which encoding from the mux/router
 	vars := mux.Vars(request)
 	enc := vars["ext"]
+	// TODO validate encoding and serialiser
+	// eg yaml, json/js, html, xlsx, ags4,
 
+	// TODO map[string] = encoding
+
+
+	// Lets get ready to encode folks...
 	var bites []byte
 	var err error
 	var mime string = "text/plain"
@@ -41,6 +61,9 @@ func SendAjaxPayload(resp http.ResponseWriter, request *http.Request, payload in
 			bites, err = json.Marshal(payload)
 		}
 		mime = "application/json"
+
+	} else {
+		bites = []byte("OOPes No `.ext` set ")
 	}
 
 	if err != nil {
@@ -58,11 +81,12 @@ type UnitsPayload struct {
 	Units []ags4.Unit 	` json:"units" `
 }
 
-func H_AjaxUnits(resp http.ResponseWriter, req *http.Request){
+func H_Units(resp http.ResponseWriter, req *http.Request){
 
 	payload := new(UnitsPayload)
 	payload.Success = true
 	payload.Units = ags4.Units
 
-	SendAjaxPayload(resp, req,  payload)
+	SendPayload(resp, req,  payload)
 }
+
