@@ -16,7 +16,7 @@ env.use_ssh_config = True
 HERE_PATH =  os.path.abspath( os.path.dirname( __file__ )	 )
 
 
-AGS_DEF_GIT = "git@bitbucket.org:daffodil/ags-data-json.git"
+AGS_DEF_GIT = "git@bitbucket.org:daf0dil/ags-def-json.git"
 
 
 def ws_update():

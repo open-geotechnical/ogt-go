@@ -9,20 +9,25 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"bitbucket.org/daffodil/ags2go"
+	//"bitbucket.org/daffodil/ags2go"
+	//"bitbucket.org/daffodil/ags2go/ags4"
 )
 
+func PingTestHandler(http.ResponseWriter, *http.Request){
 
-func Start() {
+}
+
+
+func Start(address_port string) {
 
 	// Setup www router and config modules
 	router := mux.NewRouter()
 
-	router.HandleFunc("/ajax/ags/", AGSAjaxHandler)
+	router.HandleFunc("/ajax/ping/", PingTestHandler)
+	router.HandleFunc("/ags/4/units.{ext}", H_AjaxUnits)
 
-	addr := "0.0.0.0:1558"
-	fmt.Println("Serving on " + addr)
+
+	fmt.Println("Serving on " + address_port)
 	http.Handle("/", router)
-	http.ListenAndServe(addr , nil)
+	http.ListenAndServe(address_port , nil)
 }
-

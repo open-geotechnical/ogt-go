@@ -1,14 +1,18 @@
 
-
 package ags4
 
 
 const (
-	LF = 10
-
+	// AGS "ROW" types
 	DATA    = "DATA"
 	GROUP   = "GROUP"
 	HEADING = "HEADING"
 	TYPE    = "TYPE"
 	UNIT    = "UNIT"
+)
+
+
+
+const (
+	LF = 10
 )

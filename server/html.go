@@ -1,8 +1,8 @@
 
-package html
+package server
 
 import (
-	"fmt"
+	//"fmt"
 )
 
 func HomeSweetPage(){

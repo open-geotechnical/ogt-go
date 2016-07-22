@@ -2,31 +2,19 @@
 
 package ags4
 
-// Units are defined by AGS..
-// eg
-//   "%" = "percentage"
-//   "MPN/100ml" = "most probable number per 100 millilitres",
-//   "DegC" = "degree Celsius"
-//
-// Note that AGS is latin chars, so not of them windows
-// and unicodec haracters in there.. (which crashed my system)
-// So we need to validate that,
-// even though golang is UTF8.. SIGH!
-// But if we go to UTF-* then we can have a proper Degree^C symbol
-// uneditable by a windows users... sigh!!..
-//
+import (
+	"encoding/json"
+	"io/ioutil"
+)
 
-/*
-"GROUP","UNIT"
-"HEADING","UNIT_UNIT","UNIT_DESC"
-"UNIT","",""
-"TYPE","X","X"
-"DATA","yyyy-mm-dd","day month year"
-"DATA","yyyy-mm-ddThh:mm","day month year hours minutes"
-"DATA","m","metre"
-"DATA","degC","Degrees Celsius"
-*/
-
+// Units are defined by AGS4 spec Rule #8
+// Example Usage in an ags4 file
+//
+//	"GROUP","HORN"
+//	"HEADING","LOCA_ID","HORN_TOP","HORN_BASE","HORN_ORNT","HORN_INCL","HORN_REM","FILE_FSET"
+//	"UNIT","","m","m","deg","deg","",""
+//	"TYPE","ID","2DP","2DP","0DP","0DP","X","X"
+//
 type Unit struct {
 
 	// eg DegC, kN/m2  (latin remember)
@@ -36,25 +24,40 @@ type Unit struct {
 	Description string 	` json:"description" db:"todo" `
 
 	// This is daffo special with a proper with UTF-8 symbol (breaks spec)
-	Symbol string 	` json:"symbol" db:"symbol" `
+	//Symbol string 	` json:"symbol" db:"symbol" `
 }
 
-// The memory cache variable loaded at startup (and relodable raperly expected)
-var Units map[string]Unit
+// The memory cache variable loaded at startup (and relodable ?? )
+var Units []Unit
 
 
-func init() {
+func LoadUnitsFromFile(file_path string) error {
+
+	bites, err := ioutil.ReadFile(file_path)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(bites, &Units)
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }
 
 
 // Returns true if the unit exists
-// Whist this is a "definition endevour"
-// we also want a typs and auto complete
 func UnitExists(unit string) bool {
-
-	// TO do is look up the map for key
-
+	if unit == "" {
+		return false
+	}
+	for _, u := range Units {
+		if u.Unit == unit {
+			return true
+		}
+	}
 	return false
 }
 

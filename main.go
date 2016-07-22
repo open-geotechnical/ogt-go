@@ -1,27 +1,39 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
-	"strings"
+	//"bytes"
+	//"encoding/json"
+	//"fmt"
+	//"io/ioutil"
+	//"log"
+	"flag"
+	//"strings"
+
+	"bitbucket.org/daffodil/ags2go/server"
 
 	"bitbucket.org/daffodil/ags2go/ags4"
 )
 
 
-var Tabs = make(map[string][]ags4.Group)
+//var Tabs = make(map[string][]ags4.Group)
 
 func main() {
 
-	// func rude(cache string)
-	rude(os.Args[1])
+	// TODO check listen is a valid address/port etc
+	listen := flag.String("listen", "0.0.0.0:13777", "HTTP server address and port")
 
-	bytes, _ := json.MarshalIndent(Tabs, "", "  ")
-	fmt.Printf("%s", bytes)
+	workspace_dir := flag.String("workspace_dir", "./workspace", "Path to `workspace` dir")
+
+	// func rude(cache string)
+	//rude(os.Args[1])
+
+	//bytes, _ := json.MarshalIndent(Tabs, "", "  ")
+	//fmt.Printf("%s", bytes)
+	ags4.InitLoad(*workspace_dir + "/ags-def-json/4")
+
+	server.Start(*listen)
+
+
 }
 
 
@@ -30,6 +42,7 @@ func main() {
 Function rude is a rudimentary parser for AGS standard data. It takes as an argument the name of
 the directory containing the AGS definition files.
 */
+/* BAck soon said Pete
 func rude(cache string) {
 
 	// func ReadDir(dirname string) ([]os.FileInfo, error)
@@ -109,3 +122,4 @@ func rude(cache string) {
 		}
 	}
 }
+*/
