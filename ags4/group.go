@@ -41,12 +41,19 @@ type groupReaderInfo struct {
 }
 
 // load groups.json file to mem
-func LoadGroupsIndexFromFile(file_path string) error {
+func LoadGroupsIndexFromDir(groups_dir string) error {
 
-	bites, err := ioutil.ReadFile(file_path)
+
+	files, err := ioutil.ReadDir(groups_dir)
 	if err != nil {
 		return err
 	}
+
+	for _, f := range files {
+		fmt.Fprintln("f=", f.Name())
+	}
+
+	/*
 	var gri groupsReaderIndex
 	err = json.Unmarshal(bites, &gri)
 	if err != nil {
@@ -62,7 +69,7 @@ func LoadGroupsIndexFromFile(file_path string) error {
 			Groups = append(Groups, grp)
 		}
 	}
-
+	*/
 
 	return nil
 }
