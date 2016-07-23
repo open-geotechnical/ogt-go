@@ -2,9 +2,17 @@
 package ags4
 
 
-// Quick fast parser than rubs the dub
-// Rude by Bill
-func RudeParser(file string)  (AGS4Doc, error) {
+// RudeParser is a fast parser and a than rubs the dub
+// Clothethes off. here it all is...
+// and unless its kinda proper, then it thows a towel..
+//
+// So the rude parser is designed to be fast and eats it in an out
+// like there's no tomorrow..
+// So by design we thig mayne this is the "OUTER"
+// ie the file makes sense and is eatable..
+// and mistakes here we crash
+// Next step would be rude validator...
+func RudeParser(file_path string)  (AGS4Doc, error) {
 
 	doci := AGS4Doc{}
 

@@ -16,7 +16,7 @@ import (
 )
 
 /* WTF ???? said pedro
-SupportedFormats  := map[string]string{
+SupportedFormatsMaps  := map[string]string{
 	"json":	"application/json",
 	"js":	"application/json",
 	"yaml":	"text/yaml",
@@ -48,11 +48,11 @@ func SendPayload(resp http.ResponseWriter, request *http.Request, payload interf
 	// Lets get ready to encode folks...
 	var bites []byte
 	var err error
-	var mime string = "text/plain"
+	var content_type string = "text/plain"
 
 	if enc == "yaml" {
 		bites, err = yaml.Marshal(payload)
-		mime = "text/yaml"
+		content_type = "text/yaml"
 
 	} else if enc == "json" || enc == "js" {
 		if pretty {
@@ -60,10 +60,10 @@ func SendPayload(resp http.ResponseWriter, request *http.Request, payload interf
 		} else {
 			bites, err = json.Marshal(payload)
 		}
-		mime = "application/json"
+		content_type = "application/json"
 
 	} else {
-		bites = []byte("OOPes No `.ext` set ")
+		bites = []byte("OOPs no `.ext` recognised ")
 	}
 
 	if err != nil {
@@ -71,7 +71,7 @@ func SendPayload(resp http.ResponseWriter, request *http.Request, payload interf
 		return
 	}
 
-	resp.Header().Set("Content-Type", mime)
+	resp.Header().Set("Content-Type", content_type)
 	resp.Write(bites)
 }
 
@@ -81,6 +81,7 @@ type UnitsPayload struct {
 	Units []ags4.Unit 	` json:"units" `
 }
 
+// handles /ags/4/units.*
 func H_Units(resp http.ResponseWriter, req *http.Request){
 
 	payload := new(UnitsPayload)

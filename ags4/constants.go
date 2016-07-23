@@ -14,5 +14,9 @@ const (
 
 
 const (
-	LF = 10
+	LF = 10 // ascii "byte" for LF
+	//LF = []byte{10}
+
 )
+
+
