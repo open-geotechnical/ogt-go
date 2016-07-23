@@ -22,10 +22,10 @@ type Group struct {
 var Classes []string
 
 // Memory cache for groups
-var Groups []Group
+var Groups []*Group
 
 func init(){
-	Groups = make([]Group, 0, 0)
+	Groups = make([]*Group, 0, 0)
 	Classes = make([]string, 0, 0)
 }
 
@@ -89,16 +89,16 @@ type groupNotesReader struct {
 }
 
 
-func LoadGroupFromFile(file_path string) (Group, error) {
+func LoadGroupFromFile(file_path string) (*Group, error) {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	var gr groupFileReader
 	err = json.Unmarshal(bites, &gr)
 	if err != nil {
-		return err
+		return nil, err
 	}
-
+	return nil, nil
 }
