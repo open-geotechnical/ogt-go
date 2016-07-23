@@ -47,18 +47,18 @@ func LoadGroupsIndexFromFile(file_path string) error {
 	if err != nil {
 		return err
 	}
-	var gr groupsReaderIndex
-	err = json.Unmarshal(bites, &gr)
+	var gri groupsReaderIndex
+	err = json.Unmarshal(bites, &gri)
 	if err != nil {
 		return err
 	}
 
-	for _, g := range gr.Meta {
+	for _, g := range gri.Meta {
 		fmt.Println(g)
 		grp, e := LoadGroupFromFile(DataDir + "/groups/" + g.GroupCode + ".json")
 		if e != nil {
 			// TODO log
-		} else{
+		} else {
 			Groups = append(Groups, grp)
 		}
 	}
@@ -67,14 +67,25 @@ func LoadGroupsIndexFromFile(file_path string) error {
 	return nil
 }
 
-type groupNotesReader string {
-	List []string ` json:"list" `
-}
-
+// Reader for group file (`groups/CODE.json`)
 type groupFileReader struct {
 	Info groupReaderInfo 	` json:"info" `
 	Notes groupNotesReader 	` json:"notes" `
 
+}
+type groupHeadingReader struct {
+	HeadCode 	string 		` json:"HEADING" `
+	Description	string 		` json:"description" `
+	DataType 	string 		` json:"data_type" `
+	Unit		string 		` json:"unit" `
+	Example		string 		` json:"example" `
+	RevDate 	string 		` json:"rev_date" `
+	Sort		int			` json:"sort" `
+	Status		string		` json:"status" `
+
+}
+type groupNotesReader struct {
+	List []string ` json:"list" `
 }
 
 
@@ -84,7 +95,7 @@ func LoadGroupFromFile(file_path string) (Group, error) {
 	if err != nil {
 		return err
 	}
-	var gr groupsIndexReader
+	var gr groupFileReader
 	err = json.Unmarshal(bites, &gr)
 	if err != nil {
 		return err
