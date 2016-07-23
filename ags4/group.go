@@ -50,7 +50,7 @@ func LoadGroupsIndexFromDir(groups_dir string) error {
 	}
 
 	for _, f := range files {
-		fmt.Fprintln("f=", f.Name())
+		fmt.Println("f=", f.Name())
 	}
 
 	/*
