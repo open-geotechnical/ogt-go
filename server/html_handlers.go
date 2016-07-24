@@ -5,7 +5,7 @@ import (
 	//"fmt"
 )
 
-func HomeSweetPage(){
+func H_Home(){
 
 
 }

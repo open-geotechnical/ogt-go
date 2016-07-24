@@ -18,11 +18,11 @@ func Start(address_port string) {
 	// Setup www router and config modules
 	router := mux.NewRouter()
 
-	//router.HandleFunc("/ping", H_Info)
-	router.HandleFunc("/info.json", H_Info)
+	router.HandleFunc("/", H_Home)
+	router.HandleFunc("/info.{ext}", H_Info)
 
-	router.HandleFunc("/ags/4/units.{ext}", H_Units)
-	router.HandleFunc("/ags/4/units", H_Units)
+	router.HandleFunc("/ags/4/units.{ext}", A_Units)
+	router.HandleFunc("/ags/4/units", A_Units)
 
 	//router.HandleFunc("/ags/4/units.{ext}", H_Units)
 

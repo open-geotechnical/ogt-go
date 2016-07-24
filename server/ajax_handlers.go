@@ -82,7 +82,7 @@ type UnitsPayload struct {
 }
 
 // handles /ags/4/units.*
-func H_Units(resp http.ResponseWriter, req *http.Request){
+func A_Units(resp http.ResponseWriter, req *http.Request){
 
 	payload := new(UnitsPayload)
 	payload.Success = true
