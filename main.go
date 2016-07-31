@@ -22,7 +22,7 @@ func main() {
 	// TODO check listen is a valid address/port etc
 	listen := flag.String("listen", "0.0.0.0:13777", "HTTP server address and port")
 
-	workspace_dir := flag.String("workspace_dir", "./workspace", "Path to `workspace` dir")
+	workspace_dir := flag.String("workspace_dir", "/home/ags/workspace", "Path to `workspace` dir")
 
 	// func rude(cache string)
 	//rude(os.Args[1])

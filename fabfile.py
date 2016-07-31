@@ -24,7 +24,7 @@ LIVE_DIR = "/home/ags/ags2go"
 
 def ws_update():
 	"""Update developer `machine` workspace back"""
-	ws_dir =  HERE_PATH + "/workspace"
+	ws_dir =  HERE_PATH + "/home/ags/workspace"
 	if not os.path.exists(ws_dir):
 		local("mkdir %s" % ws_dir )
 
