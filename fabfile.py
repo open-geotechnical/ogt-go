@@ -30,3 +30,7 @@ def ws_update():
 	if not os.path.exists(ags_def):
 		with lcd(ws_dir):
 			local("git clone %s" % AGS_DEF_GIT)
+
+def up_server():
+	"""Update server at ags.daffodil.uk.com"""
+	with cd(LIVE_DIR):
