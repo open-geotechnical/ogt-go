@@ -4,10 +4,11 @@ import os
 import sys
 
 from fabric.api import env, local, run, lcd, cd, sudo, warn_only, prompt
+from fabric.context_managers import shell_env
 
 
 
-env.hosts = [ 'ags.daffodil.uk.com' ]
+env.hosts = [ 'ags' ]
 env.user = "ags"
 env.password = "using keys and ./.config"
 env.shell = "/bin/sh -c"
@@ -18,6 +19,8 @@ HERE_PATH =  os.path.abspath( os.path.dirname( __file__ )	 )
 
 AGS_DEF_GIT = "git@bitbucket.org:daf0dil/ags-def-json.git"
 
+
+LIVE_DIR = "/home/ags/ags2go"
 
 def ws_update():
 	"""Update developer `machine` workspace back"""
@@ -31,6 +34,27 @@ def ws_update():
 		with lcd(ws_dir):
 			local("git clone %s" % AGS_DEF_GIT)
 
+def test_ssh():
+	"""Logins into remote servers and print basics"""
+	run("whoami")
+	run("pwd")
+
+
 def up_server():
 	"""Update server at ags.daffodil.uk.com"""
+	local("git push origin master")
 	with cd(LIVE_DIR):
+		run("git pull origin master")
+	r_build()
+	r_run()
+
+def r_build():
+	"""Build app on remote server"""
+	with shell_env(GOPATH="/home/ags"):
+		with cd(LIVE_DIR):
+			run("go build -v")
+
+
+def r_run():
+	"""Start/Reboot remote server"""
+	sudo("/usr/local/bin/supervisorctl restart ags", pty=True)
