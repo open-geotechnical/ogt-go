@@ -9,9 +9,9 @@ import (
 	"flag"
 	//"strings"
 
-	"bitbucket.org/daffodil/ags2go/server"
+	"bitbucket.org/daf0dil/ags2go/server"
 
-	"bitbucket.org/daffodil/ags2go/ags4"
+	"bitbucket.org/daf0dil/ags2go/ags4"
 )
 
 
