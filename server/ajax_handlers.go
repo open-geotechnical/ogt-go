@@ -13,6 +13,7 @@ import (
 
 	"bitbucket.org/daffodil/ags2go/ags4"
 
+	"time"
 )
 
 /* WTF ???? said pedro
@@ -34,11 +35,14 @@ SupportedFormatsMaps  := map[string]string{
 func SendPayload(resp http.ResponseWriter, request *http.Request, payload interface{}  ) {
 
 	// pretty returns indents data and readable (notably json) is ?pretty=1 in url
-	pretty := request.URL.Query().Get("pretty") == "1"
+	pretty := true //request.URL.Query().Get("pretty") == "0"
 
 	// Determine which encoding from the mux/router
 	vars := mux.Vars(request)
 	enc := vars["ext"]
+	if enc == "" {
+		enc = "json"
+	}
 	// TODO validate encoding and serialiser
 	// eg yaml, json/js, html, xlsx, ags4,
 
@@ -82,7 +86,7 @@ type UnitsPayload struct {
 }
 
 // handles /ags/4/units.*
-func A_Units(resp http.ResponseWriter, req *http.Request){
+func AX_Units(resp http.ResponseWriter, req *http.Request){
 
 	payload := new(UnitsPayload)
 	payload.Success = true
@@ -91,3 +95,20 @@ func A_Units(resp http.ResponseWriter, req *http.Request){
 	SendPayload(resp, req,  payload)
 }
 
+var EndPoints = map[string]string {
+	"/": "Data and Sys information",
+	"/ags/4/all": "AGS4: All data",
+	"/ags/4/units": "AGS4: Units",
+}
+
+
+func AX_Info(resp http.ResponseWriter, req *http.Request){
+	payload := map[string]interface{} {
+			"repos": "https://bitbucket.org/daf0dil/ags-def-json",
+			"version": "0.1-alpha",
+			"server_utc":   time.Now().UTC().Format("2006-01-02 15:04:05"),
+			"endpoints": EndPoints,
+
+	}
+	SendPayload(resp, req, payload)
+}

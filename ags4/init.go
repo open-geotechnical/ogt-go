@@ -24,7 +24,7 @@ func InitLoad(data_dir string){
 		all_errors = append(all_errors, err)
 	}
 
-	err = LoadGroupsIndexFromDir(DataDir + "/groups/")
+	err = LoadGroupsIndexFromDir(DataDir + "/group/")
 	if err != nil {
 		fmt.Print(err)
 		all_errors = append(all_errors, err)
