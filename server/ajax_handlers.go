@@ -14,7 +14,6 @@ import (
 
 	"bitbucket.org/daf0dil/ags2go/ags4"
 
-
 )
 
 /* WTF ???? said pedro
@@ -28,12 +27,13 @@ SupportedFormatsMaps  := map[string]string{
 */
 
 
-// SendPayload is the "main function" that sends the http reply
+
+// SendAjaxPayload is the function that sends the http reply
 // machine encoded `payload` formatted,  ie a serialiser
 // html should not hit here, but otherwise expected is
 // a reply with the "bites" in the particular machine readable format
 // and correct mime type etc eg json, yaml and xml.hell in m$.excel
-func SendPayload(resp http.ResponseWriter, request *http.Request, payload interface{}  ) {
+func SendAjaxPayload(resp http.ResponseWriter, request *http.Request, payload interface{}  ) {
 
 	// pretty returns indents data and readable (notably json) is ?pretty=1 in url
 	pretty := true //request.URL.Query().Get("pretty") == "0"
@@ -81,6 +81,16 @@ func SendPayload(resp http.ResponseWriter, request *http.Request, payload interf
 }
 
 
+type ErrorPayload struct {
+	Success bool 		` json:"success" `
+	Error string 		` json:"error" `
+}
+
+
+func SendAjaxError(resp http.ResponseWriter, request *http.Request, err error  ) {
+	SendAjaxPayload(resp, request, ErrorPayload{Success: true, Error: err.Error()} )
+}
+
 type UnitsPayload struct {
 	Success bool 		` json:"success" `
 	Units []ags4.Unit 	` json:"units" `
@@ -93,7 +103,7 @@ func AX_Units(resp http.ResponseWriter, req *http.Request){
 	payload.Success = true
 	payload.Units = ags4.Units
 
-	SendPayload(resp, req,  payload)
+	SendAjaxPayload(resp, req,  payload)
 }
 
 var EndPoints = map[string]string {
@@ -111,5 +121,46 @@ func AX_Info(resp http.ResponseWriter, req *http.Request){
 			"endpoints": EndPoints,
 
 	}
-	SendPayload(resp, req, payload)
+	SendAjaxPayload(resp, req, payload)
+}
+
+
+type GroupsPayload struct {
+	Success bool 		` json:"success" `
+	Groups []*ags4.Group 	` json:"groups" `
+}
+
+// handles /ags/4/groups.
+func AX_Groups(resp http.ResponseWriter, req *http.Request){
+
+	var e error
+	payload := new(GroupsPayload)
+	payload.Success = true
+	payload.Groups, e = ags4.GetGroups()
+	if e != nil {
+		SendAjaxError(resp, req, e)
+		return
+	}
+	SendAjaxPayload(resp, req,  payload)
+}
+
+
+type GroupPayload struct {
+	Success bool 		` json:"success" `
+	Group *ags4.Group 	` json:"group" `
+}
+
+// handles /ags/4/units.*
+func AX_Group(resp http.ResponseWriter, req *http.Request){
+
+	vars := mux.Vars(req)
+	grp, err := ags4.GetGroup(vars["group_code"])
+	if err != nil {
+		SendAjaxError( resp, req, err)
+		return
+	}
+	payload := new(GroupPayload)
+	payload.Success = true
+	payload.Group = grp
+	SendAjaxPayload(resp, req,  payload)
 }
