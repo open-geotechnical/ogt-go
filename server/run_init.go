@@ -29,15 +29,15 @@ func Start(address_port string) {
 	router.HandleFunc("/ags/4/abbrevs.{ext}",AX_Abbrevs)
 	router.HandleFunc("/ags/4/abbrevs", AX_Abbrevs)
 
-	router.HandleFunc("/ags/4/group/{code}.{ext}",AX_Group)
-	router.HandleFunc("/ags/4/group/{code}", AX_Group)
+	router.HandleFunc("/ags/4/abbrev/{head_code}.{ext}",AX_Abbrev)
+	router.HandleFunc("/ags/4/abbrev/{head_code}", AX_Abbrev)
 
 
 	router.HandleFunc("/ags/4/groups.{ext}",AX_Groups)
 	router.HandleFunc("/ags/4/groups", AX_Groups)
 
-	router.HandleFunc("/ags/4/group/{code}.{ext}",AX_Group)
-	router.HandleFunc("/ags/4/group/{code}", AX_Group)
+	router.HandleFunc("/ags/4/group/{group_code}.{ext}",AX_Group)
+	router.HandleFunc("/ags/4/group/{group_code}", AX_Group)
 
 
 	fmt.Println("Serving on " + address_port)

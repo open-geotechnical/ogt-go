@@ -3,7 +3,7 @@ package ags4
 import (
 	"encoding/json"
 	"errors"
-	//"fmt"
+	"fmt"
 	"io/ioutil"
 	"sort"
 	"strings"
@@ -55,8 +55,12 @@ func GetGroup(group_code string) (*Group, error) {
 	if len(group_code) != 4 {
 		return nil, errors.New("Need four letter group code")
 	}
-
-	return nil, nil
+	group_code = strings.ToUpper(group_code)
+	grp, ok := groupsMap[group_code]
+	if ok {
+		return grp, nil
+	}
+	return nil, errors.New("Group '" + group_code + "' not found")
 }
 
 // load groups.json file to mem
@@ -136,9 +140,11 @@ func LoadGroupFromFile(file_path string) (*Group, error) {
 			DataType: h.DataType, Unit: h.Unit, Status: h.Status,
 			RevDate: h.RevDate, Sort: h.Sort, Example: h.Example}
 
-		picks := GetPicklist(hh.Code)
-		if picks != nil {
-			hh.Picklist = picks.Items
+		abbrs, found, erra := GetAbbrev(hh.Code)
+		if erra != nil {
+			fmt.Println("abbr not founc", hh.Code, erra)
+		} else if found == true  {
+			hh.Picklist = abbrs.Items
 		}
 
 		g.Headings[i] = hh

@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"sort"
 	"strings"
-	//"errors"
+	"errors"
 )
 
 var abbrevsMap map[string]*Abbrev
@@ -46,20 +46,28 @@ func GetAbbrevs() ([]*Abbrev, error) {
 	return abbrevs, nil
 }
 
-func GetPicklist( heading_code string) (*Abbrev) {
-
+func GetAbbrev( heading_code string) (*Abbrev, bool, error) {
 	heading_code = strings.TrimSpace(heading_code)
-	if len(heading_code) < 4 {
-		//return nil, errors.New("HEADING code check TODO")
+	if len(heading_code) < 6 {
+		return nil, false, errors.New("Heading code too short")
+	}
+	ab, found := abbrevsMap[heading_code]
+	return ab, found, nil
+}
+/*
+func DEADGetPicklist( heading_code string) ([]AbbrevItem, error) {
+	heading_code = strings.TrimSpace(heading_code)
+	if len(heading_code) < 6 {
+		return nil, errors.New("Heading code too short")
 	}
 	ab, ok := abbrevsMap[heading_code]
 	if !ok {
-		return nil
+		return nil, errors.New("Heading code '" + heading_code + "' not found")
 	}
 
-	return ab
-
+	return ab.Items, nil
 }
+*/
 
 // load groups.json file to mem
 func LoadAbbrevsFromDir() error {
