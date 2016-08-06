@@ -3,10 +3,18 @@ package server
 
 import (
 	"net/http"
+
+	"github.com/flosch/pongo2"
+
 )
 
-// Home page url's =  / /home /index.html
-func P_Home(resp http.ResponseWriter, request *http.Request){
+var tplHome = pongo2.Must( pongo2.FromFile("templates/home.html") )
 
-	//return string("<h1>Hello AGS</h1>")
+// Home page url's =  / /home /index.html
+func H_Home(resp http.ResponseWriter, request *http.Request){
+
+	err := tplHome.ExecuteWriter(pongo2.Context{"query": request.FormValue("query")}, resp)
+	if err != nil {
+		http.Error(resp, err.Error(), http.StatusInternalServerError)
+	}
 }

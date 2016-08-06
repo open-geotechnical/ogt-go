@@ -2,11 +2,11 @@ package ags4
 
 import (
 	"encoding/json"
-	"fmt"
+	//"fmt"
+	"errors"
 	"io/ioutil"
 	"sort"
 	"strings"
-	"errors"
 )
 
 var abbrevsMap map[string]*Abbrev
@@ -46,7 +46,7 @@ func GetAbbrevs() ([]*Abbrev, error) {
 	return abbrevs, nil
 }
 
-func GetAbbrev( heading_code string) (*Abbrev, bool, error) {
+func GetAbbrev(heading_code string) (*Abbrev, bool, error) {
 	heading_code = strings.TrimSpace(heading_code)
 	if len(heading_code) < 6 {
 		return nil, false, errors.New("Heading code too short")
@@ -54,6 +54,7 @@ func GetAbbrev( heading_code string) (*Abbrev, bool, error) {
 	ab, found := abbrevsMap[heading_code]
 	return ab, found, nil
 }
+
 /*
 func DEADGetPicklist( heading_code string) ([]AbbrevItem, error) {
 	heading_code = strings.TrimSpace(heading_code)
@@ -79,16 +80,16 @@ func LoadAbbrevsFromDir() error {
 	}
 
 	for _, f := range files {
-		fmt.Println("f=", f.Name())
+		//fmt.Println("f=", f.Name())
 		abr, errg := LoadAbbrevFromFile(f.Name())
 		if errg != nil {
-			fmt.Println("err=", abr, errg)
+			//fmt.Println("err=", abr, errg)
 		} else {
-			fmt.Println("ok=", abr.Heading)
+			//fmt.Println("ok=", abr.Heading)
 			abbrevsMap[abr.Heading] = abr
 		}
 	}
-	fmt.Println(abbrevsMap)
+	//fmt.Println(abbrevsMap)
 	return nil
 }
 

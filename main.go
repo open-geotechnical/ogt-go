@@ -10,7 +10,6 @@ import (
 	//"strings"
 
 	"bitbucket.org/daf0dil/ags2go/server"
-
 	"bitbucket.org/daf0dil/ags2go/ags4"
 )
 
