@@ -61,7 +61,7 @@ func SendAjaxPayload(resp http.ResponseWriter, request *http.Request, payload in
 
 	} else if enc == "json" || enc == "js" {
 		if pretty {
-			bites, err = json.MarshalIndent(payload, "", "    ")
+			bites, err = json.MarshalIndent(payload, "", "  ")
 		} else {
 			bites, err = json.Marshal(payload)
 		}
