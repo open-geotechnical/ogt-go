@@ -3,7 +3,7 @@ package ags4
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
+	//"fmt"
 	"io/ioutil"
 	"sort"
 	"strings"
@@ -11,26 +11,15 @@ import (
 
 // AGS Group .. ta bill ..was Node
 type Group struct {
-	Code        string         `json:"code"`
-	Class       string         `json:"class"`
-	Description string         `json:"description"`
+	Code        string    `json:"code"`
+	Class       string    `json:"class"`
+	Description string    `json:"description"`
 	Headings    []Heading `json:"headings"`
 	//Units    	[]string   `json:"UNIT"`
 	//Types    	[]string   `json:"TYPE"`
-	Data [][]string `json:"data"`
+	//Data [][]string `json:"data"`
 }
 
-type Heading struct {
-	Code        string   ` json:"code" `
-	Description string   ` json:"description" `
-	DataType    string   ` json:"data_type" `
-	Unit        string   ` json:"unit" `
-	Example     string   ` json:"example" `
-	RevDate     string   ` json:"rev_date" `
-	Sort        int      ` json:"sort" `
-	Status      string   ` json:"status" `
-	Abbrev      []string ` json:"picklist" `
-}
 
 // Memory cache for groups
 var Classes []string
@@ -39,11 +28,11 @@ var Classes []string
 
 var groupsMap map[string]*Group
 
-
 func init() {
 	groupsMap = make(map[string]*Group)
 	Classes = make([]string, 0, 0)
 }
+
 func GetGroups() ([]*Group, error) {
 
 	var keys []string
@@ -71,7 +60,7 @@ func GetGroup(group_code string) (*Group, error) {
 }
 
 // load groups.json file to mem
-func LoadGroupsIndexFromDir(groups_dir string) error {
+func LoadGroupsFromDir(groups_dir string) error {
 
 	files, err := ioutil.ReadDir(groups_dir)
 	if err != nil {
@@ -79,16 +68,16 @@ func LoadGroupsIndexFromDir(groups_dir string) error {
 	}
 
 	for _, f := range files {
-		fmt.Println("f=", f.Name())
+		//fmt.Println("f=", f.Name())
 		grp, errg := LoadGroupFromFile(groups_dir + "/" + f.Name())
 		if errg != nil {
-			fmt.Println("err=", grp, errg)
+			//fmt.Println("err=", grp, errg)
 		} else {
-			fmt.Println("ok=", grp.Code)
+			//fmt.Println("ok=", grp.Code)
 			groupsMap[grp.Code] = grp
 		}
 	}
-	fmt.Println(groupsMap)
+	//fmt.Println(groupsMap)
 	return nil
 }
 
@@ -144,8 +133,14 @@ func LoadGroupFromFile(file_path string) (*Group, error) {
 	g.Headings = make([]Heading, len(gr.Headings))
 	for i, h := range gr.Headings {
 		hh := Heading{Code: h.HeadCode, Description: h.Description,
-						DataType: h.DataType, Unit: h.Unit, Status: h.Status,
-						RevDate: h.RevDate, Example: h.Example}
+			DataType: h.DataType, Unit: h.Unit, Status: h.Status,
+			RevDate: h.RevDate, Sort: h.Sort, Example: h.Example}
+
+		picks := GetPicklist(hh.Code)
+		if picks != nil {
+			hh.Picklist = picks.Items
+		}
+
 		g.Headings[i] = hh
 	}
 	//g.Index =

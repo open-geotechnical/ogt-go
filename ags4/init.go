@@ -8,14 +8,19 @@ import (
 // The directory where `ags-def-json/ags/4` is
 // This is the cache variable and set with ags4.InitLoad()
 var DataDir string = ""
+var groupsDir string = ""
+var abbrevsDir string = ""
 
 
 // Ide here is to read all the def files..
 // This needs to be a spperate function and reloadable with mutex
-func InitLoad(data_dir string){
+func InitLoad(data_dir string) {
 
 
 	DataDir = data_dir
+	abbrevsDir = DataDir + "/abbrev"
+	groupsDir = DataDir + "/group"
+
 	var all_errors []error
 
 	err := LoadUnitsFromFile(DataDir + "/units.json")
@@ -24,7 +29,13 @@ func InitLoad(data_dir string){
 		all_errors = append(all_errors, err)
 	}
 
-	err = LoadGroupsIndexFromDir(DataDir + "/group/")
+	err = LoadAbbrevsFromDir()
+	if err != nil {
+		fmt.Print(err)
+		all_errors = append(all_errors, err)
+	}
+
+	err = LoadGroupsFromDir(DataDir + "/group/")
 	if err != nil {
 		fmt.Print(err)
 		all_errors = append(all_errors, err)

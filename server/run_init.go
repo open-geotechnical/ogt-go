@@ -24,6 +24,15 @@ func Start(address_port string) {
 	router.HandleFunc("/ags/4/units.{ext}", AX_Units)
 	router.HandleFunc("/ags/4/units", AX_Units)
 
+	router.HandleFunc("/ags/4/abbreviations.{ext}",AX_Abbrevs)
+	router.HandleFunc("/ags/4/abbreviations", AX_Abbrevs)
+	router.HandleFunc("/ags/4/abbrevs.{ext}",AX_Abbrevs)
+	router.HandleFunc("/ags/4/abbrevs", AX_Abbrevs)
+
+	router.HandleFunc("/ags/4/group/{code}.{ext}",AX_Group)
+	router.HandleFunc("/ags/4/group/{code}", AX_Group)
+
+
 	router.HandleFunc("/ags/4/groups.{ext}",AX_Groups)
 	router.HandleFunc("/ags/4/groups", AX_Groups)
 

@@ -124,6 +124,26 @@ func AX_Info(resp http.ResponseWriter, req *http.Request){
 	SendAjaxPayload(resp, req, payload)
 }
 
+type AbbrevsPayload struct {
+	Success bool 			` json:"success" `
+	Abbrevs []*ags4.Abbrev 	` json:"abbreviations" `
+}
+
+// handles /ags/4/groups.
+func AX_Abbrevs(resp http.ResponseWriter, req *http.Request){
+
+	var e error
+	payload := new(AbbrevsPayload)
+	payload.Success = true
+	payload.Abbrevs, e = ags4.GetAbbrevs()
+	if e != nil {
+		SendAjaxError(resp, req, e)
+		return
+	}
+	SendAjaxPayload(resp, req,  payload)
+}
+
+
 
 type GroupsPayload struct {
 	Success bool 		` json:"success" `
