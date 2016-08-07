@@ -1,7 +1,6 @@
 
 Ext.define('Ags.model.Abbrev', {
     extend: 'Ext.data.Model',
-
     fields: [
 		'head_code',
 		'description',
@@ -11,7 +10,6 @@ Ext.define('Ags.model.Abbrev', {
 
 Ext.define('Ags.model.AbbrevItem', {
     extend: 'Ext.data.Model',
-
     fields: [
 		'item',
 		'description',
@@ -23,20 +21,19 @@ Ext.define('Ags.model.AbbrevItem', {
 
 Ext.define('Ags.model.Group', {
     extend: 'Ext.data.Model',
-
     fields: [
 		'group_code',
 		'description',
 		'class'
 	]
 });
+
 Ext.define('Ags.model.Heading', {
     extend: 'Ext.data.Model',
-
     fields: [
 		'head_code',
 		'description',
-		'date_type',
+		'data_type',
 		'unit',
 		'example',
 		'status',

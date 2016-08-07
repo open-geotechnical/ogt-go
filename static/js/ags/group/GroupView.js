@@ -11,9 +11,9 @@ Ext.define('Ags.group.GroupView' ,{
 		 Ext.apply(this, {
 			title : 'Group ',
 			height: HEIGHT,
-  			layout: "vbox",
+  			layout: "border",
 			items: [
-				//Ext.create("Ags.group.HeadingsGrid", {})
+				Ext.create("Ags.group.HeadingsGrid", {flex: 1, region: "center"})
 			]
 		});
 		this.callParent();

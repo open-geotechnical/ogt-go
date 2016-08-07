@@ -7,14 +7,17 @@ Ext.define('Ags.group.HeadingsGrid' ,{
 
 	initComponent: function(){
 		 Ext.apply(this, {
-			title : 'Groups Index',
-			store: Ext.getStore("groups"),
-			height: HEIGHT,
+			ddtitle : 'Hedings Index',
+			store: Ext.getStore("headings"),
+			height: 100,
 
 			columns: [
-				{header: 'Heading', dataIndex: 'code', flex: 1, menuDisabled: true, sortable: true, renderer: R.bold},
+				{header: ' ', dataIndex: 'sort', width: 20, menuDisabled: true, sortable: true},
+				{header: 'Heading', dataIndex: 'head_code', flex: 1, menuDisabled: true, sortable: true, renderer: R.bold},
+				{header: 'Unit', dataIndex: 'unit', width: 50, menuDisabled: true, sortable: true},
+				{header: 'Type', dataIndex: 'data_type', width: 50, menuDisabled: true, sortable: true},
 				{header: 'Description', dataIndex: 'description', flex: 3, menuDisabled: true, sortable: true},
-				{header: 'Class',  dataIndex: 'class',  flex: 2, menuDisabled: true, sortable: true}
+				{header: 'Added',  dataIndex: 'date_added',  flex: 1, menuDisabled: true, sortable: true}
 
 			],
 

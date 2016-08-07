@@ -3,6 +3,8 @@ var VP = 0;
 
 var HEIGHT = window.innerHeight - 110;
 
+Ext.Ajax.disableCaching = false;
+
 /*
 Ext.Loader.setConfig({
 	enabled: true,

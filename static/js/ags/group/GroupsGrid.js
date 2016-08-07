@@ -27,14 +27,14 @@ Ext.define('Ags.group.GroupsGrid' ,{
 
 			listeners: {
 				select: function(obj, rec, opts){
-					console.log("yes", rec, rec.get("head_code"));
-					var sto = Ext.getStore("abbrev_items");
+					console.log("yes", rec, rec.get("group_code"));
+					var sto = Ext.getStore("headings");
 					//console.log("detch", rec);
 					//var sto = Ext.getStore("abbrev_items");
 
 					//var proxy = Ext.getStore("abbrev_items").getProxy()
 					//console.log("proxy", proxy);
-					sto.getProxy().url = "/ags/4/abbrev/" + rec.get("heading");
+					sto.getProxy().url = "/ags/4/group/" + rec.get("group_code");
 					sto.load()
 				}
 			}

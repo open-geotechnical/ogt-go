@@ -18,14 +18,14 @@ Ext.define('Ags.group.HeadingsStore', {
 			},
 			groupField: "group",
 			pageSize: 1000,
-			autoLoad: true,
+			autoLoad: false,
 			proxy: {
 				type: 'ajax',
-				//url: "/ags/4/groups.json",
+				url: "/ags/4/null",
 				reader: {
 					type: 'json',
-					root: "groups",
-					idProperty: 'code',
+					root: "group.headings",
+					idProperty: 'head_code',
 					sstotalProperty: 'code_count'
 				}
 			}
