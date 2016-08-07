@@ -10,23 +10,28 @@ package ags4
 // <NO xml.hell please ie no arrays said bill>
 //
 
-type AGS4Doc struct {
+type Document struct {
 
 	// Project is included and main "ref"
 	// on each "file=" project = spreashsheet name in a way
-	Project Project ` json:"project"  ags:"PROJ" `
+	//Project Project ` json:"project"  ags:"PROJ" `
 
 	// Units are required, eg %, degC, gal, Ltr
-	Units []Unit  ` json:"units"  ags:"TYPE" `
+	//Units []Unit  ` json:"units"  ags:"TYPE" `
 
 	// Types ?? eg 2dp, text, date
 	// BTW its GROUP in AGS
-	Types[]string 	` json:"units"  ags:"UNITS" `
+	//Types[]string 	` json:"units"  ags:"UNITS" `
 
 	// The groups in this Doc
-	Groups []Group ` json:"groups"  ags:"groups" `
-
+	///Groups []Group ` json:"groups"  ags:"groups" `
+	FilePath string  	` json:"file_path"  `
+	Source string   		` json:"-"  `
+	Data  map[string]interface{}   ` json:"data" `
 }
+
+
+
 
 
 

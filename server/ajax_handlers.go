@@ -82,6 +82,9 @@ func SendAjaxError(resp http.ResponseWriter, request *http.Request, err error) {
 	SendAjaxPayload(resp, request, ErrorPayload{Success: true, Error: err.Error()})
 }
 
+
+
+
 type UnitsPayload struct {
 	Success bool        ` json:"success" `
 	Units   []ags4.Unit ` json:"units" `
@@ -96,6 +99,8 @@ func AX_Units(resp http.ResponseWriter, req *http.Request) {
 
 	SendAjaxPayload(resp, req, payload)
 }
+
+
 
 var EndPoints = map[string]string{
 	"/":            "Data and Sys information",
@@ -191,4 +196,53 @@ func AX_Group(resp http.ResponseWriter, req *http.Request) {
 	payload.Success = true
 	payload.Group = grp
 	SendAjaxPayload(resp, req, payload)
+}
+
+
+type ExamplesPayload struct {
+	Success bool        ` json:"success" `
+	Examples   []string ` json:"examples" `
+}
+
+// handles /ags/4/units.*
+func AX_Examples(resp http.ResponseWriter, req *http.Request) {
+
+	payload := new(ExamplesPayload)
+	payload.Success = true
+
+	recs, err := ags4.GetExamples()
+	if err != nil {
+		SendAjaxError(resp, req, err)
+		return
+	}
+
+	payload.Examples = recs
+
+	SendAjaxPayload(resp, req, payload)
+}
+
+type DocumentPayload struct {
+	Success 	bool        ` json:"success" `
+	Document  	ags4.Document ` json:"document" `
+}
+
+// handles /ags/4/units.*
+func AX_Parse(resp http.ResponseWriter, req *http.Request) {
+
+	var err error
+	example := req.URL.Query().Get("example")
+
+	payload := new(DocumentPayload)
+	payload.Success = true
+
+	payload.Document, err = ags4.ParseExample(example)
+	if err != nil {
+		SendAjaxError(resp, req, err)
+		return
+	}
+
+
+
+	SendAjaxPayload(resp, req, payload)
+
 }

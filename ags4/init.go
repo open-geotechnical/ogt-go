@@ -10,6 +10,7 @@ import (
 var DataDir string = ""
 var groupsDir string = ""
 var abbrevsDir string = ""
+var examplesDir string = ""
 
 
 // Ide here is to read all the def files..
@@ -20,6 +21,8 @@ func InitLoad(data_dir string) {
 	DataDir = data_dir
 	abbrevsDir = DataDir + "/abbrev"
 	groupsDir = DataDir + "/group"
+	examplesDir = DataDir + "/examples"
+
 
 	var all_errors []error
 

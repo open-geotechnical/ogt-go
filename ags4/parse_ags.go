@@ -1,6 +1,34 @@
 
 package ags4
 
+import (
+
+	"io/ioutil"
+)
+
+func ParseExample(ex_file string) (Document, error){
+
+	file_path := examplesDir + "/" + ex_file
+
+	return Parse(file_path)
+
+}
+
+func Parse(file_path string) (Document, error){
+
+	var doc Document
+	bites, err := ioutil.ReadFile(file_path)
+	if err != nil {
+		return doc, err
+	}
+	doc.Source = string(bites)
+	return doc, nil
+
+
+}
+
+
+
 
 // RudeParser is a fast parser and a than rubs the dub
 // Clothethes off. here it all is...
@@ -12,9 +40,9 @@ package ags4
 // ie the file makes sense and is eatable..
 // and mistakes here we crash
 // Next step would be rude validator...
-func RudeParser(file_path string)  (AGS4Doc, error) {
+func RudeParser(file_path string)  (Document, error) {
 
-	doci := AGS4Doc{}
+	doci := Document{}
 
 	// do things
 	// if it crashed, then error and expception
@@ -25,9 +53,9 @@ func RudeParser(file_path string)  (AGS4Doc, error) {
 
 // Elongated parse, that passes errors
 // and gives debug info..by predro
-func Rude(file string)  (AGS4Doc, error) {
+func Rude(file string)  (Document, error) {
 
-	doci := AGS4Doc{}
+	doci := Document{}
 
 	// do things
 	// real slow line by lin
@@ -36,3 +64,5 @@ func Rude(file string)  (AGS4Doc, error) {
 	return doci, nil
 
 }
+
+

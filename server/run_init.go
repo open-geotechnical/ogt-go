@@ -21,6 +21,11 @@ func Start(address_port string) {
 	router.HandleFunc("/", H_Home)
 	router.HandleFunc("/widget", H_Widget)
 
+	router.HandleFunc("/ags/4/examples.{ext}", AX_Examples)
+	router.HandleFunc("/ags/4/examples", AX_Examples)
+
+	router.HandleFunc("/ags/4/parse", AX_Parse)
+
 	router.HandleFunc("/ags/4/units.{ext}", AX_Units)
 	router.HandleFunc("/ags/4/units", AX_Units)
 
