@@ -18,7 +18,7 @@ Ext.define('Ags.abbrev.AbbrevsStore', {
 			},
 			groupField: "group",
 			pageSize: 2000,
-			autoLoad: false,
+			autoLoad: true,
 			proxy: {
 				type: 'ajax',
 				url: "/ags/4/abbrevs.json",

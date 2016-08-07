@@ -27,7 +27,7 @@ Ext.define('Ags.group.GroupsGrid' ,{
 
 			listeners: {
 				select: function(obj, rec, opts){
-					console.log("yes", rec, rec.get("group_code"));
+					//console.log("yes", rec, rec.get("group_code"));
 					var sto = Ext.getStore("headings");
 					//console.log("detch", rec);
 					//var sto = Ext.getStore("abbrev_items");
