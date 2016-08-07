@@ -1,13 +1,13 @@
 
-Ext.define('Ags.abbrev.AbbrevStore', {
+Ext.define('Ags.group.GroupsStore', {
 	extend: 'Ext.data.Store',
 	requires: [
        //'Ags.model.Abbrev'
     ],
 	constructor: function(){
 		Ext.apply(this, {
-			model: 'Ags.model.Abbrev',
-			storeId: "abbrevs",
+			model: 'Ags.model.Group',
+			storeId: "groups",
 			sssorters: [ {
 				property: 'dated',
 				direction: 'DESC'
@@ -16,16 +16,16 @@ Ext.define('Ags.abbrev.AbbrevStore', {
 				property: 'code',
 				direction: 'DESC'
 			},
-			groupField: "group",
+			//groupField: "group",
 			pageSize: 1000,
 			autoLoad: true,
 			proxy: {
 				type: 'ajax',
-				url: "/ags/4/abbrevs.json",
+				url: "/ags/4/groups",
 				reader: {
 					type: 'json',
-					root: "abbreviations",
-					idProperty: 'code',
+					root: "groups",
+					idProperty: 'group_code',
 					sstotalProperty: 'code_count'
 				}
 			}

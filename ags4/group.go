@@ -3,7 +3,7 @@ package ags4
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
+	//"fmt"
 	"io/ioutil"
 	"sort"
 	"strings"
@@ -11,7 +11,7 @@ import (
 
 // AGS Group .. ta bill ..was Node
 type Group struct {
-	Code        string    `json:"code"`
+	GroupCode   string    `json:"group_code"`
 	Class       string    `json:"class"`
 	Description string    `json:"description"`
 	Headings    []Heading `json:"headings"`
@@ -78,7 +78,7 @@ func LoadGroupsFromDir(groups_dir string) error {
 			//fmt.Println("err=", grp, errg)
 		} else {
 			//fmt.Println("ok=", grp.Code)
-			groupsMap[grp.Code] = grp
+			groupsMap[grp.GroupCode] = grp
 		}
 	}
 	//fmt.Println(groupsMap)
@@ -130,19 +130,19 @@ func LoadGroupFromFile(file_path string) (*Group, error) {
 	}
 
 	g := new(Group)
-	g.Code = gr.Info.GroupCode
+	g.GroupCode = gr.Info.GroupCode
 	g.Class = gr.Info.Class
 	g.Description = gr.Info.Description
 
 	g.Headings = make([]Heading, len(gr.Headings))
 	for i, h := range gr.Headings {
-		hh := Heading{Code: h.HeadCode, Description: h.Description,
+		hh := Heading{HeadCode: h.HeadCode, Description: h.Description,
 			DataType: h.DataType, Unit: h.Unit, Status: h.Status,
 			RevDate: h.RevDate, Sort: h.Sort, Example: h.Example}
 
-		abbrs, found, erra := GetAbbrev(hh.Code)
+		abbrs, found, erra := GetAbbrev(hh.HeadCode)
 		if erra != nil {
-			fmt.Println("abbr not founc", hh.Code, erra)
+			//fmt.Println("abbr not founc", hh.HeadCode, erra)
 		} else if found == true  {
 			hh.Picklist = abbrs.Items
 		}

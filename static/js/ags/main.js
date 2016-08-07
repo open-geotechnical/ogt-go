@@ -14,8 +14,6 @@ Ext.Loader.setConfig({
 */
 
 
-Ext.create("Ags.abbrev.AbbrevStore", {});
-Ext.create("Ags.abbrev.AbbrevItemsStore", {});
 
 R = {}
 R.bold = function(val, meta, xxx){

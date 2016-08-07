@@ -1,9 +1,8 @@
 
 Ext.define('Ags.abbrev.AbbrevsGrid' ,{
     extend: 'Ext.grid.Panel',
-    alias : 'widget.abbrevs',
 	requires: [
-		//"Ags.abbrev.AbbrevStore"
+		//"Ags.abbrev.AbbrevsStore"
 	],
 
 	initComponent: function(){
@@ -13,7 +12,7 @@ Ext.define('Ags.abbrev.AbbrevsGrid' ,{
 			height: HEIGHT,
 
 			columns: [
-				{header: 'Heading',  dataIndex: 'heading',  flex: 1, menuDisabled: true, sortable: true,
+				{header: 'Heading',  dataIndex: 'head_code',  flex: 1, menuDisabled: true, sortable: true,
 					renderer: R.bold
 				},
 				{header: 'Description', dataIndex: 'description', flex: 1, menuDisabled: true, sortable: true},
@@ -36,7 +35,7 @@ Ext.define('Ags.abbrev.AbbrevsGrid' ,{
 
 					//var proxy = Ext.getStore("abbrev_items").getProxy()
 					//console.log("proxy", proxy);
-					sto.getProxy().url = "/ags/4/abbrev/" + rec.get("heading");
+					sto.getProxy().url = "/ags/4/abbrev/" + rec.get("head_code");
 					sto.load()
 				}
 			}

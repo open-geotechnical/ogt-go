@@ -26,7 +26,7 @@ type AbbrevItem struct {
 
 //
 type Abbrev struct {
-	Heading     string       ` json:"heading" `
+	HeadCode    string       ` json:"head_code" `
 	Description string       ` json:"description" `
 	Items       []AbbrevItem ` json:"items" `
 }
@@ -86,7 +86,7 @@ func LoadAbbrevsFromDir() error {
 			//fmt.Println("err=", abr, errg)
 		} else {
 			//fmt.Println("ok=", abr.Heading)
-			abbrevsMap[abr.Heading] = abr
+			abbrevsMap[abr.HeadCode] = abr
 		}
 	}
 	//fmt.Println(abbrevsMap)
@@ -126,7 +126,7 @@ func LoadAbbrevFromFile(file_name string) (*Abbrev, error) {
 	}
 
 	a := new(Abbrev)
-	a.Heading = r.Info.Group
+	a.HeadCode = r.Info.Group
 	//a.Class = r.Info.Class
 	a.Description = r.Info.Heading
 

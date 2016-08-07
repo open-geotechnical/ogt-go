@@ -9,21 +9,17 @@ Ext.define('Ags.MainViewport', {
     layout: 'fit',
     activeTab: 0,
     items: [
-
-			{xtype: "panel", title: "Abbreviations", layout: "column", border: 0, plain: true,
+			{xtype: "panel", title: "Groups", layout: "column", border: 0, plain: true,
 				items: [
-					Ext.create("Ags.abbrev.AbbrevsGrid", {columnWidth: 0.5, id: "AbbrevsGrid"}),
-					Ext.create("Ags.abbrev.AbbrevView", {columnWidth: 0.5, id: "AbbrevView"})
+					Ext.create("Ags.group.GroupsGrid", {columnWidth: 0.3}),
+					//Ext.create("Ags.group.GroupView",  {columnWidth: 0.7, id: "GroupView"})
 				]
 			},
-			{flex: 10, 
-					id: "iframe_xid",
-			        xtype : "component",
-					title: "Docuementation",
-			        autoEl : {
-			            tag : "iframe", 
-			            src : "https://agsngx.readthedocs.org/en/latest/"
-			        }
-		    }
+			{xtype: "panel", title: "Abbreviations", layout: "column", border: 0, plain: true,
+				items: [
+					Ext.create("Ags.abbrev.AbbrevsGrid", {columnWidth: 0.5}),
+					Ext.create("Ags.abbrev.AbbrevView", {columnWidth: 0.5})
+				]
+			}
         ]
 });

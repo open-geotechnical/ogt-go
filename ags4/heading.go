@@ -8,7 +8,7 @@ import (
 )
 
 type Heading struct {
-	Code        string       ` json:"code" `
+	HeadCode    string       ` json:"head_code" `
 	Description string       ` json:"description" `
 	DataType    string       ` json:"data_type" `
 	Unit        string       ` json:"unit" `
