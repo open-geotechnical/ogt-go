@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-
+var SiteInfo = map[string]string{"name": "ags2go", "version": "0.1"}
 
 
 func Start(address_port string) {
@@ -19,7 +19,7 @@ func Start(address_port string) {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", H_Home)
-	//router.HandleFunc("/info.{ext}", AX_Info)
+	router.HandleFunc("/widget", H_Widget)
 
 	router.HandleFunc("/ags/4/units.{ext}", AX_Units)
 	router.HandleFunc("/ags/4/units", AX_Units)
@@ -39,6 +39,7 @@ func Start(address_port string) {
 	router.HandleFunc("/ags/4/group/{group_code}.{ext}",AX_Group)
 	router.HandleFunc("/ags/4/group/{group_code}", AX_Group)
 
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	fmt.Println("Serving on " + address_port)
 	http.Handle("/", router)

@@ -28,7 +28,7 @@ func main() {
 
 	//bytes, _ := json.MarshalIndent(Tabs, "", "  ")
 	//fmt.Printf("%s", bytes)
-	ags4.InitLoad(*workspace_dir + "/ags-def-json/4")
+	go ags4.InitLoad(*workspace_dir + "/ags-def-json/4")
 
 	server.Start(*listen)
 
