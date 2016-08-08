@@ -229,17 +229,17 @@ type DocumentPayload struct {
 // handles /ags/4/units.*
 func AX_Parse(resp http.ResponseWriter, req *http.Request) {
 
-	var err error
 	example := req.URL.Query().Get("example")
 
 	payload := new(DocumentPayload)
 	payload.Success = true
 
-	payload.Document, err = ags4.ParseExample(example)
+	doc, err := ags4.ParseExample(example)
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return
 	}
+	payload.Document = *doc
 
 
 

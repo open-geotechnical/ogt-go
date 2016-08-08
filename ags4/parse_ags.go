@@ -6,25 +6,25 @@ import (
 	"io/ioutil"
 )
 
-func ParseExample(ex_file string) (Document, error){
+func ParseExample(ex_file string) (*Document, error){
 
 	file_path := examplesDir + "/" + ex_file
 
-	return Parse(file_path)
+	return ParseFile(file_path)
 
 }
 
-func Parse(file_path string) (Document, error){
+func ParseFile(file_path string) (*Document, error){
 
-	var doc Document
+	doc := NewDocument()
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {
 		return doc, err
 	}
+	doc.FilePath = file_path
 	doc.Source = string(bites)
-	return doc, nil
-
-
+	err = doc.Parse()
+	return doc, err
 }
 
 

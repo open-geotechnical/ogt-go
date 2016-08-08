@@ -3,6 +3,14 @@
 package ags4
 
 
+import (
+	//"encoding/csv"
+	"fmt"
+	"strings"
+	"encoding/csv"
+
+)
+
 // The Ags4Doc represents the data structure
 // for an ags file
 // The "struct should be
@@ -11,26 +19,181 @@ package ags4
 //
 
 type Document struct {
-
-	// Project is included and main "ref"
-	// on each "file=" project = spreashsheet name in a way
-	//Project Project ` json:"project"  ags:"PROJ" `
-
-	// Units are required, eg %, degC, gal, Ltr
-	//Units []Unit  ` json:"units"  ags:"TYPE" `
-
-	// Types ?? eg 2dp, text, date
-	// BTW its GROUP in AGS
-	//Types[]string 	` json:"units"  ags:"UNITS" `
-
-	// The groups in this Doc
-	///Groups []Group ` json:"groups"  ags:"groups" `
 	FilePath string  	` json:"file_path"  `
-	Source string   		` json:"-"  `
-	Data  map[string]interface{}   ` json:"data" `
+	Source string   	` json:"-"  `
+	Lines []*Line 		 ` json:"lines"  `
+	//Groups map[string]*GroupData ` groups:"-"  `
+	Groups []*GroupData ` groups:"groups"  `
 }
 
+func NewDocument() *Document {
+	d := new(Document)
+	d.Lines = make([]*Line, 0, 0)
+	return d
+}
 
+type Line struct {
+	No 		int ` json:"no"  `
+	Raw 	string  ` json:"raw"  `
+	Records []string  ` json:"records"  `
+	//Row 		[]string 	` json:"columns"  `
+	Errors 		[]string 	` json:"errors"  `
+	Warnings 	[]string 	` json:"warnings"  `
+}
+//type Column struct {
+//	Raw string  ` json:"raw"  `
+//	Columns int  ` json:"columns"  `
+//
+//	Raw string  ` json:"raw"  `
+//}
+
+
+
+func (this *Document) Parse() error {
+
+	// Split raw string into Line objects
+	lines := strings.Split(this.Source, "\r")
+
+	for idx, raw_line := range lines {
+
+		line := new(Line)
+		line.No = idx + 1
+		line.Raw = strings.TrimSpace(raw_line)
+		r := csv.NewReader(strings.NewReader(line.Raw))
+		record, err := r.Read()
+		if err != nil {
+			fmt.Println("err=", idx, err)
+			line.Errors = append(line.Errors, err.Error())
+		} else {
+			line.Records = record
+		}
+		this.Lines = append(this.Lines, line)
+	}
+
+	gindex := make([]string, 0, 0)
+	var grp *GroupData
+	gmap := make(map[string]*GroupData)
+	curr_group := ""
+	for _, line := range this.Lines {
+		if line.Records == nil {
+			continue
+		}
+
+		cols := len(line.Records) - 1
+
+		switch line.Records[0] {
+		case GROUP:
+			curr_group = line.Records[1]
+			_, ok := gmap[curr_group]
+			if !ok {
+				grp = NewGroupData(curr_group)
+				gmap[curr_group] = grp
+				gindex = append(gindex, curr_group)
+
+			}
+
+		case HEADING:
+			for c := 1; c < cols; c++ {
+				h := NewDataHeading(line.Records[c])
+				grp.Headings = append(grp.Headings, h)
+			}
+
+		case TYPE:
+			for c := 1; c < cols; c++ {
+				grp.Headings[c - 1].DataType = line.Records[c]
+			}
+
+		case UNIT:
+			for c := 1; c < cols; c++ {
+				grp.Headings[c - 1].Unit = line.Records[c]
+			}
+
+		case DATA:
+			for c := 1; c < cols; c++ {
+				cell := DataCell{Value: line.Records[c]}
+				// TODO validate type and accuracy eg 2dp vs 3dp
+				grp.Headings[c - 1].Data = append(grp.Headings[c - 1].Data, cell)
+			}
+		}
+	}
+
+	for _, g := range gindex {
+		this.Groups = append(this.Groups, gmap[g])
+	}
+
+	/*
+		//fmt.Println("l=", idx, line)
+		r := csv.NewReader(strings.NewReader(line))
+		record, err := r.Read()
+		if err != nil {
+			fmt.Println("err=", idx, err)
+		} else {
+
+
+			switch record[0] {
+			case GROUP:
+				curr_group := record[0]
+
+				grp := NewGroupData(curr_group)
+				//grpd.GroupCode = curr_group
+
+
+
+				//group_codes = append(group_codes, curr_group)
+				//group_lines[curr_group] = make([]string, 0, 0)
+
+				//grp, ok := groupsMap[grp_code]
+				//if !ok {
+					// complain group not found
+					//fmt.Println("err=", idx, "group not found")
+				//} else {
+					//grpd := new(GroupData)
+					//grpd.GroupCode = grp.GroupCode
+					//grpd.Description = grp.Description
+					//grpd.Description = grp.Class
+				//}
+
+
+
+			//case DATA:
+				//data = append(data, token)
+
+
+
+			//case HEADING:
+				//node.Heading = append(node.Heading, token)
+
+			//case TYPE:
+				//node.Type = append(node.Type, token)
+
+			//case UNIT:
+				//node.Unit = append(node.Unit, token)
+			//default:
+				//group_lines[curr_group] = append
+			}
+
+			//fmt.Println("ok=", idx, record[0], record[1])
+
+		}
+		*/
+		/*
+		for {
+			record, err := r.Read()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				fmt.Println("fatal", err)
+				return err
+			}
+
+			fmt.Println("record=", len(record), record)
+		}
+		*/
+	//}
+
+	return nil
+}
 
 
 

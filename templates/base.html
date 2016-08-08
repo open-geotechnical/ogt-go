@@ -17,6 +17,14 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     {# <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> #}
 
+
+    {% if LOAD_EXT %}
+    <!-- EXTJS -->
+    <link rel="stylesheet" type="text/css" href="/js/{{EXT_VER}}/resources/css/ext-all.css">
+    {# <link rel="stylesheet" type="text/css" href="/css/resources/css/ext-all-gray.css"> #}
+    <script type="text/javascript" charset="utf-8" src="/js/{{EXT_VER}}/ext-all.js"></script>
+    {% endif %}
+
     <!-- Custom styles for this template -->
     <link href="/css/ags2go.1.css" rel="stylesheet">
 
@@ -26,6 +34,8 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
 </head>
 
 <body>
