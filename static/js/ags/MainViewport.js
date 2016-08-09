@@ -1,4 +1,4 @@
-Ext.define('Ags.MainViewport', {
+Ext.define('ags.MainViewport', {
 	extend: "Ext.tab.Panel",
 	renderTo: "widget_div",
 	width: "100%",
@@ -11,15 +11,15 @@ Ext.define('Ags.MainViewport', {
     items: [
 			{xtype: "panel", title: "Groups", layout: "column", border: 0, plain: true,
 				items: [
-					Ext.create("Ags.group.GroupsGrid", {columnWidth: 0.3}),
-					Ext.create("Ags.group.GroupView",  {columnWidth: 0.7, id: "GroupView"})
+					Ext.create("ags.group.GroupsGrid", {columnWidth: 0.3}),
+					Ext.create("ags.group.GroupView",  {columnWidth: 0.7, id: "GroupView"})
 				]
 			}
 			 ,
 			{xtype: "panel", title: "Abbreviations", layout: "column", border: 0, plain: true,
 				items: [
-					Ext.create("Ags.abbrev.AbbrevsGrid", {columnWidth: 0.5}),
-					Ext.create("Ags.abbrev.AbbrevView", {columnWidth: 0.5})
+					Ext.create("ags.abbrev.AbbrevsGrid", {columnWidth: 0.5}),
+					Ext.create("ags.abbrev.AbbrevView", {columnWidth: 0.5})
 				]
 			}
         ]

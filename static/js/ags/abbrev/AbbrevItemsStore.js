@@ -1,12 +1,12 @@
 
-Ext.define('Ags.abbrev.AbbrevItemsStore', {
+Ext.define('ags.abbrev.AbbrevItemsStore', {
 	extend: 'Ext.data.Store',
 	requires: [
        //'Ags.model.AbbrevItem'
     ],
 	constructor: function(){
 		Ext.apply(this, {
-			model: 'Ags.model.AbbrevItem',
+			model: 'ags.model.AbbrevItem',
 			storeId: "abbrev_items",
 			pageSize: 1000,
 			autoLoad: false,

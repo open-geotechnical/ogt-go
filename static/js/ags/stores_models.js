@@ -1,5 +1,5 @@
 
-Ext.define('Ags.model.Abbrev', {
+Ext.define('ags.model.Abbrev', {
     extend: 'Ext.data.Model',
     fields: [
 		'head_code',
@@ -8,7 +8,7 @@ Ext.define('Ags.model.Abbrev', {
 	]
 });
 
-Ext.define('Ags.model.AbbrevItem', {
+Ext.define('ags.model.AbbrevItem', {
     extend: 'Ext.data.Model',
     fields: [
 		'item',
@@ -19,7 +19,7 @@ Ext.define('Ags.model.AbbrevItem', {
 	]
 });
 
-Ext.define('Ags.model.Group', {
+Ext.define('ags.model.Group', {
     extend: 'Ext.data.Model',
     fields: [
 		'group_code',
@@ -28,7 +28,7 @@ Ext.define('Ags.model.Group', {
 	]
 });
 
-Ext.define('Ags.model.Heading', {
+Ext.define('ags.model.Heading', {
     extend: 'Ext.data.Model',
     fields: [
 		'head_code',
@@ -44,8 +44,8 @@ Ext.define('Ags.model.Heading', {
 });
 
 
-Ext.create("Ags.abbrev.AbbrevsStore", {});
-Ext.create("Ags.abbrev.AbbrevItemsStore", {});
+Ext.create("ags.abbrev.AbbrevsStore", {});
+Ext.create("ags.abbrev.AbbrevItemsStore", {});
 
-Ext.create("Ags.group.GroupsStore", {});
-Ext.create("Ags.group.HeadingsStore", {});
+Ext.create("ags.group.GroupsStore", {});
+Ext.create("ags.group.HeadingsStore", {});

@@ -1,5 +1,5 @@
 
-Ext.define('Ags.group.GroupView' ,{
+Ext.define('ags.group.GroupView' ,{
     extend: 'Ext.panel.Panel',
 	requires: [
 		//"Ags.abbrev.MetaStore"
@@ -13,7 +13,7 @@ Ext.define('Ags.group.GroupView' ,{
 			height: HEIGHT,
   			layout: "border",
 			items: [
-				Ext.create("Ags.group.HeadingsGrid", {flex: 1, region: "center"})
+				Ext.create("ags.group.HeadingsGrid", {flex: 1, region: "center"})
 			]
 		});
 		this.callParent();

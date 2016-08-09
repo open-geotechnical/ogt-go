@@ -1,12 +1,12 @@
 
-Ext.define('Ags.group.HeadingsStore', {
+Ext.define('ags.group.HeadingsStore', {
 	extend: 'Ext.data.Store',
 	requires: [
        //'Ags.model.Abbrev'
     ],
 	constructor: function(){
 		Ext.apply(this, {
-			model: 'Ags.model.Heading',
+			model: 'ags.model.Heading',
 			storeId: "headings",
 			sssorters: [ {
 				property: 'dated',

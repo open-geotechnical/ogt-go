@@ -1,5 +1,5 @@
 
-Ext.define('Ags.abbrev.AbbrevsGrid' ,{
+Ext.define('ags.abbrev.AbbrevsGrid' ,{
     extend: 'Ext.grid.Panel',
 	requires: [
 		//"Ags.abbrev.AbbrevsStore"

@@ -1,5 +1,5 @@
 
-Ext.define('Ags.group.HeadingsGrid' ,{
+Ext.define('ags.group.HeadingsGrid' ,{
     extend: 'Ext.grid.Panel',
 	requires: [
 		//"Ags.abbrev.AbbrevStore"

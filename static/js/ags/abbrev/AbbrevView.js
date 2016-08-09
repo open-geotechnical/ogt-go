@@ -1,5 +1,5 @@
 
-Ext.define('Ags.abbrev.AbbrevView' ,{
+Ext.define('ags.abbrev.AbbrevView' ,{
     extend: 'Ext.grid.Panel',
 	requires: [
 		//"Ags.abbrev.MetaStore"

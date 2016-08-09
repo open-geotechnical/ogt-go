@@ -1,12 +1,12 @@
 
-Ext.define('Ags.group.GroupsStore', {
+Ext.define('ags.group.GroupsStore', {
 	extend: 'Ext.data.Store',
 	requires: [
        //'Ags.model.Abbrev'
     ],
 	constructor: function(){
 		Ext.apply(this, {
-			model: 'Ags.model.Group',
+			model: 'ags.model.Group',
 			storeId: "groups",
 			sssorters: [ {
 				property: 'dated',

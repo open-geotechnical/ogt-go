@@ -6,22 +6,11 @@
 
 
 
-<script type="text/javascript" charset="utf-8" src="/js/ags/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/ags/base_defs.js"></script>
 
-<script type="text/javascript" charset="utf-8" src="/js/ags/abbrev/AbbrevItemsStore.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/abbrev/AbbrevsStore.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/group/GroupsStore.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/group/HeadingsStore.js"></script>
 
-<script type="text/javascript" charset="utf-8" src="/js/ags/stores_models.js"></script>
 
-<script type="text/javascript" charset="utf-8" src="/js/ags/abbrev/AbbrevsGrid.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/abbrev/AbbrevView.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/group/GroupsGrid.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/group/HeadingsGrid.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ags/group/GroupView.js"></script>
-
-<script type="text/javascript" charset="utf-8" src="/js/ags/MainViewport.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/ags/viewer/AGSViewer.js"></script>
 
 
 
@@ -35,7 +24,7 @@ var AGS_VERSION = 4;
 
 Ext.onReady(function(){
 
-VP = Ext.create("Ags.MainViewport", {});
+VP = Ext.create("ags.viewer.AGSViewer", {});
 
 });
 
