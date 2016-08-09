@@ -23,7 +23,7 @@ type Document struct {
 	Source string   	` json:"-"  `
 	Lines []*Line 		 ` json:"lines"  `
 	//Groups map[string]*GroupData ` groups:"-"  `
-	Groups []*GroupData ` groups:"groups"  `
+	Groups []*GroupData ` json:"groups"  `
 }
 
 func NewDocument() *Document {
