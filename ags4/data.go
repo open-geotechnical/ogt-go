@@ -13,20 +13,29 @@ type GroupData struct {
 	// True if this in the Official Data dictionary
 	AGSValid bool `json:"ags_valid"`
 
-	Headings    []DataHeading `json:"headings"`
+	Headings    []DataHeading ` json:"headings" `
+
+	Data []map[string]DataCell ` json:"data" `
 }
 
 
 type DataHeading struct {
 	Heading
 	AGSValid bool `json:"ags_valid"`
-	Data []DataCell ` json:"data" `
+	//Data []DataCell ` json:"data" `
 }
 
 type DataCell struct {
-	Value   string    `json:"value"`
-	Error   error    `json:"error"`
+	HeadCode string   ` json:"head_code" `
+	Value   string    ` json:"value" `
+	Error   error    ` json:"error" `
+	LineNo int  	` json:"line_no" `
+	ColNo int  	` json:"col_no" `
 }
+
+//type DataRow struct {
+//	Row
+//}
 
 func NewGroupData(grp_code string) *GroupData {
 
@@ -47,7 +56,7 @@ func NewGroupData(grp_code string) *GroupData {
 func NewDataHeading(head_code string) DataHeading {
 	h := DataHeading{}
 	h.HeadCode = head_code
-	h.Data = make([]DataCell, 0)
+	//h.Data = make([]DataCell, 0)
 
 	parts := strings.Split(head_code, "_")
 	grp, gok := groupsMap[parts[0]]

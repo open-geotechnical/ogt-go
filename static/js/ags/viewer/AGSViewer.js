@@ -56,7 +56,7 @@ Ext.define('ags.viewer.AGSViewer' ,{
 			success: function(response){
 
 				var data = Ext.decode(response.responseText);
-				console.log(data);
+				//console.log(data);
 				var groups = data.document.groups;
 
 				for(var i = 0; i < groups.length; i++){
@@ -66,9 +66,10 @@ Ext.define('ags.viewer.AGSViewer' ,{
 					var model_fields = [];
 					//var columns = [];
 					var grp = groups[i];
-					var row_count = -1;
+					//var row_count = -1;
 					// Create headings
-					for(var c = 0; c < grp.headings.length; c++){
+					var headings_len =  grp.headings.length
+					for(var c = 0; c < headings_len; c++){
 
 						var h = grp.headings[c];
 						// add field def to model
@@ -77,15 +78,12 @@ Ext.define('ags.viewer.AGSViewer' ,{
 						// col def for grid, also hide data in `geo_data`
 						var col = {header: h.head_code, dataIndex: h.head_code,
 									sortable: true, menuDisabled: true,
-									head_code: h.head_code, geo_data: h.data
+									head_code: h.head_code
 									};
 						col_defs.push(col);
-						if(h.data.length > row_count){
-							row_count = h.data.length;
-						}
 					}
-					console.log(grp.group_code, row_count);
-
+					//console.log(grp.group_code,  h.head_code + ".value");
+					/*
 					var rows = []
 					for(var r = 0; r < row_count; r++){
 
@@ -99,11 +97,36 @@ Ext.define('ags.viewer.AGSViewer' ,{
 						rows.push(row);
 						console.log("r=", r, row);
 					}
+					*/
 					//console.log(rows);
+					//var val_rows = [];
+					//var data = grp.data;
+					//for(var i=0; i < data; i++){
+					//	var rd = data[i];
+					//	row
+					//	for(var prop in rd){
+					//		if (rd.hasOwnProperty(prop)) {
+
+					//		}
+					//	}
+					//}
 
 					var model = this.make_model(model_fields);
 					var sto = Ext.create("Ext.data.Store", {model: model});
-					sto.loadData(rows);
+					for(var di=0; di < grp.data.length; di++){
+						var rd = grp.data[di];
+						var	rec = {};
+						for(var cd = 0; cd < headings_len; cd++){
+							var hhc = grp.headings[cd].head_code;
+							rec[hhc] = rd[hhc].value;
+						}
+						//console.log(rec)
+						sto.add(rec);
+					}
+
+
+					//;
+					//sto.loadData(grp.data);
 
 					var tab = Ext.create("ags.viewer.GroupGrid", {
 							title: grp.group_code,

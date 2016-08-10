@@ -21,7 +21,7 @@ import (
 type Document struct {
 	FilePath string  	` json:"file_path"  `
 	Source string   	` json:"-"  `
-	Lines []*Line 		 ` json:"lines"  `
+	Lines []*Line 		 ` json:"-"  `
 	//Groups map[string]*GroupData ` groups:"-"  `
 	Groups []*GroupData ` json:"groups"  `
 }
@@ -74,46 +74,64 @@ func (this *Document) Parse() error {
 	var grp *GroupData
 	gmap := make(map[string]*GroupData)
 	curr_group := ""
+	//data_rows := make(map[int]map[string]DataCell)
+
+	// Walk though all the lines
 	for _, line := range this.Lines {
 		if line.Records == nil {
 			continue
 		}
 
-		cols := len(line.Records) - 1
+		// determine columns we need to loops
+		col_count := len(line.Records)
 
+		// Record[0] is first column in the row type,
 		switch line.Records[0] {
+
+		// The "GROUP","FOUR" = four character group name
 		case GROUP:
+
 			curr_group = line.Records[1]
+			// check group exists in map already...
+			// this should always be ok,
+			// TODO: possible errors =  double serialising groups
 			_, ok := gmap[curr_group]
 			if !ok {
+				// were now in this group
 				grp = NewGroupData(curr_group)
 				gmap[curr_group] = grp
 				gindex = append(gindex, curr_group)
-
+			} else {
+				// OOPS, same groupname already exists wtf ??
+				// recover with ??
 			}
 
+		// The "HEADING" is expetced after the GROUP
 		case HEADING:
-			for c := 1; c < cols; c++ {
+			for c := 1; c < col_count; c++ {
 				h := NewDataHeading(line.Records[c])
 				grp.Headings = append(grp.Headings, h)
 			}
 
 		case TYPE:
-			for c := 1; c < cols; c++ {
+			for c := 1; c < col_count; c++ {
 				grp.Headings[c - 1].DataType = line.Records[c]
 			}
 
 		case UNIT:
-			for c := 1; c < cols; c++ {
+			for c := 1; c < col_count; c++ {
 				grp.Headings[c - 1].Unit = line.Records[c]
 			}
 
 		case DATA:
-			for c := 1; c < cols; c++ {
-				cell := DataCell{Value: line.Records[c]}
+			row := make(map[string]DataCell)
+			for c := 1; c < col_count; c++ {
+				hc := grp.Headings[c - 1].HeadCode
+				row[hc] = DataCell{Value: line.Records[c], HeadCode: hc, LineNo: line.No, ColNo: c}
 				// TODO validate type and accuracy eg 2dp vs 3dp
-				grp.Headings[c - 1].Data = append(grp.Headings[c - 1].Data, cell)
+
 			}
+			grp.Data = append(grp.Data, row)
 		}
 	}
 
