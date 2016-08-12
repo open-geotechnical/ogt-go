@@ -17,6 +17,7 @@ var examplesDir string = ""
 // This needs to be a spperate function and reloadable with mutex
 func InitLoad(data_dir string) {
 
+	fmt.Println("Loading AGS")
 
 	DataDir = data_dir
 	abbrevsDir = DataDir + "/abbrev"
@@ -48,6 +49,8 @@ func InitLoad(data_dir string) {
 		fmt.Println("WTF?", all_errors)
 		// Tantrum()
 	}
+
+	fmt.Println("Loading AGS DONE")
 
 
 }
