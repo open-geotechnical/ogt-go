@@ -11,7 +11,7 @@ import (
 type NavItem struct {
 	Url string
 	Title string
-	Selected bool
+	//Selected bool
 }
 type Page struct {
 	Title string
@@ -23,14 +23,13 @@ var Nav []NavItem
 func init(){
 	addNav("/", "Home")
 	addNav("/about", "About")
-	addNav("/widget", "Widget")
-	addNav("/view", "View")
-	addNav("/ags4", "AGS4")
+	addNav("/ags4", "AGS4 Data Dict")
+	addNav("/viewer", "Viewer")
+	//addNav("/ags4", "AGS4")
 }
 func addNav(url, title string)  {
 	Nav = append(Nav, NavItem{Url: url, Title: title})
 }
-
 
 
 func NewContext(url string) pongo2.Context {
@@ -54,8 +53,6 @@ func NewContext(url string) pongo2.Context {
 }
 
 func RenderTemplate(resp http.ResponseWriter, request *http.Request, tpl *pongo2.Template, ctx pongo2.Context) {
-
-
 	err := tpl.ExecuteWriter(ctx, resp)
 	if err != nil {
 		http.Error(resp, err.Error(), http.StatusInternalServerError)
@@ -65,7 +62,7 @@ func RenderTemplate(resp http.ResponseWriter, request *http.Request, tpl *pongo2
 var tplHome = pongo2.Must( pongo2.FromFile("templates/home.html") )
 var tplAbout = pongo2.Must( pongo2.FromFile("templates/about.html") )
 var tplWidget = pongo2.Must( pongo2.FromFile("templates/widget.html") )
-var tplView = pongo2.Must( pongo2.FromFile("templates/view.html") )
+var tplView = pongo2.Must( pongo2.FromFile("templates/viewer.html") )
 
 // Home page
 func H_Home(resp http.ResponseWriter, request *http.Request){
@@ -88,8 +85,8 @@ func H_Widget(resp http.ResponseWriter, request *http.Request){
 }
 
 // View AGS page
-func H_View(resp http.ResponseWriter, request *http.Request){
-	c := NewContext("/view")
+func H_Viewer(resp http.ResponseWriter, request *http.Request){
+	c := NewContext("/viewer")
 	c["LOAD_EXT"] = true
 	RenderTemplate(resp, request, tplView, c)
 }

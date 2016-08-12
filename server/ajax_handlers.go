@@ -200,8 +200,11 @@ func AX_Group(resp http.ResponseWriter, req *http.Request) {
 
 
 type ExamplesPayload struct {
-	Success bool        ` json:"success" `
-	Examples   []string ` json:"examples" `
+	Success bool        	` json:"success" `
+	Examples   []ExampleRow ` json:"examples" `
+}
+type ExampleRow struct {
+	FileName   string ` json:"file_name" `
 }
 
 // handles /ags/4/units.*
@@ -216,7 +219,10 @@ func AX_Examples(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	payload.Examples = recs
+	payload.Examples = make([]ExampleRow, 0)
+	for _, ex := range recs{
+		payload.Examples = append(payload.Examples, ExampleRow{FileName: ex})
+	}
 
 	SendAjaxPayload(resp, req, payload)
 }

@@ -16,8 +16,12 @@ Ext.define('ags.viewer.AGSViewer' ,{
   			layout: "border",
 
   			tbar: [
-  				//"->",
-  				{text: "Load", scope: this, handler: this.fetch}
+  				{text: "Open Example", scope: this, handler: this.select_example},
+  				"-",
+  				{text: "Upload AGS", scope: this, handler: this.upload_dialog},
+  				"->",
+  				{text: "Clear", scope: this, handler: this.clear_all},
+
   			],
 
 
@@ -38,19 +42,29 @@ Ext.define('ags.viewer.AGSViewer' ,{
 		return this._tabpanel
 	},
 
-	fetch: function(){
+	clear_all: function(){
+		var tabPanel = this.get_tab_panel();
+		tabPanel.removeAll();
+    },
+
+	load_example: function(file_name){
+
+		this.clear_all();
+
 		Ext.MessageBox.wait('Loading...');
+		//this.mask("")
 		Ext.Ajax.request({
 			scope: this,
-			url: '/ags/4/parse?example=03-total_station_point_4_0.ags',
+			url: '/ajax/ags/4/parse',
+			method: "GET",
 			params: {
-
+				example: file_name
 			},
 
 			success: function(response){
 
 				var data = Ext.decode(response.responseText);
-				//console.log(data);
+				var tabPanel = this.get_tab_panel();
 				var groups = data.document.groups;
 
 				for(var i = 0; i < groups.length; i++){
@@ -60,84 +74,36 @@ Ext.define('ags.viewer.AGSViewer' ,{
 					var model_fields = [];
 					//var columns = [];
 
-					var tab = Ext.create("ags.viewer.GroupView", {
-                    							g_title: grp.group_code,
-                    							g_tooltip: grp.description,
-                    							g_itemId: grp.group_code,
-                    							g_columns: col_defs,
-                    							g_store: sto
-
-                    });
-					this.get_tab_panel().add(tab)
-                    continue;
-
-					var grp = groups[i];
-
-
-					//var row_count = -1;
-					// Create headings
-					var headings_len =  grp.headings.length
-					for(var c = 0; c < headings_len; c++){
-
-						var h = grp.headings[c];
-						// add field def to model
-						model_fields.push( {name: h.head_code, type: "string"} );
-
-						// col def for grid, also hide data in `geo_data`
-						var col = {header: h.head_code, dataIndex: h.head_code,
-									sortable: true, menuDisabled: true,
-									head_code: h.head_code
-									};
-						col_defs.push(col);
+					var tab = Ext.create("ags.viewer.GroupView", {});
+                    tab.load_group(groups[i])
+					tabPanel.add(tab)
+					if(i == 0){
+						tabPanel.setActiveTab(tab);
 					}
-					//console.log(grp.group_code,  h.head_code + ".value");
-
-					var model = this.make_model(model_fields);
-					var sto = Ext.create("Ext.data.Store", {model: model});
-					for(var di=0; di < grp.data.length; di++){
-						var rd = grp.data[di];
-						var	rec = {};
-						for(var cd = 0; cd < headings_len; cd++){
-							var hhc = grp.headings[cd].head_code;
-							rec[hhc] = rd[hhc].value;
-						}
-						sto.add(rec);
-					}
-
-
-					var tab = Ext.create("ags.viewer.GroupView", {
-							g_title: grp.group_code,
-							g_tooltip: grp.description,
-							g_itemId: grp.group_code,
-							g_columns: col_defs,
-							g_store: sto
-
-					});
-					this.get_tab_panel().add(tab)
 
 				}
-
+				Ext.MessageBox.hide();
 			}
+
 		});
-		Ext.MessageBox.hide();
+
 	},
 
-	make_model: function(fields){
+	select_example: function(){
+		var d = Ext.create("ags.examples.ExamplesDialog", {});
+		d.on("OPEN", function(fn){
+			this.load_example(fn);
+		}, this)
+		d.load_show();
 
-		return Ext.define('Ags.dymamic.MODEL' + Ext.id(), {
-			extend: 'Ext.data.Model',
-			fields: fields,
-			proxy: {
-				type: 'memory',
-				reader: {
-					type: 'json',
-					totalProperty: 'tc',
-					root: 'foobar'
-				}
-			}
-		});
-	}
+	},
 
-
+	upload_dialog: function(){
+    		var d = Ext.create("ags.viewer.UploadDialog", {});
+    		d.on("OPEN", function(fn){
+    			this.load_example(fn);
+    		}, this)
+    		d.show();
+    }
 
 });

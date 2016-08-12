@@ -21,7 +21,7 @@ func ParseFile(file_path string) (*Document, error){
 	if err != nil {
 		return doc, err
 	}
-	doc.FilePath = file_path
+	doc.FileName = file_path
 	doc.Source = string(bites)
 	err = doc.Parse()
 	return doc, err

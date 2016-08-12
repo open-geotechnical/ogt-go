@@ -19,7 +19,7 @@ import (
 //
 
 type Document struct {
-	FilePath string  	` json:"file_path"  `
+	FileName string  	` json:"file_name"  `
 	Source string   	` json:"-"  `
 	Lines []*Line 		 ` json:"-"  `
 	//Groups map[string]*GroupData ` groups:"-"  `

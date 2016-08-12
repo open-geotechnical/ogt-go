@@ -2,13 +2,13 @@
 Ext.define('ags.abbrev.AbbrevItemsStore', {
 	extend: 'Ext.data.Store',
 	requires: [
-       //'Ags.model.AbbrevItem'
+       //'ags.model.AbbrevItem'
     ],
 	constructor: function(){
 		Ext.apply(this, {
 			model: 'ags.model.AbbrevItem',
 			storeId: "abbrev_items",
-			pageSize: 1000,
+			pageSize: 2000,
 			autoLoad: false,
 			proxy: {
 				type: 'ajax',
@@ -21,15 +21,5 @@ Ext.define('ags.abbrev.AbbrevItemsStore', {
 			}
 		});
 		this.callParent();
-	},
-
-	deadfetch: function(rec){
-		console.log("detch", rec);
-		//var sto = Ext.getStore("abbrev_items");
-
-		//var proxy = Ext.getStore("abbrev_items").getProxy()
-		//console.log("proxy", proxy);
-		this.getProxy().url = "/ags/4/abbrev/" + rec.get("heading");
-		this.load()
 	}
 });
