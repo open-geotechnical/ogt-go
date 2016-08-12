@@ -21,7 +21,7 @@ Ext.define('ags.abbrev.AbbrevsStore', {
 			autoLoad: true,
 			proxy: {
 				type: 'ajax',
-				url: "/ags/4/abbrevs.json",
+				url: "/ajax/ags/4/abbrevs.json",
 				reader: {
 					type: 'json',
 					root: "abbreviations",

@@ -35,7 +35,7 @@ Ext.define('ags.abbrev.AbbrevsGrid' ,{
 
 					//var proxy = Ext.getStore("abbrev_items").getProxy()
 					//console.log("proxy", proxy);
-					sto.getProxy().url = "/ags/4/abbrev/" + rec.get("head_code");
+					sto.getProxy().url = "/ajax/ags/4/abbrev/" + rec.get("head_code");
 					sto.load()
 				}
 			}

@@ -21,9 +21,11 @@ func Start(address_port string) {
 	router.HandleFunc("/", H_Home)
 	router.HandleFunc("/widget", H_Widget)
 	router.HandleFunc("/viewer", H_Viewer)
+	router.HandleFunc("/about", H_About)
 
 	router.HandleFunc("/ajax/ags/4/examples.{ext}", AX_Examples)
 	router.HandleFunc("/ajax/ags/4/examples", AX_Examples)
+
 
 	router.HandleFunc("/ajax/ags/4/parse", AX_Parse)
 
@@ -34,7 +36,7 @@ func Start(address_port string) {
 	router.HandleFunc("/ajax/ags/4/abbreviations.{ext}",AX_Abbrevs)
 	router.HandleFunc("/ajax/ags/4/abbreviations", AX_Abbrevs)
 	router.HandleFunc("/ajax/ags/4/abbrevs.{ext}",AX_Abbrevs)
-	router.HandleFunc("/ags/4/abbrevs", AX_Abbrevs)
+	router.HandleFunc("/ajax/ags/4/abbrevs", AX_Abbrevs)
 
 	router.HandleFunc("/ajax/ags/4/abbrev/{head_code}.{ext}",AX_Abbrev)
 	router.HandleFunc("/ajax/ags/4/abbrev/{head_code}", AX_Abbrev)

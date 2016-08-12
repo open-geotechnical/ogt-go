@@ -34,7 +34,7 @@ Ext.define('ags.group.GroupsGrid' ,{
 
 					//var proxy = Ext.getStore("abbrev_items").getProxy()
 					//console.log("proxy", proxy);
-					sto.getProxy().url = "/ags/4/group/" + rec.get("group_code");
+					sto.getProxy().url = "/ajax/ags/4/group/" + rec.get("group_code");
 					sto.load()
 				}
 			}

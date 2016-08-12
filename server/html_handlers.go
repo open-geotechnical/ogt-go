@@ -23,7 +23,7 @@ var Nav []NavItem
 func init(){
 	addNav("/", "Home")
 	addNav("/about", "About")
-	addNav("/ags4", "AGS4 Data Dict")
+	addNav("/widget", "AGS4 Data Dict")
 	addNav("/viewer", "Viewer")
 	//addNav("/ags4", "AGS4")
 }
