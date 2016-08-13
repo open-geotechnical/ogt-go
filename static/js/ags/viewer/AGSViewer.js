@@ -78,11 +78,6 @@ Ext.define('ags.viewer.AGSViewer' ,{
 				var groups = data.document.groups;
 				var tabPanel = this.get_tab_panel();
 
-				var src_tab = Ext.create("ags.viewer.RawDataView", {});
-				src_tab.load_doc(data.document);
-				tabPanel.add( src_tab );
-				tabPanel.setActiveTab(src_tab);
-
 				// Loops groups and add tabs for each group
 				var grp_len = groups.length; // optimize
 				for(var i = 0; i < grp_len; i++){
@@ -92,12 +87,14 @@ Ext.define('ags.viewer.AGSViewer' ,{
 					tabPanel.add(tab)
 					if(i == 0){
 						// Make first tab active wich should always be PROJ ??
-						//tabPanel.setActiveTab(tab);
-
+						tabPanel.setActiveTab(tab);
 					}
 				}
 
-				//tabPanel.add( Ext.create("ags.viewer.RawDataView", {ags_doc: data.document}) );
+				// Add source tab
+				var src_tab = Ext.create("ags.viewer.RawDataView", {});
+				src_tab.load_doc(data.document);
+				tabPanel.add( src_tab );
 
 				Ext.MessageBox.hide();
 			},

@@ -14,6 +14,7 @@ Ext.define('ags.viewer.RawDataView' ,{
 					items: [
 						Ext.create("Ext.grid.Panel", {
 										g_name: "raw_grid",
+										forceFit: true,
                         				autoHeight: true,
                         				columns: [], // reconfigure later
                         				//store: store // reconfigure later
@@ -22,7 +23,7 @@ Ext.define('ags.viewer.RawDataView' ,{
 				},
 				{title: "Raw Text", layout: "fit",
 					items: [
-						{xtype: "textarea", g_name: "raw_text"}
+						{xtype: "textarea", g_name: "raw_text", fieldCls: "ags_raw_text"}
 					]
 				}
 
@@ -97,12 +98,20 @@ Ext.define('ags.viewer.RawDataView' ,{
 	},
 
 	r_row: function(val, meta, rec, rowIdx, colIdx, store){
-		console.log(val, rec)
 
-		if(rec.get("c_0") == "GROUP"){
-			//meta.style = "background-color: yellow;"
+		var row_type = rec.get("c_0")
+
+		if( row_type == GROUP){
 			meta.tdCls = "ags_group_row";
-			//return val;
+
+		} else if (row_type == DATA){
+			meta.tdCls = "ags_group_data";
+
+		} else if  (row_type == "") { //UNIT || row_type == HEADING || row_type == TYPE) {
+
+		} else {
+			meta.tdCls = "ags_group_header";
+			//console.log(row_type)
 		}
 		if(colIdx == 1) {
 			meta.style = "font-weight: bold;"

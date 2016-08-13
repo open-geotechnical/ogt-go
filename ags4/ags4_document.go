@@ -22,7 +22,7 @@ type Document struct {
 	FileName string  	` json:"file_name"  `
 	Source string   	` json:"source"  `
 	Lines []*Line 		 ` json:"lines"  `
-	//Groups map[string]*GroupData ` groups:"-"  `
+	//GroupsIndex map[string]*GroupData ` groups:"-"  `
 	Groups []*GroupData ` json:"groups"  `
 }
 
@@ -36,16 +36,9 @@ type Line struct {
 	No 		int ` json:"no"  `
 	Raw 	string  ` json:"raw"  `
 	Records []string  ` json:"records"  `
-	//Row 		[]string 	` json:"columns"  `
 	Errors 		[]string 	` json:"errors"  `
 	Warnings 	[]string 	` json:"warnings"  `
 }
-//type Column struct {
-//	Raw string  ` json:"raw"  `
-//	Columns int  ` json:"columns"  `
-//
-//	Raw string  ` json:"raw"  `
-//}
 
 
 
