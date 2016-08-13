@@ -20,8 +20,8 @@ import (
 
 type Document struct {
 	FileName string  	` json:"file_name"  `
-	Source string   	` json:"-"  `
-	Lines []*Line 		 ` json:"-"  `
+	Source string   	` json:"source"  `
+	Lines []*Line 		 ` json:"lines"  `
 	//Groups map[string]*GroupData ` groups:"-"  `
 	Groups []*GroupData ` json:"groups"  `
 }

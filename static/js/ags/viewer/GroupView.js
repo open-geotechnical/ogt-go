@@ -90,18 +90,18 @@ Ext.define('ags.viewer.GroupView' ,{
 
 	make_model: function(fields){
 
-    		return Ext.define('Ags.dymamic.MODEL' + Ext.id(), {
-    			extend: 'Ext.data.Model',
-    			fields: fields,
-    			proxy: {
-    				type: 'memory',
-    				reader: {
-    					type: 'json',
-    					totalProperty: 'tc',
-    					root: 'foobar'
-    				}
-    			}
-    		});
-    	}
+		return Ext.define('Ags.dymamic.MODEL' + Ext.id(), {
+			extend: 'Ext.data.Model',
+			fields: fields,
+			proxy: {
+				type: 'memory',
+				reader: {
+					type: 'json',
+					totalProperty: 'tc',
+					root: 'foobar'
+				}
+			}
+		});
+	}
 
 });

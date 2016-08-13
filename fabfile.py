@@ -58,3 +58,6 @@ def r_build():
 def r_run():
 	"""Start/Reboot remote server"""
 	sudo("/usr/local/bin/supervisorctl restart ags", pty=True)
+
+def dev_upload():
+	rrr

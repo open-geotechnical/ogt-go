@@ -30,6 +30,8 @@ Ext.define('ags.viewer.AGSViewer' ,{
 			]
 		});
 		this.callParent();
+
+		this.load_example("01-temperature_measuring_point_4_0.ags");
 	},
 
 	get_tab_panel: function(){
@@ -45,15 +47,20 @@ Ext.define('ags.viewer.AGSViewer' ,{
 	clear_all: function(){
 		var tabPanel = this.get_tab_panel();
 		tabPanel.removeAll();
+		this.setTitle("File: &lt;none&gt;")
     },
 
 	load_example: function(file_name){
 
+		// show loding message
+		Ext.MessageBox.wait('Loading...');
+
+		// nuke existing tabs
 		this.clear_all();
 
-		Ext.MessageBox.wait('Loading...');
-		//this.mask("")
+		// make server request
 		Ext.Ajax.request({
+
 			scope: this,
 			url: '/ajax/ags/4/parse',
 			method: "GET",
@@ -63,25 +70,39 @@ Ext.define('ags.viewer.AGSViewer' ,{
 
 			success: function(response){
 
+				// decode json string
 				var data = Ext.decode(response.responseText);
-				var tabPanel = this.get_tab_panel();
+
+				this.setTitle("File: " + data.document.file_name);
+
 				var groups = data.document.groups;
+				var tabPanel = this.get_tab_panel();
 
-				for(var i = 0; i < groups.length; i++){
+				var src_tab = Ext.create("ags.viewer.RawDataView", {});
+				src_tab.load_doc(data.document);
+				tabPanel.add( src_tab );
+				tabPanel.setActiveTab(src_tab);
 
-
-					var col_defs = [];
-					var model_fields = [];
-					//var columns = [];
+				// Loops groups and add tabs for each group
+				var grp_len = groups.length; // optimize
+				for(var i = 0; i < grp_len; i++){
 
 					var tab = Ext.create("ags.viewer.GroupView", {});
                     tab.load_group(groups[i])
 					tabPanel.add(tab)
 					if(i == 0){
-						tabPanel.setActiveTab(tab);
-					}
+						// Make first tab active wich should always be PROJ ??
+						//tabPanel.setActiveTab(tab);
 
+					}
 				}
+
+				//tabPanel.add( Ext.create("ags.viewer.RawDataView", {ags_doc: data.document}) );
+
+				Ext.MessageBox.hide();
+			},
+			failure: function(xxx){
+				alert("TODO: throw tantrum as ajax failer in AGSViewer.js ;-(");
 				Ext.MessageBox.hide();
 			}
 
