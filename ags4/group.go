@@ -9,12 +9,12 @@ import (
 	"strings"
 )
 
-// AGS Group .. ta bill ..was Node
+// AGS Group .
 type Group struct {
-	GroupCode   string    `json:"group_code"`
-	Class       string    `json:"class"`
-	Description string    `json:"description"`
-	Headings    []Heading `json:"headings"`
+	GroupCode   string    		`json:"group_code"`
+	Class       string   		 `json:"class"`
+	GroupDescription string    	`json:"group_description"`
+	Headings    []Heading		 `json:"headings"`
 	//Units    	[]string   `json:"UNIT"`
 	//Types    	[]string   `json:"TYPE"`
 	//Data [][]string `json:"data"`
@@ -132,7 +132,7 @@ func LoadGroupFromFile(file_path string) (*Group, error) {
 	g := new(Group)
 	g.GroupCode = gr.Info.GroupCode
 	g.Class = gr.Info.Class
-	g.Description = gr.Info.Description
+	g.GroupDescription = gr.Info.Description
 
 	g.Headings = make([]Heading, len(gr.Headings))
 	for i, h := range gr.Headings {

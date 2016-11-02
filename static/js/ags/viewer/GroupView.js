@@ -26,7 +26,8 @@ Ext.define('ags.viewer.GroupView' ,{
 	get_description: function(columns, store){
 
 		if(!this._desc){
-			this._desc = Ext.create("Ext.form.field.Display", {name: "description", value: "-dsadsadsa--", region:"north", sflex: 1});
+			this._desc = Ext.create("Ext.form.field.Display", {name: "description", value: "--",
+														region:"north", fieldCls: "ags_group_description"});
 		}
 		return this._desc;
 	},
@@ -61,11 +62,18 @@ Ext.define('ags.viewer.GroupView' ,{
 
 		for(var c = 0; c < headings_len; c++){
 			var h = grp.headings[c];
-			// add field def to model
-			model_fields.push( {name: h.head_code, type: "string"} );
+			var fld = {name: h.head_code, type: "string"}
+
+			if( h.data_type == "DT") {
+				fld.type = "date";
+			}
+
+
+			model_fields.push(  fld );
 
 			// col def for grid, also hide data in `geo_data`
-			var col = {header: h.head_code, dataIndex: h.head_code,
+			var col = {header: h.head_code + "<br>" + h.description + "&nbsp;" + "<br>" + h.data_type + "&nbsp;",
+						dataIndex: h.head_code,
 						sortable: true, menuDisabled: true,
 						head_code: h.head_code
 						};
@@ -80,6 +88,9 @@ Ext.define('ags.viewer.GroupView' ,{
 			var	rec = {};
 			for(var cd = 0; cd < headings_len; cd++){
 				var hhc = grp.headings[cd].head_code;
+				if(grp.headings[cd].unit == "DT"){
+					rec[hhc] = parse_ags_date(rd[hhc].value);
+				}
 				rec[hhc] = rd[hhc].value;
 			}
 			sto.add(rec);

@@ -74,7 +74,9 @@ func H_Home(resp http.ResponseWriter, request *http.Request){
 // About page TODO
 func H_About(resp http.ResponseWriter, request *http.Request){
 	c := NewContext("/about")
-	RenderTemplate(resp, request, tplAbout, c)
+	RenderTemplate(resp, request,
+
+		tplAbout, c)
 }
 
 // Widget page

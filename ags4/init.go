@@ -43,6 +43,7 @@ func InitLoad(data_dir string) {
 	if err != nil {
 		fmt.Print(err)
 		all_errors = append(all_errors, err)
+		// Group errors go here
 	}
 
 	if len(all_errors) > 0 {

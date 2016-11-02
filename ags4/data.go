@@ -45,7 +45,7 @@ func NewGroupData(grp_code string) *GroupData {
 
 	grp_def, ok := groupsMap[gdata.GroupCode]
 	if ok {
-		gdata.Description = grp_def.Description
+		gdata.Description = grp_def.GroupDescription
 		gdata.Class = grp_def.Class
 		gdata.AGSValid = true
 	}

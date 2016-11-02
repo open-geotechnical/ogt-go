@@ -5,7 +5,7 @@ package ags4
 
 import (
 	//"encoding/csv"
-	"fmt"
+	//"fmt"
 	"strings"
 	"encoding/csv"
 
@@ -35,7 +35,7 @@ func NewDocument() *Document {
 type Line struct {
 	No 		int ` json:"no"  `
 	Raw 	string  ` json:"raw"  `
-	Records []string  ` json:"records"  `
+	Columns []string  ` json:"columns"  `
 	Errors 		[]string 	` json:"errors"  `
 	Warnings 	[]string 	` json:"warnings"  `
 }
@@ -44,56 +44,69 @@ type Line struct {
 
 func (this *Document) Parse() error {
 
-	// Split raw string into Line objects
-	lines := strings.Split(this.Source, "\r")
+	// cleanup source, and split  into lines (unix style)
+	raw_lines := strings.Split( strings.Replace(this.Source, "\r", "", -1), "\n")
 
-	for idx, raw_line := range lines {
+	// parse each csv_line into a Line object
+	for idx, raw_line := range raw_lines {
 
 		line := new(Line)
 		line.No = idx + 1
 		line.Raw = strings.TrimSpace(raw_line)
+
+		// create records
 		r := csv.NewReader(strings.NewReader(line.Raw))
-		record, err := r.Read()
+		records, err := r.Read()
 		if err != nil {
-			fmt.Println("err=", idx, err)
+			//fmt.Println("err=", idx, err)
+			// TODO, error EOF is fot blank lines, to need to ignore
+			//
 			line.Errors = append(line.Errors, err.Error())
 		} else {
-			line.Records = record
+			line.Columns = records
 		}
 		this.Lines = append(this.Lines, line)
 	}
 
-	gindex := make([]string, 0, 0)
+	// Keep track of the groups "order" for serialisation
+	groups_index_list := make([]string, 0, 0)
+
+	// Map by "GROUP_CODE" to the data
+	groups_map := make(map[string]*GroupData)
+
+	// Pointer to current group
 	var grp *GroupData
-	gmap := make(map[string]*GroupData)
-	curr_group := ""
-	//data_rows := make(map[int]map[string]DataCell)
+
+	// Current active group code
+	curr_group_code := ""
+
 
 	// Walk though all the lines
 	for _, line := range this.Lines {
-		if line.Records == nil {
+
+		if line.Columns == nil {
+			// ignore a blank line
 			continue
 		}
 
-		// determine columns we need to loops
-		col_count := len(line.Records)
+		col_count := len(line.Columns)
 
-		// Record[0] is first column in the row type,
-		switch line.Records[0] {
+		// Record[0] in first column in the row type,
+		switch line.Columns[0] {
 
 		// The "GROUP","FOUR" = four character group name
 		case GROUP:
 
-			curr_group = line.Records[1]
+			curr_group_code = line.Columns[1]
 			// check group exists in map already...
 			// this should always be ok,
 			// TODO: possible errors =  double serialising groups
-			_, ok := gmap[curr_group]
+			_, ok := groups_map[curr_group_code]
 			if !ok {
 				// were now in this group
-				grp = NewGroupData(curr_group)
-				gmap[curr_group] = grp
-				gindex = append(gindex, curr_group)
+				grp = NewGroupData(curr_group_code)
+				groups_map[curr_group_code] = grp
+				groups_index_list = append(groups_index_list, curr_group_code)
 			} else {
 				// OOPS, same groupname already exists wtf ??
 				// recover with ??
@@ -102,25 +115,25 @@ func (this *Document) Parse() error {
 		// The "HEADING" is expetced after the GROUP
 		case HEADING:
 			for c := 1; c < col_count; c++ {
-				h := NewDataHeading(line.Records[c])
+				h := NewDataHeading(line.Columns[c])
 				grp.Headings = append(grp.Headings, h)
 			}
 
 		case TYPE:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].DataType = line.Records[c]
+				grp.Headings[c - 1].DataType = line.Columns[c]
 			}
 
 		case UNIT:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].Unit = line.Records[c]
+				grp.Headings[c - 1].Unit = line.Columns[c]
 			}
 
 		case DATA:
 			row := make(map[string]DataCell)
 			for c := 1; c < col_count; c++ {
 				hc := grp.Headings[c - 1].HeadCode
-				row[hc] = DataCell{Value: line.Records[c], HeadCode: hc, LineNo: line.No, ColNo: c}
+				row[hc] = DataCell{Value: line.Columns[c], HeadCode: hc, LineNo: line.No, ColNo: c}
 				// TODO validate type and accuracy eg 2dp vs 3dp
 
 			}
@@ -128,8 +141,9 @@ func (this *Document) Parse() error {
 		}
 	}
 
-	for _, g := range gindex {
-		this.Groups = append(this.Groups, gmap[g])
+	// Serialise out in correct order
+	for _, g := range groups_index_list {
+		this.Groups = append(this.Groups, groups_map[g])
 	}
 
 	/*

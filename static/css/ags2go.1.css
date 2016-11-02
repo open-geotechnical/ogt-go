@@ -7,16 +7,28 @@
 	font-size: 11pt;
 }
 
+.jumbotron h1 {
+	color: #444444;
+	font-size: 22pt;
+	font-family: monospace;
+}
+
+.ags_group_description {
+	font-size: 11pt;
+	padding: 4px;
+}
+
 .ags_group_row {
-	background-color: #FFFBAC;
+	background-color: #FFFBAC !important;
 	border-top: 1px solid #444444;
 }
 .ags_group_header {
 	background-color: #FFFDD7 !important;
 }
 .ags_group_data {
-	background-color: #DCFFA0 !important;
+	background-color: #F2FFDA !important;
 }
+
 
 
 

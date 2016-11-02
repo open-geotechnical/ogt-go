@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+const (
+	UPSTREAM_ABBREVS_CVS = "http://www.agsdataformat.com/datatransferv4/abbr.csv"
+)
+
+
+
 var abbrevsMap map[string]*Abbrev
 
 func init() {
