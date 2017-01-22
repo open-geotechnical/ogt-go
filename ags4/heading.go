@@ -10,12 +10,12 @@ import (
 type Heading struct {
 	HeadCode    string       ` json:"head_code" `
 	HeadDescription string   ` json:"head_description" `
-	DataType    string       ` json:"data_type" `
-	Unit        string       ` json:"unit" `
+	SuggestedType    string       ` json:"suggested_type" `
+	SuggestedUnit   string       ` json:"suggested_unit" `
 	Example     string       ` json:"example" `
 	RevDate     string       ` json:"rev_date" `
-	Sort        int          ` json:"sort" `
-	Status      string       ` json:"status" `
+	SortOrder   int          ` json:"sort_order" `
+	Status      string       ` json:"head_status" `
 	//Picklist    []AbbrevItem ` json:"picklist" `
 }
 

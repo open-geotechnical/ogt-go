@@ -21,12 +21,12 @@ Ext.define('ags.abbrev.AbbrevsStore', {
 			autoLoad: true,
 			proxy: {
 				type: 'ajax',
-				url: "/ajax/ags/4/abbrevs.json",
+				url: "/ajax/ags4/abbreviations.json",
 				reader: {
 					type: 'json',
 					root: "abbreviations",
-					idProperty: 'code',
-					sstotalProperty: 'code_count'
+					idProperty: 'head_code',
+					totalProperty: 'abbreviations_count'
 				}
 			}
 		});

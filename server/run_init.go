@@ -33,20 +33,18 @@ func Start(address_port string) {
 	router.HandleFunc("/ajax/ags/4/units.{ext}", AX_Units)
 	router.HandleFunc("/ajax/ags/4/units", AX_Units)
 
-	router.HandleFunc("/ajax/ags/4/abbreviations.{ext}",AX_Abbrevs)
-	router.HandleFunc("/ajax/ags/4/abbreviations", AX_Abbrevs)
-	router.HandleFunc("/ajax/ags/4/abbrevs.{ext}",AX_Abbrevs)
-	router.HandleFunc("/ajax/ags/4/abbrevs", AX_Abbrevs)
+	router.HandleFunc("/ajax/ags/4/abbreviations.{ext}",AX_Abbrs)
+	router.HandleFunc("/ajax/ags/4/abbreviations", AX_Abbrs)
 
-	router.HandleFunc("/ajax/ags/4/abbrev/{head_code}.{ext}",AX_Abbrev)
-	router.HandleFunc("/ajax/ags/4/abbrev/{head_code}", AX_Abbrev)
+	router.HandleFunc("/ajax/ags4/abbr/{head_code}.{ext}",AX_Abbr)
+	router.HandleFunc("/ajax/ags4/abbr/{head_code}", AX_Abbr)
 
 
 	router.HandleFunc("/ajax/ags4/groups.{ext}",AX_Groups)
 	router.HandleFunc("/ajax/ags4/groups", AX_Groups)
 
-	router.HandleFunc("/ajax/ags/4/group/{group_code}.{ext}",AX_Group)
-	router.HandleFunc("/ajax/ags/4/group/{group_code}", AX_Group)
+	router.HandleFunc("/ajax/ags4/group/{group_code}.{ext}",AX_Group)
+	router.HandleFunc("/ajax/ags4/group/{group_code}", AX_Group)
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

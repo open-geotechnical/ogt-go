@@ -26,7 +26,7 @@ Ext.define('ags.group.HeadingsStore', {
 					type: 'json',
 					root: "group.headings",
 					idProperty: 'head_code',
-					sstotalProperty: 'code_count'
+					totalProperty: 'headings_count'
 				}
 			}
 		});

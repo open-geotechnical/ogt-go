@@ -9,10 +9,9 @@ import (
 	"flag"
 	//"strings"
 
-	"github.com/open-geotechnical/ogt-ags-go/server"
 	"github.com/open-geotechnical/ogt-ags-go/ags4"
+	"github.com/open-geotechnical/ogt-ags-go/server"
 )
-
 
 func main() {
 
@@ -29,4 +28,3 @@ func main() {
 	}
 
 }
-

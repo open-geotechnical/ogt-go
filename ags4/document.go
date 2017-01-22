@@ -11,19 +11,15 @@ import (
 
 )
 
-// The Ags4Doc represents the data structure
+// The `Documen`t represents the data structure
 // for an ags file
-// The "struct should be
-// cool and funky and serialiabled into json, yaml and AGS
-// <NO xml.hell please ie no arrays said bill>
 //
-
 type Document struct {
-	FileName string  	` json:"file_name"  `
-	Source string   	` json:"source"  `
+	FileName string  	 ` json:"file_name"  `
+	Source string   	 ` json:"source"  `
 	Lines []*Line 		 ` json:"lines"  `
-	//GroupsIndex map[string]*GroupData ` groups:"-"  `
-	Groups []*GroupData ` json:"groups"  `
+	GroupsIndex []string ` json:"groups_index" `
+	Groups []*GroupData  ` json:"groups"  `
 }
 
 func NewDocument() *Document {
@@ -39,7 +35,6 @@ type Line struct {
 	Errors 		[]string 	` json:"errors"  `
 	Warnings 	[]string 	` json:"warnings"  `
 }
-
 
 
 func (this *Document) Parse() error {
@@ -101,8 +96,8 @@ func (this *Document) Parse() error {
 			// check group exists in map already...
 			// this should always be ok,
 			// TODO: possible errors =  double serialising groups
-			_, ok := groups_map[curr_group_code]
-			if !ok {
+			_, found := groups_map[curr_group_code]
+			if !found {
 				// were now in this group
 				grp = NewGroupData(curr_group_code)
 				groups_map[curr_group_code] = grp
@@ -112,7 +107,7 @@ func (this *Document) Parse() error {
 				// recover with ??
 			}
 
-		// The "HEADING" is expetced after the GROUP
+		// The "HEADING" is expected immedeately after the GROUP
 		case HEADING:
 			for c := 1; c < col_count; c++ {
 				h := NewDataHeading(line.Columns[c])
@@ -121,12 +116,12 @@ func (this *Document) Parse() error {
 
 		case TYPE:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].DataType = line.Columns[c]
+				grp.Headings[c - 1].SuggestedType = line.Columns[c]
 			}
 
 		case UNIT:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].Unit = line.Columns[c]
+				grp.Headings[c - 1].SuggestedUnit = line.Columns[c]
 			}
 
 		case DATA:

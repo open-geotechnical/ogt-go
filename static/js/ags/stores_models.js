@@ -35,8 +35,8 @@ Ext.define('ags.model.Heading', {
     fields: [
 		'head_code',
 		'head_description',
-		'data_type',
-		'unit',
+		'suggested_type',
+		'suggested_unit',
 		'example',
 		'status',
 		'sort',

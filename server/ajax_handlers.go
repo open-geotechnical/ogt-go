@@ -12,21 +12,7 @@ import (
 	"github.com/open-geotechnical/ogt-ags-go/ags4"
 )
 
-/* WTF ???? said pedro
-SupportedFormatsMaps  := map[string]string{
-	"json":	"application/json",
-	"js":	"application/json",
-	"yaml":	"text/yaml",
-	"txt":	"text/plain",
-	"ags4":	"text/plain???",
-}
-*/
-
-// SendAjaxPayload is the function that sends the http reply
-// machine encoded `payload` formatted,  ie a serialiser
-// html should not hit here, but otherwise expected is
-// a reply with the "bites" in the particular machine readable format
-// and correct mime type etc eg json, yaml and xml.hell in m$.excel
+// SendAjaxPayload writes payload to the response in requested format
 func SendAjaxPayload(resp http.ResponseWriter, request *http.Request, payload interface{}) {
 
 	// pretty returns indents data and readable (notably json) is ?pretty=1 in url
@@ -118,18 +104,18 @@ func AX_Info(resp http.ResponseWriter, req *http.Request) {
 	SendAjaxPayload(resp, req, payload)
 }
 
-type AbbrevsPayload struct {
+type AbbrsPayload struct {
 	Success bool           ` json:"success" `
-	Abbrevs []*ags4.Abbr ` json:"abbreviations" `
+	Abbrs []*ags4.Abbr ` json:"abbreviations" `
 }
 
-// handles /ags/4/groups.
-func AX_Abbrevs(resp http.ResponseWriter, req *http.Request) {
+// handles /ags4/abbreviations
+func AX_Abbrs(resp http.ResponseWriter, req *http.Request) {
 
 	var e error
-	payload := new(AbbrevsPayload)
+	payload := new(AbbrsPayload)
 	payload.Success = true
-	payload.Abbrevs, e = ags4.GetAbbrevs()
+	payload.Abbrs, e = ags4.GetAbbrs()
 	if e != nil {
 		SendAjaxError(resp, req, e)
 		return
@@ -137,12 +123,36 @@ func AX_Abbrevs(resp http.ResponseWriter, req *http.Request) {
 	SendAjaxPayload(resp, req, payload)
 }
 
+
+type AbbrPayload struct {
+	Success bool         ` json:"success" `
+	Found   bool         ` json:"found" `
+	Abbr  *ags4.Abbr     ` json:"abbreviation" `
+}
+
+// handles /ajax/ags4/abbr/<head_code>*
+func AX_Abbr(resp http.ResponseWriter, req *http.Request) {
+
+	vars := mux.Vars(req)
+	abbr, found, err := ags4.GetAbbr(vars["head_code"])
+	if err != nil {
+		SendAjaxError(resp, req, err)
+		return
+	}
+	payload := new(AbbrPayload)
+	payload.Success = true
+	payload.Found = found
+	payload.Abbr = abbr
+	SendAjaxPayload(resp, req, payload)
+}
+
 type GroupsPayload struct {
 	Success bool          ` json:"success" `
 	Groups  []*ags4.Group ` json:"groups" `
+	GroupsCount  int      ` json:"groups_count" `
 }
 
-// handles /ags/4/groups.
+// handles /ags4/groups
 func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 
 	var e error
@@ -153,37 +163,18 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 		SendAjaxError(resp, req, e)
 		return
 	}
+	payload.GroupsCount = len(payload.Groups)
+
 	SendAjaxPayload(resp, req, payload)
 }
 
-type AbbrevPayload struct {
-	Success bool         ` json:"success" `
-	Found   bool         ` json:"found" `
-	Abbrev  *ags4.Abbr   ` json:"abbreviation" `
-}
-
-// handles /ags/4/units.*
-func AX_Abbrev(resp http.ResponseWriter, req *http.Request) {
-
-	vars := mux.Vars(req)
-	abbr, found, err := ags4.GetAbbrev(vars["head_code"])
-	if err != nil {
-		SendAjaxError(resp, req, err)
-		return
-	}
-	payload := new(AbbrevPayload)
-	payload.Success = true
-	payload.Found = found
-	payload.Abbrev = abbr
-	SendAjaxPayload(resp, req, payload)
-}
 
 type GroupPayload struct {
 	Success bool        ` json:"success" `
 	Group   *ags4.Group ` json:"group" `
 }
 
-// handles /ags/4/units.*
+// handles /ajax/ags4/group
 func AX_Group(resp http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
@@ -195,6 +186,7 @@ func AX_Group(resp http.ResponseWriter, req *http.Request) {
 	payload := new(GroupPayload)
 	payload.Success = true
 	payload.Group = grp
+
 	SendAjaxPayload(resp, req, payload)
 }
 

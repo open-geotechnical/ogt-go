@@ -26,7 +26,7 @@ Ext.define('ags.group.GroupsStore', {
 					type: 'json',
 					root: "groups",
 					idProperty: 'group_code',
-					sstotalProperty: 'code_count'
+					totalProperty: 'groups_count'
 				}
 			}
 		});
