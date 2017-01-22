@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"gopkg.in/yaml.v2"
 
-	"bitbucket.org/daf0dil/ags2go/ags4"
+	"github.com/open-geotechnical/ogt-ags-go/ags4"
 )
 
 /* WTF ???? said pedro
@@ -120,7 +120,7 @@ func AX_Info(resp http.ResponseWriter, req *http.Request) {
 
 type AbbrevsPayload struct {
 	Success bool           ` json:"success" `
-	Abbrevs []*ags4.Abbrev ` json:"abbreviations" `
+	Abbrevs []*ags4.Abbr ` json:"abbreviations" `
 }
 
 // handles /ags/4/groups.
@@ -159,7 +159,7 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 type AbbrevPayload struct {
 	Success bool         ` json:"success" `
 	Found   bool         ` json:"found" `
-	Abbrev  *ags4.Abbrev ` json:"abbreviation" `
+	Abbrev  *ags4.Abbr   ` json:"abbreviation" `
 }
 
 // handles /ags/4/units.*

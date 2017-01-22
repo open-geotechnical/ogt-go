@@ -7,14 +7,7 @@ import (
 	"io/ioutil"
 )
 
-// Units are defined by AGS4 spec Rule #8
-// Example Usage in an ags4 file
-//
-//	"GROUP","HORN"
-//	"HEADING","LOCA_ID","HORN_TOP","HORN_BASE","HORN_ORNT","HORN_INCL","HORN_REM","FILE_FSET"
-//	"UNIT","","m","m","deg","deg","",""
-//	"TYPE","ID","2DP","2DP","0DP","0DP","X","X"
-//
+// Represent and AGS unit and its description.. (later value added ogt utf8 symbols)
 type Unit struct {
 
 	// eg DegC, kN/m2  (latin remember)

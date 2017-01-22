@@ -1,4 +1,4 @@
 
-// Package `ags4` handles serialisation and (later) validation of ags4 formatted text files
+// Package `ags4` handles transformation and (later validation) of ags4 formatted text.multi.csv files
 package ags4
 

@@ -3,7 +3,7 @@ package ags4
 import (
 	"encoding/json"
 	"errors"
-	//"fmt"
+	"fmt"
 	"io/ioutil"
 	"sort"
 	"strings"
@@ -14,41 +14,45 @@ type Group struct {
 	GroupCode   string    		`json:"group_code"`
 	Class       string   		 `json:"class"`
 	GroupDescription string    	`json:"group_description"`
+
+	Parent string       `json:"parent"`
+	Child string  `json:"child"`
+
 	Headings    []Heading		 `json:"headings"`
-	//Units    	[]string   `json:"UNIT"`
-	//Types    	[]string   `json:"TYPE"`
-	//Data [][]string `json:"data"`
+	Notes    []string		 `json:"notes"`
 }
 
 
-// Memory cache for groups
+// Memory cache for classes and a filter
 var Classes []string
 
-// Memory cache for groups
 
-var groupsMap map[string]*Group
+// Memory cache for groups is in a map
+var GroupsMap map[string]*Group
 
 func init() {
-	groupsMap = make(map[string]*Group)
 	Classes = make([]string, 0, 0)
+	GroupsMap = make(map[string]*Group)
+
 }
 
 func GetGroups() ([]*Group, error) {
 
 	var keys []string
-	for k := range groupsMap {
+	for k := range GroupsMap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 	groups := make([]*Group, 0, 0)
 	for _, k := range keys {
 		//fmt.Println("Key:", k, "Value:", m[k])
-		groups = append(groups, groupsMap[k])
+		groups = append(groups, GroupsMap[k])
 	}
 
 	return groups, nil
 }
 
+// Returns the group if found,
 func GetGroup(group_code string) (*Group, error) {
 
 	group_code = strings.TrimSpace(group_code)
@@ -56,7 +60,7 @@ func GetGroup(group_code string) (*Group, error) {
 		return nil, errors.New("Need four letter group code")
 	}
 	group_code = strings.ToUpper(group_code)
-	grp, ok := groupsMap[group_code]
+	grp, ok := GroupsMap[group_code]
 	if ok {
 		return grp, nil
 	}
@@ -64,6 +68,7 @@ func GetGroup(group_code string) (*Group, error) {
 }
 
 // load groups.json file to mem
+/*
 func LoadGroupsFromDir(groups_dir string) error {
 
 	files, err := ioutil.ReadDir(groups_dir)
@@ -84,18 +89,10 @@ func LoadGroupsFromDir(groups_dir string) error {
 	//fmt.Println(groupsMap)
 	return nil
 }
+*/
 
-// Used to parse groups.json
-type DEADgroupsReaderIndex struct {
-	Meta []groupReaderInfo ` json:"meta" `
-}
 
-// Reader for group file (`groups/CODE.json`)
-type groupFileReader struct {
-	Info     groupReaderInfo      ` json:"info" `
-	Notes    groupNotesReader     ` json:"notes" `
-	Headings []groupHeadingReader ` json:"headings" `
-}
+
 
 type groupReaderInfo struct {
 	GroupCode   string `json:"GROUP"`
@@ -117,38 +114,29 @@ type groupNotesReader struct {
 	List []string ` json:"list" `
 }
 
-func LoadGroupFromFile(file_path string) (*Group, error) {
+// Reader for group file (`groups/CODE.json`)
+type groupsFileReader struct {
+	groupReaderInfo      ` json:"info" `
+	Notes    groupNotesReader     ` json:"notes" `
+	Headings []groupHeadingReader ` json:"headings" `
+}
+
+func LoadGroupsFromFile(file_path string)  error {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	var gr groupFileReader
-	err = json.Unmarshal(bites, &gr)
+	var grps map[string]*Group
+	err = json.Unmarshal(bites, &grps)
 	if err != nil {
-		return nil, err
+		fmt.Println("errorf from json",  file_path, err)
+		return err
 	}
+	fmt.Println("groups read from json",  file_path)
+	// So this is the dynamic update
+	// need mutex here
+	GroupsMap = grps
 
-	g := new(Group)
-	g.GroupCode = gr.Info.GroupCode
-	g.Class = gr.Info.Class
-	g.GroupDescription = gr.Info.Description
-
-	g.Headings = make([]Heading, len(gr.Headings))
-	for i, h := range gr.Headings {
-		hh := Heading{HeadCode: h.HeadCode, Description: h.Description,
-			DataType: h.DataType, Unit: h.Unit, Status: h.Status,
-			RevDate: h.RevDate, Sort: h.Sort, Example: h.Example}
-
-		abbrs, found, erra := GetAbbrev(hh.HeadCode)
-		if erra != nil {
-			//fmt.Println("abbr not founc", hh.HeadCode, erra)
-		} else if found == true  {
-			hh.Picklist = abbrs.Items
-		}
-
-		g.Headings[i] = hh
-	}
-	//g.Index =
-	return g, nil
+	return nil
 }

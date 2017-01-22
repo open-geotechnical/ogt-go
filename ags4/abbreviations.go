@@ -9,17 +9,11 @@ import (
 	"strings"
 )
 
-const (
-	UPSTREAM_ABBREVS_CVS = "http://www.agsdataformat.com/datatransferv4/abbr.csv"
-)
-
-
-
-var abbrevsMap map[string]*Abbrev
+// this is a lookup for autocomplete etc
+var abbrsMap map[string]*Abbr
 
 func init() {
-	abbrevsMap = make(map[string]*Abbrev)
-	//Classes = make([]string, 0, 0)
+	abbrsMap = make(map[string]*Abbr)
 }
 
 type AbbrevItem struct {
@@ -30,74 +24,38 @@ type AbbrevItem struct {
 	Status      string ` json:"status" `
 }
 
-//
-type Abbrev struct {
+// An AGS abbreviation
+type Abbr struct {
 	HeadCode    string       ` json:"head_code" `
 	Description string       ` json:"description" `
 	Items       []AbbrevItem ` json:"items" `
 }
 
-func GetAbbrevs() ([]*Abbrev, error) {
+func GetAbbrevs() ([]*Abbr, error) {
 
 	var keys []string
-	for k := range abbrevsMap {
+	for k := range abbrsMap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
-	abbrevs := make([]*Abbrev, 0, 0)
+	abbrevs := make([]*Abbr, 0, 0)
 	for _, k := range keys {
 		//fmt.Println("Key:", k, "Value:", m[k])
-		abbrevs = append(abbrevs, abbrevsMap[k])
+		abbrevs = append(abbrevs, abbrsMap[k])
 	}
 	return abbrevs, nil
 }
 
-func GetAbbrev(heading_code string) (*Abbrev, bool, error) {
+func GetAbbrev(heading_code string) (*Abbr, bool, error) {
 	heading_code = strings.TrimSpace(heading_code)
 	if len(heading_code) < 6 {
 		return nil, false, errors.New("Heading code too short")
 	}
-	ab, found := abbrevsMap[heading_code]
+	ab, found := abbrsMap[heading_code]
 	return ab, found, nil
 }
 
-/*
-func DEADGetPicklist( heading_code string) ([]AbbrevItem, error) {
-	heading_code = strings.TrimSpace(heading_code)
-	if len(heading_code) < 6 {
-		return nil, errors.New("Heading code too short")
-	}
-	ab, ok := abbrevsMap[heading_code]
-	if !ok {
-		return nil, errors.New("Heading code '" + heading_code + "' not found")
-	}
 
-	return ab.Items, nil
-}
-*/
-
-// load groups.json file to mem
-func LoadAbbrevsFromDir() error {
-
-	//dir := DataDir + "/abbrev/"
-	files, err := ioutil.ReadDir(abbrevsDir)
-	if err != nil {
-		return err
-	}
-
-	for _, f := range files {
-		//fmt.Println("f=", f.Name())
-		abr, errg := LoadAbbrevFromFile(f.Name())
-		if errg != nil {
-			//fmt.Println("err=", abr, errg)
-		} else {
-			//fmt.Println("ok=", abr.Heading)
-			abbrevsMap[abr.HeadCode] = abr
-		}
-	}
-	//fmt.Println(abbrevsMap)
-	return nil
-}
 
 type abbrevReader struct {
 	Info  abbrevInfoReader   ` json:"info" `
@@ -118,20 +76,19 @@ type abbrevItemReader struct {
 }
 
 //
-func LoadAbbrevFromFile(file_name string) (*Abbrev, error) {
+func LoadAbbreviationsFromFile() (error) {
 
-	file_path := abbrevsDir + "/" + file_name
-	bites, err := ioutil.ReadFile(file_path)
+	bites, err := ioutil.ReadFile(abbrsFile)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	var r abbrevReader
 	err = json.Unmarshal(bites, &r)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	a := new(Abbrev)
+	a := new(Abbr)
 	a.HeadCode = r.Info.Group
 	//a.Class = r.Info.Class
 	a.Description = r.Info.Heading
@@ -143,5 +100,5 @@ func LoadAbbrevFromFile(file_name string) (*Abbrev, error) {
 		a.Items[i] = aa
 	}
 	//g.Index =
-	return a, nil
+	return nil
 }

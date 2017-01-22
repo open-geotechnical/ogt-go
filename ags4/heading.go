@@ -9,14 +9,14 @@ import (
 
 type Heading struct {
 	HeadCode    string       ` json:"head_code" `
-	Description string       ` json:"description" `
+	HeadDescription string   ` json:"head_description" `
 	DataType    string       ` json:"data_type" `
 	Unit        string       ` json:"unit" `
 	Example     string       ` json:"example" `
 	RevDate     string       ` json:"rev_date" `
 	Sort        int          ` json:"sort" `
 	Status      string       ` json:"status" `
-	Picklist    []AbbrevItem ` json:"picklist" `
+	//Picklist    []AbbrevItem ` json:"picklist" `
 }
 
 

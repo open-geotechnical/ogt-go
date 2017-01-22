@@ -1,10 +1,9 @@
-ags2go
-=======
+ogt-ags-go
+===================
 
 The AGS file format is a data exchange format
 used extensively used in GeoTechnical engineering.
 
-THIS IS R&D..dd
-
-its in golang, please have fun..
+This is R&D with ags4 data format
+in golang, please have fun..
 

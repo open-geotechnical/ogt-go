@@ -33,17 +33,13 @@ type DataCell struct {
 	ColNo int  	` json:"col_no" `
 }
 
-//type DataRow struct {
-//	Row
-//}
-
 func NewGroupData(grp_code string) *GroupData {
 
 	gdata := new(GroupData)
 	gdata.GroupCode = grp_code
 	gdata.Headings = make([]DataHeading, 0, 0)
 
-	grp_def, ok := groupsMap[gdata.GroupCode]
+	grp_def, ok := GroupsMap[gdata.GroupCode]
 	if ok {
 		gdata.Description = grp_def.GroupDescription
 		gdata.Class = grp_def.Class
@@ -59,13 +55,13 @@ func NewDataHeading(head_code string) DataHeading {
 	//h.Data = make([]DataCell, 0)
 
 	parts := strings.Split(head_code, "_")
-	grp, gok := groupsMap[parts[0]]
+	grp, gok := GroupsMap[parts[0]]
 	if gok {
 		for _, hd := range grp.Headings {
 			if hd.HeadCode == head_code {
 				h.AGSValid = true
-				h.Description = hd.Description
-				h.Picklist = hd.Picklist
+				//h.Description = hd.Description
+				//h.Picklist = hd.Picklist
 				return h
 			}
 		}
