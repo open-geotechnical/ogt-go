@@ -22,66 +22,66 @@ type Group struct {
 	Notes    []string		 `json:"notes"`
 }
 
+func init() {
+	Classes = make([]string, 0, 0)
+	GroupsMap = make(map[string]*Group)
+}
 
 // Memory cache for classes and a filter
 var Classes []string
 
-
-// Memory cache for groups is in a map
+// Memory cache for the groups is a map offour char  group_code
 var GroupsMap map[string]*Group
 
-func init() {
-	Classes = make([]string, 0, 0)
-	GroupsMap = make(map[string]*Group)
 
-}
 
+// Returns the ags4 groups sorted in a list/array
 func GetGroups() ([]*Group, error) {
-
+	// first get key from map and sort
 	var keys []string
 	for k := range GroupsMap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
+
+	// construct list to return
 	groups := make([]*Group, 0, 0)
 	for _, k := range keys {
-		//fmt.Println("Key:", k, "Value:", m[k])
 		groups = append(groups, GroupsMap[k])
 	}
 
 	return groups, nil
 }
 
-// Returns the group if found,
+// Returns the ags4 Group definition if found,
 func GetGroup(group_code string) (*Group, error) {
 
-	group_code = strings.TrimSpace(group_code)
+	// validate group_code
+	group_code = strings.ToUpper(strings.TrimSpace(group_code))
+	// TODO maybe a regex to ensure its 4 chars and upper case...maybe
 	if len(group_code) != 4 {
-		return nil, errors.New("Need four character group code")
+		return nil, errors.New("Need four character  `group_code` ")
 	}
-	group_code = strings.ToUpper(group_code)
-	grp, ok := GroupsMap[group_code]
-	if ok {
+
+	grp, found := GroupsMap[group_code]
+	if found {
 		return grp, nil
 	}
-	return nil, errors.New("Group '" + group_code + "' not found")
+	return nil, errors.New("Group code '" + group_code + "' not found")
 }
 
-// Loads the groups.json file and bangs it into memory..
+// Loads the ags4 groups.json file from json into memory
 func LoadGroupsFromFile(file_path string)  error {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {
 		return err
 	}
+
 	// need mutex here
 	err = json.Unmarshal(bites, &GroupsMap)
 	if err != nil {
-		fmt.Println("errorf from json",  file_path, err)
 		return err
 	}
-	fmt.Println("groups read from file ",  file_path)
-
-
 	return nil
 }

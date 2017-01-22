@@ -7,3 +7,4 @@ used extensively used in GeoTechnical engineering.
 This is R&D with ags4 data format
 in golang, please have fun..
 
+[![GoDoc](https://godoc.org/github.com/open-geotechnical/ogt-ags-go?status.svg)](https://godoc.org/github.com/open-geotechnical/ogt-ags-go)
