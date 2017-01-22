@@ -22,9 +22,9 @@ func main() {
 	//ags_data_dict := flag.String("ags_data_dict", "/ome/ags/workspace", "Path to `ags_data_dict` dir")
 	ags_data_dict := flag.String("ags_data_dict", "c:\\z_pete_stuff\\src\\bitbucket.org\\daffodil\\ags-data-dict", "Path to `ags_data_dict` dir")
 
-	ags4.InitLoad(*ags_data_dict)
+	go ags4.InitLoad(*ags_data_dict)
 
-	if false {
+	if true {
 		server.Start(*listen)
 	}
 

@@ -93,7 +93,7 @@ func LoadGroupsFromDir(groups_dir string) error {
 
 
 
-
+/*
 type groupReaderInfo struct {
 	GroupCode   string `json:"GROUP"`
 	Class       string `json:"class"`       // ignored as in group file
@@ -113,14 +113,15 @@ type groupHeadingReader struct {
 type groupNotesReader struct {
 	List []string ` json:"list" `
 }
-
+*/
 // Reader for group file (`groups/CODE.json`)
+/*
 type groupsFileReader struct {
 	groupReaderInfo      ` json:"info" `
 	Notes    groupNotesReader     ` json:"notes" `
 	Headings []groupHeadingReader ` json:"headings" `
 }
-
+*/
 func LoadGroupsFromFile(file_path string)  error {
 
 	bites, err := ioutil.ReadFile(file_path)

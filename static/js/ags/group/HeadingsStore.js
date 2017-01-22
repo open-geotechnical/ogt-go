@@ -21,7 +21,7 @@ Ext.define('ags.group.HeadingsStore', {
 			autoLoad: false,
 			proxy: {
 				type: 'ajax',
-				url: "/ajax/ags/4/null",
+				url: "/ajax/ags4/null",
 				reader: {
 					type: 'json',
 					root: "group.headings",

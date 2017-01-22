@@ -42,8 +42,8 @@ func Start(address_port string) {
 	router.HandleFunc("/ajax/ags/4/abbrev/{head_code}", AX_Abbrev)
 
 
-	router.HandleFunc("/ajax/ags/4/groups.{ext}",AX_Groups)
-	router.HandleFunc("/ajax/ags/4/groups", AX_Groups)
+	router.HandleFunc("/ajax/ags4/groups.{ext}",AX_Groups)
+	router.HandleFunc("/ajax/ags4/groups", AX_Groups)
 
 	router.HandleFunc("/ajax/ags/4/group/{group_code}.{ext}",AX_Group)
 	router.HandleFunc("/ajax/ags/4/group/{group_code}", AX_Group)

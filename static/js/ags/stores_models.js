@@ -23,8 +23,10 @@ Ext.define('ags.model.Group', {
     extend: 'Ext.data.Model',
     fields: [
 		'group_code',
-		'description',
-		'class'
+		'group_description',
+		'class',
+		'parent',
+		'child'
 	]
 });
 
@@ -32,7 +34,7 @@ Ext.define('ags.model.Heading', {
     extend: 'Ext.data.Model',
     fields: [
 		'head_code',
-		'description',
+		'head_description',
 		'data_type',
 		'unit',
 		'example',
