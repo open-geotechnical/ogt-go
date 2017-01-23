@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"sort"
 	"strings"
+	"sync"
 )
 
 func init() {
@@ -30,7 +31,7 @@ type AbbrItem struct {
 // Represents an abbreviation picklist for the headcode, type PA
 type Abbr struct {
 	HeadCode    string       ` json:"head_code" `
-	Items       []AbbrItem   ` json:"abbreviations" `
+	Items       []AbbrItem   ` json:"abbrs" `
 }
 
 // Returns a list sorted
@@ -73,10 +74,13 @@ func LoadAbbrsFromFile(file_path string) (error) {
 	if err != nil {
 		return err
 	}
-    // TODO mutex
-	err = json.Unmarshal(bites, &AbbrsMap)
+	abbrsMap  := make(map[string]*Abbr)
+	err = json.Unmarshal(bites, &abbrsMap)
 	if err != nil {
 		return err
 	}
+	var mutex = &sync.Mutex{}
+	mutex.Lock()
+	AbbrsMap = abbrsMap
 	return nil
 }

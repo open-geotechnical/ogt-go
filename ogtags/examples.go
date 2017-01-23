@@ -19,3 +19,13 @@ func GetExamples()([]string, error){
 
 	return lst, nil
 }
+
+
+
+func ParseExample(ex_file string) (*Document, error){
+
+	file_path := examplesDir + "/" + ex_file
+
+	return NewDocumentFromFile(file_path)
+
+}

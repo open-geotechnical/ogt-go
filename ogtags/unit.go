@@ -16,8 +16,8 @@ type Unit struct {
 	// eg kiloNewtons per square metre (latin)
 	Description string 	` json:"description"  `
 
-	// This is daffo special with a proper with UTF-8 symbol (breaks spec)
-	//Symbol string 	` json:"symbol" db:"symbol" `
+	// This is idea with an UTF-8 symbol (breaks spec)
+	//Symbol string 	` json:"symbol" `
 }
 
 // The memory cache variable loaded at startup (and relodable ?? )

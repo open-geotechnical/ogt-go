@@ -135,7 +135,7 @@ func (doc *Document) Parse() error {
 
 		case TYPE:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].DType = line.Columns[c]
+				grp.Headings[c - 1].DataType = line.Columns[c]
 			}
 
 		case UNIT:

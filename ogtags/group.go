@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"sort"
 	"strings"
+	"sync"
 )
 
 type Group struct {
@@ -78,10 +79,16 @@ func LoadGroupsFromFile(file_path string)  error {
 	}
 
 	// need mutex here
-	err = json.Unmarshal(bites, &GroupsMap)
+	groupsMap := make(map[string]*Group)
+	err = json.Unmarshal(bites, &groupsMap)
 	if err != nil {
 		return err
 	}
+
+	var mutex = &sync.Mutex{}
+	mutex.Lock()
+	GroupsMap = groupsMap
+	mutex.Unlock()
 	// TODO classes
 	//for code, grp := range GroupsMap {
 
