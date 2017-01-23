@@ -15,7 +15,7 @@ import (
 	"flag"
 	//"strings"
 
-	"github.com/open-geotechnical/ogt-ags-go/ags4"
+	"github.com/open-geotechnical/ogt-ags-go/ogtags"
 	"github.com/open-geotechnical/ogt-ags-go/server"
 )
 
@@ -32,9 +32,9 @@ func main() {
 	//ags_data_dict := flag.String("ags_data_dict", "/ome/ags/workspace", "Path to `ags_data_dict` dir")
 	ags_data_dict := flag.String("ags_data_dict", "c:\\z_pete_stuff\\src\\bitbucket.org\\daffodil\\ags-data-dict", "Path to `ags_data_dict` dir")
 
-	// Launch and initialise the ags4 stores
-	// with validator on cmd.. then ummm ???
-	go ags4.InitLoad(*ags_data_dict)
+	// Launch and initialise the data stores
+	// with validator on cmd.
+	ogtags.InitLoad(*ags_data_dict)
 
 	// TODO make server a flag, for now its on for fun
 	if true {

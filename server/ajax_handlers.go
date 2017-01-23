@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"gopkg.in/yaml.v2"
 
-	"github.com/open-geotechnical/ogt-ags-go/ags4"
+	"github.com/open-geotechnical/ogt-ags-go/ogtags"
 )
 
 // SendAjaxPayload writes payload to the response in requested format
@@ -73,7 +73,7 @@ func SendAjaxError(resp http.ResponseWriter, request *http.Request, err error) {
 
 type UnitsPayload struct {
 	Success bool        ` json:"success" `
-	Units   []ags4.Unit ` json:"units" `
+	Units   []ogtags.Unit ` json:"units" `
 }
 
 // handles /ags/4/units.*
@@ -81,7 +81,7 @@ func AX_Units(resp http.ResponseWriter, req *http.Request) {
 
 	payload := new(UnitsPayload)
 	payload.Success = true
-	payload.Units = ags4.Units
+	payload.Units = ogtags.Units
 
 	SendAjaxPayload(resp, req, payload)
 }
@@ -106,7 +106,7 @@ func AX_Info(resp http.ResponseWriter, req *http.Request) {
 
 type AbbrsPayload struct {
 	Success bool           ` json:"success" `
-	Abbrs []*ags4.Abbr ` json:"abbreviations" `
+	Abbrs []*ogtags.Abbr ` json:"abbrs" `
 }
 
 // handles /ags4/abbreviations
@@ -115,7 +115,7 @@ func AX_Abbrs(resp http.ResponseWriter, req *http.Request) {
 	var e error
 	payload := new(AbbrsPayload)
 	payload.Success = true
-	payload.Abbrs, e = ags4.GetAbbrs()
+	payload.Abbrs, e = ogtags.GetAbbrs()
 	if e != nil {
 		SendAjaxError(resp, req, e)
 		return
@@ -127,14 +127,14 @@ func AX_Abbrs(resp http.ResponseWriter, req *http.Request) {
 type AbbrPayload struct {
 	Success bool         ` json:"success" `
 	Found   bool         ` json:"found" `
-	Abbr  *ags4.Abbr     ` json:"abbreviation" `
+	Abbr  *ogtags.Abbr   ` json:"abbr" `
 }
 
 // handles /ajax/ags4/abbr/<head_code>*
 func AX_Abbr(resp http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
-	abbr, found, err := ags4.GetAbbr(vars["head_code"])
+	abbr, found, err := ogtags.GetAbbr(vars["head_code"])
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return
@@ -148,7 +148,7 @@ func AX_Abbr(resp http.ResponseWriter, req *http.Request) {
 
 type GroupsPayload struct {
 	Success bool          ` json:"success" `
-	Groups  []*ags4.Group ` json:"groups" `
+	Groups  []*ogtags.Group ` json:"groups" `
 	GroupsCount  int      ` json:"groups_count" `
 }
 
@@ -158,7 +158,7 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 	var e error
 	payload := new(GroupsPayload)
 	payload.Success = true
-	payload.Groups, e = ags4.GetGroups()
+	payload.Groups, e = ogtags.GetGroups()
 	if e != nil {
 		SendAjaxError(resp, req, e)
 		return
@@ -171,14 +171,14 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 
 type GroupPayload struct {
 	Success bool        ` json:"success" `
-	Group   *ags4.Group ` json:"group" `
+	Group   *ogtags.Group ` json:"group" `
 }
 
 // handles /ajax/ags4/group
 func AX_Group(resp http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
-	grp, err := ags4.GetGroup(vars["group_code"])
+	grp, err := ogtags.GetGroup(vars["group_code"])
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return
@@ -205,7 +205,7 @@ func AX_Examples(resp http.ResponseWriter, req *http.Request) {
 	payload := new(ExamplesPayload)
 	payload.Success = true
 
-	recs, err := ags4.GetExamples()
+	recs, err := ogtags.GetExamples()
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return
@@ -221,7 +221,7 @@ func AX_Examples(resp http.ResponseWriter, req *http.Request) {
 
 type DocumentPayload struct {
 	Success 	bool        ` json:"success" `
-	Document  	ags4.Document ` json:"document" `
+	Document  	ogtags.Document ` json:"document" `
 }
 
 // handles /ags/4/units.*
@@ -232,7 +232,7 @@ func AX_Parse(resp http.ResponseWriter, req *http.Request) {
 	payload := new(DocumentPayload)
 	payload.Success = true
 
-	doc, err := ags4.ParseExample(example)
+	doc, err := ogtags.ParseExample(example)
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return

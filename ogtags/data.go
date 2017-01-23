@@ -1,5 +1,5 @@
 
-package ags4
+package ogtags
 
 import (
 	"strings"

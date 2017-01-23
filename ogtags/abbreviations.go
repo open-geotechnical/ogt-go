@@ -1,4 +1,4 @@
-package ags4
+package ogtags
 
 import (
 	"encoding/json"

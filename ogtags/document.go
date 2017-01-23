@@ -1,6 +1,6 @@
 
 
-package ags4
+package ogtags
 
 
 import (
@@ -11,7 +11,7 @@ import (
 
 )
 
-// The `Documen`t represents the data structure
+// The `Documen`t contains the data structure
 // for an ags file
 //
 type Document struct {
