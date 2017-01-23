@@ -20,7 +20,7 @@ type HeadingDD struct {
 }
 
 func (head *HeadingDD)PickList() (*AbbrDD, bool, error) {
-	return GetAbbr(head.HeadCode)
+	return GetAbbrDD(head.HeadCode)
 }
 
 

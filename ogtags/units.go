@@ -59,7 +59,7 @@ func UnitExists(unit_str string) bool {
 }
 
 
-func UnitsList() []Unit {
+func GetUnits() []Unit {
 	lst := make([]Unit, 0, len(UnitsMap))
 	for _, u := range UnitsMap {
 		lst = append(lst, u)

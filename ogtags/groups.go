@@ -37,7 +37,7 @@ var GroupsDDMap map[string]*GroupDD
 
 
 // Returns the Groups data dict as a simple list/rows
-func GroupsDD() ([]*GroupDD, error) {
+func GetGroupsDD() ([]*GroupDD, error) {
 	// first get key from map and sort
 	var keys []string
 	for k := range GroupsDDMap {
@@ -54,7 +54,7 @@ func GroupsDD() ([]*GroupDD, error) {
 }
 
 // Returns the ags4 Group definition if found,
-func GetGroup(group_code string) (*GroupDD, error) {
+func GetGroupDD(group_code string) (*GroupDD, error) {
 
 	// validate group_code
 	group_code = strings.ToUpper(strings.TrimSpace(group_code))

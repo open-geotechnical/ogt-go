@@ -81,7 +81,7 @@ func AX_Units(resp http.ResponseWriter, req *http.Request) {
 
 	payload := new(UnitsPayload)
 	payload.Success = true
-	payload.Units = ogtags.UnitsList()
+	payload.Units = ogtags.GetUnits()
 
 	SendAjaxPayload(resp, req, payload)
 }
@@ -115,7 +115,7 @@ func AX_Abbrs(resp http.ResponseWriter, req *http.Request) {
 	var e error
 	payload := new(AbbrsPayload)
 	payload.Success = true
-	payload.Abbrs, e = ogtags.GetAbbrs()
+	payload.Abbrs, e = ogtags.GetAbbrsDD()
 	if e != nil {
 		SendAjaxError(resp, req, e)
 		return
@@ -134,7 +134,7 @@ type AbbrPayload struct {
 func AX_Abbr(resp http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
-	abbr, found, err := ogtags.GetAbbr(vars["head_code"])
+	abbr, found, err := ogtags.GetAbbrDD(vars["head_code"])
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return
@@ -158,7 +158,7 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 	var e error
 	payload := new(GroupsPayload)
 	payload.Success = true
-	payload.Groups, e = ogtags.GroupsDD()
+	payload.Groups, e = ogtags.GetGroupsDD()
 	if e != nil {
 		SendAjaxError(resp, req, e)
 		return
@@ -178,7 +178,7 @@ type GroupPayload struct {
 func AX_Group(resp http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
-	grp, err := ogtags.GetGroup(vars["group_code"])
+	grp, err := ogtags.GetGroupDD(vars["group_code"])
 	if err != nil {
 		SendAjaxError(resp, req, err)
 		return

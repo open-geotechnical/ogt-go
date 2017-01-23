@@ -34,7 +34,7 @@ type AbbrDD struct {
 }
 
 // Returns a list sorted hy headcode
-func GetAbbrs() ([]*AbbrDD, error) {
+func GetAbbrsDD() ([]*AbbrDD, error) {
 
 	var keys []string
 	for k := range AbbrsDDMap {
@@ -50,7 +50,7 @@ func GetAbbrs() ([]*AbbrDD, error) {
 }
 
 // Returns data on an abbreviation if found
-func GetAbbr(head_code string) (*AbbrDD, bool, error) {
+func GetAbbrDD(head_code string) (*AbbrDD, bool, error) {
 
 	head_code = strings.ToUpper(strings.TrimSpace(head_code))
 

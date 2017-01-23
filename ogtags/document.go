@@ -11,12 +11,13 @@ import (
 	"path"
 )
 
-// The `Documen`t contains the data structure
-// for an ags file
+// The `Document` contains the data structure
+// for an ags file, including the Raw source, lines and Groups of data
 //
 type Document struct {
 	FileName string  	 ` json:"file_name"  `
 	Source string   	 ` json:"source"  `
+	Hash string          ` json:"hash"  `
 	Lines []*Line 		 ` json:"lines"  `
 	GroupsIndex []string ` json:"groups_index" `
 	GroupsDataMap map[string]*GroupData  ` json:"groups"  `
