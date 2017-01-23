@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var SiteInfo = map[string]string{"name": "ags2go", "version": "0.1"}
+var SiteInfo = map[string]string{"name": "ogt-ags-go", "version": "0.1"}
 
 
 func Start(address_port string) {
@@ -23,18 +23,18 @@ func Start(address_port string) {
 	router.HandleFunc("/viewer", H_Viewer)
 	router.HandleFunc("/about", H_About)
 
-	router.HandleFunc("/ajax/ags/4/examples.{ext}", AX_Examples)
-	router.HandleFunc("/ajax/ags/4/examples", AX_Examples)
+	router.HandleFunc("/ajax/ags4/examples.{ext}", AX_Examples)
+	router.HandleFunc("/ajax/ags4/examples", AX_Examples)
 
 
-	router.HandleFunc("/ajax/ags/4/parse", AX_Parse)
+	router.HandleFunc("/ajax/ags4/parse", AX_Parse)
 
 
-	router.HandleFunc("/ajax/ags/4/units.{ext}", AX_Units)
-	router.HandleFunc("/ajax/ags/4/units", AX_Units)
+	router.HandleFunc("/ajax/ags4/units.{ext}", AX_Units)
+	router.HandleFunc("/ajax/ags4/units", AX_Units)
 
-	router.HandleFunc("/ajax/ags/4/abbreviations.{ext}",AX_Abbrs)
-	router.HandleFunc("/ajax/ags/4/abbreviations", AX_Abbrs)
+	router.HandleFunc("/ajax/ags4/abbrs.{ext}",AX_Abbrs)
+	router.HandleFunc("/ajax/ags4/abbrs", AX_Abbrs)
 
 	router.HandleFunc("/ajax/ags4/abbr/{head_code}.{ext}",AX_Abbr)
 	router.HandleFunc("/ajax/ags4/abbr/{head_code}", AX_Abbr)

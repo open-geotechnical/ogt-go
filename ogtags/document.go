@@ -8,7 +8,8 @@ import (
 	//"fmt"
 	"strings"
 	"encoding/csv"
-
+	"io/ioutil"
+	"path"
 )
 
 // The `Documen`t contains the data structure
@@ -26,6 +27,19 @@ func NewDocument() *Document {
 	d := new(Document)
 	d.Lines = make([]*Line, 0, 0)
 	return d
+}
+
+func NewDocumentFromFile(file_path string) (*Document, error) {
+
+	doc := NewDocument()
+	bites, err := ioutil.ReadFile(file_path)
+	if err != nil {
+		return doc, err
+	}
+	doc.FileName = path.Base(file_path)
+	doc.Source = string(bites)
+	err = doc.Parse()
+	return doc, err
 }
 
 type Line struct {

@@ -7,14 +7,14 @@ import (
 	"io/ioutil"
 )
 
-// Represent and AGS unit and its description.. (later value added ogt utf8 symbols)
+// Represent and AGS unit and its description.
 type Unit struct {
 
 	// eg DegC, kN/m2  (latin remember)
-	Unit string 		` json:"unit" db:"unit" ags:"UNIT_UNIT" `
+	Unit string 		` json:"unit"  ags:"UNIT_UNIT" `
 
 	// eg kiloNewtons per square metre (latin)
-	Description string 	` json:"description" db:"todo" `
+	Description string 	` json:"description"  `
 
 	// This is daffo special with a proper with UTF-8 symbol (breaks spec)
 	//Symbol string 	` json:"symbol" db:"symbol" `
@@ -55,11 +55,8 @@ func UnitExists(unit string) bool {
 }
 
 // Unit autocomplete and valid an hints
-// expect a request every  second.. whikst session engaged..
-// or we cache to clinet.. Over to @bill
 func UnitAutocomplete(txt string) (bool, []string){
-	// imagine the user has types in a k/m when K/m was means
-	// first we hekp with valid unit ?
+
 	yipee := UnitExists(txt)
 
 	hints := UnitsMatching(txt)
@@ -73,10 +70,6 @@ func UnitsMatching(txt string) []string {
 	matches := make([]string, 0, 0)
 	// Do some clever searches
 	// of the memtree and terun some matchin, case insensitive
-	// meed some rapid magic..
-	// et wahat tz ? planet..
-	// U in USA ? imperial
-	// Default = Metric ;;-)))
 
 
 	return matches
