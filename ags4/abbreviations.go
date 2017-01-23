@@ -41,12 +41,12 @@ func GetAbbrs() ([]*Abbr, error) {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
-	abbrevs := make([]*Abbr, 0, 0)
+
+	abbrs := make([]*Abbr, 0, 0)
 	for _, k := range keys {
-		//fmt.Println("Key:", k, "Value:", m[k])
-		abbrevs = append(abbrevs, AbbrsMap[k])
+		abbrs = append(abbrs, AbbrsMap[k])
 	}
-	return abbrevs, nil
+	return abbrs, nil
 }
 
 // Returns data on an abbreviation if found
@@ -61,12 +61,13 @@ func GetAbbr(head_code string) (*Abbr, bool, error) {
 	}
 	parts := strings.Split(head_code, "_")
 	fmt.Println(parts)
+
 	ab, found := AbbrsMap[head_code]
 	return ab, found, nil
 }
 
 // Loads AGS abbreviations.json
-func LoadAbbreviationsFromFile(file_path string) (error) {
+func LoadAbbrsFromFile(file_path string) (error) {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {

@@ -116,12 +116,12 @@ func (this *Document) Parse() error {
 
 		case TYPE:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].SuggestedType = line.Columns[c]
+				grp.Headings[c - 1].DType = line.Columns[c]
 			}
 
 		case UNIT:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].SuggestedUnit = line.Columns[c]
+				grp.Headings[c - 1].Unit = line.Columns[c]
 			}
 
 		case DATA:

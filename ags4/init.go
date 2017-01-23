@@ -49,7 +49,7 @@ func InitLoad(ags_data_dict_dir string) {
 		fmt.Println("loaded groups")
 	}
 
-	err = LoadAbbreviationsFromFile(abbrsFile)
+	err = LoadAbbrsFromFile(abbrsFile)
 	if err != nil {
 		fmt.Print(err)
 		all_errors = append(all_errors, err)
