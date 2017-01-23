@@ -4,8 +4,7 @@ package ogtags
 
 
 import (
-	//"encoding/csv"
-	//"fmt"
+
 	"strings"
 	"encoding/csv"
 	"io/ioutil"
@@ -20,7 +19,7 @@ type Document struct {
 	Source string   	 ` json:"source"  `
 	Lines []*Line 		 ` json:"lines"  `
 	GroupsIndex []string ` json:"groups_index" `
-	Groups []*GroupData  ` json:"groups"  `
+	GroupsDataMap map[string]*GroupData  ` json:"groups"  `
 }
 
 func NewDocument() *Document {
@@ -32,7 +31,7 @@ func NewDocument() *Document {
 func (doc *Document) Init(){
 	doc.Lines = make([]*Line, 0, 0)
 	doc.GroupsIndex = make([]string, 0, 0)
-	doc.Groups = make([]*GroupData, 0, 0)
+	doc.GroupsDataMap = make(map[string]*GroupData)
 }
 
 func NewDocumentFromFile(file_path string) (*Document, error) {
@@ -60,6 +59,7 @@ type Line struct {
 func (doc *Document) Parse() error {
 
 	doc.Init()
+
 	// cleanup source, and split  into lines (unix style)
 	raw_lines := strings.Split( strings.Replace(doc.Source, "\r", "", -1), "\n")
 
@@ -84,12 +84,10 @@ func (doc *Document) Parse() error {
 		doc.Lines = append(doc.Lines, line)
 	}
 
-
-	// Map by "GROUP_CODE" to the data
-	groups_map := make(map[string]*GroupData)
+	// Now we walk the lines, and extract groups and data
 
 	// Pointer to current group
-	var grp *GroupData
+	var cgrp *GroupData
 
 	// Current active group_code
 	curr_group_code := ""
@@ -115,51 +113,48 @@ func (doc *Document) Parse() error {
 			// check group exists in map already...
 			// this should always be ok,
 			// TODO: possible errors =  double serialising groups
-			_, found := groups_map[curr_group_code]
+			_, found := doc.GroupsDataMap[curr_group_code]
 			if !found {
 				// were now in this group
-				grp = NewGroupData(curr_group_code)
-				groups_map[curr_group_code] = grp
+				cgrp = NewGroupData(curr_group_code)
+				doc.GroupsDataMap[curr_group_code] = cgrp
 				doc.GroupsIndex = append(doc.GroupsIndex, curr_group_code)
 			} else {
-				// OOPS, same groupname already exists wtf ??
+				// TODO, same groupname already exists wtf ??
 				// recover with ??
 			}
 
 		// The "HEADING" is expected immedeately after the GROUP
 		case HEADING:
 			for c := 1; c < col_count; c++ {
+				// TODO validate
 				h := NewDataHeading(line.Columns[c])
-				grp.Headings = append(grp.Headings, h)
+				cgrp.Headings = append(cgrp.Headings, h)
 			}
 
 		case TYPE:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].DataType = line.Columns[c]
+				// TODO validate
+				cgrp.Headings[c - 1].DataType = line.Columns[c]
 			}
 
 		case UNIT:
 			for c := 1; c < col_count; c++ {
-				grp.Headings[c - 1].Unit = line.Columns[c]
+				// TODO validate
+				cgrp.Headings[c - 1].Unit = line.Columns[c]
 			}
 
 		case DATA:
 			row := make(map[string]DataCell)
 			for c := 1; c < col_count; c++ {
-				hc := grp.Headings[c - 1].HeadCode
+				hc := cgrp.Headings[c - 1].HeadCode
 				row[hc] = DataCell{Value: line.Columns[c], HeadCode: hc, LineNo: line.No, ColNo: c}
 				// TODO validate type and accuracy eg 2dp vs 3dp
 
 			}
-			grp.Data = append(grp.Data, row)
+			cgrp.Data = append(cgrp.Data, row)
 		}
 	}
-
-	// Serialise out in correct order
-	for _, g := range doc.GroupsIndex {
-		doc.Groups = append(doc.Groups, groups_map[g])
-	}
-
 
 	return nil
 }

@@ -15,17 +15,17 @@ func init() {
 }
 
 // AbbrsMap is the abbreviations mem_store/reader
-// with head_code pointer to abbreviation and items
+// with head_code pointer to abbr and items
 var AbbrsMap map[string]*Abbr
 
 
 // Represents an item in the abbreviations picklist
 type AbbrItem struct {
-	Code        string ` json:"abbr_code" `
-	Description string ` json:"abbr_desc" `
+	Code        string ` json:"code" `
+	Description string ` json:"description" `
 	//DateAdded   string ` json:"date_added" `
 	//AddedBy     string ` json:"added_by" `
-	List      string ` json:"abbr_list" `
+	List      string ` json:"list" `
 }
 
 // Represents an abbreviation picklist for the headcode, type PA
@@ -34,7 +34,7 @@ type Abbr struct {
 	Items       []AbbrItem   ` json:"abbrs" `
 }
 
-// Returns a list sorted
+// Returns a list sorted hy headcode
 func GetAbbrs() ([]*Abbr, error) {
 
 	var keys []string

@@ -5,6 +5,7 @@ package ogtags
 import (
 	"encoding/json"
 	"io/ioutil"
+	"sync"
 )
 
 // Represent and AGS unit and its description.
@@ -31,11 +32,15 @@ func LoadUnitsFromFile(file_path string) error {
 		return err
 	}
 
-	err = json.Unmarshal(bites, &Units)
+	var units = make([]Unit, 0, 0)
+	err = json.Unmarshal(bites, &units)
 	if err != nil {
 		return err
 	}
-
+	var mutex = &sync.Mutex{}
+	mutex.Lock()
+	Units = units
+	mutex.Unlock()
 	return nil
 
 }

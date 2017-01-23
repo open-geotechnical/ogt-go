@@ -3,10 +3,11 @@ package ogtags
 
 import (
 	"fmt"
+	"path/filepath"
 )
 
-// The directory where `ags-data-dict/ags4` is
-// This is the cache variable and set with ags4.InitLoad()
+// The directory where `ags-data-dict` is
+// these  variables set with ogtags.InitLoad()
 var DataDictPath string = ""
 var groupsFile string = ""
 var abbrsFile string = ""
@@ -20,11 +21,10 @@ func InitLoad(ags_data_dict_dir string) {
 	fmt.Println("Loading AGS", ags_data_dict_dir)
 
 	DataDictPath = ags_data_dict_dir
+
 	groupsFile = DataDictPath + "/ags4/groups.json"
 	abbrsFile = DataDictPath + "/ags4/abbreviations.json"
-
 	examplesDir = DataDictPath + "/ags4_examples"
-
 
 	var all_errors []error
 	var err error
@@ -38,23 +38,22 @@ func InitLoad(ags_data_dict_dir string) {
 	} */
 
 	// groups and their heading need to be loaded first
-	err = LoadGroupsFromFile(groupsFile)
+	err = LoadGroupsFromFile(filepath.FromSlash(groupsFile))
 	if err != nil {
 		fmt.Print(err)
 
 		all_errors = append(all_errors, err)
 		// Group errors go here
-		return
+		//return
 	} else {
-		fmt.Println("loaded groups")
+		fmt.Println("loaded groups", filepath.FromSlash(groupsFile))
 	}
 
-	err = LoadAbbrsFromFile(abbrsFile)
+	err = LoadAbbrsFromFile(filepath.FromSlash(abbrsFile))
 	if err != nil {
 		fmt.Print(err)
 		all_errors = append(all_errors, err)
 	}
-
 
 
 	if len(all_errors) > 0 {
