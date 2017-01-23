@@ -42,7 +42,6 @@ func InitLoad(ags_data_dict_dir string) {
 		all_errors = append(all_errors, err)
 	}
 
-	// groups and their heading need to be loaded first
 	err = LoadGroupsFromFile(filepath.FromSlash(groupsFile))
 	if err != nil {
 		all_errors = append(all_errors, err)
@@ -55,10 +54,11 @@ func InitLoad(ags_data_dict_dir string) {
 
 
 	if len(all_errors) > 0 {
-		fmt.Println("WTF?", all_errors)
-		// Tantrum()
+		fmt.Println("errors")
+		for _, ee := range all_errors {
+			fmt.Println("\t", ee.Error())
+		}
 	}
-
 	fmt.Println("Loading AGS DONE")
 
 

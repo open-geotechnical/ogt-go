@@ -81,7 +81,7 @@ func AX_Units(resp http.ResponseWriter, req *http.Request) {
 
 	payload := new(UnitsPayload)
 	payload.Success = true
-	payload.Units = ogtags.Units
+	payload.Units = ogtags.UnitsList()
 
 	SendAjaxPayload(resp, req, payload)
 }
@@ -148,7 +148,7 @@ func AX_Abbr(resp http.ResponseWriter, req *http.Request) {
 
 type GroupsPayload struct {
 	Success bool          ` json:"success" `
-	Groups  []*ogtags.Group ` json:"groups" `
+	Groups  []*ogtags.GroupDD ` json:"groups" `
 	GroupsCount  int      ` json:"groups_count" `
 }
 
@@ -171,7 +171,7 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 
 type GroupPayload struct {
 	Success bool        ` json:"success" `
-	Group   *ogtags.Group ` json:"group" `
+	Group   *ogtags.GroupDD ` json:"group" `
 }
 
 // handles /ajax/ags4/group

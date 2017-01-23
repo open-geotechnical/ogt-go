@@ -11,12 +11,12 @@ import (
 )
 
 func init() {
-	AbbrsMap = make(map[string]*Abbr)
+	AbbrsDDMap = make(map[string]*Abbr)
 }
 
 // AbbrsMap is the abbreviations mem_store/reader
 // with head_code pointer to abbr and items
-var AbbrsMap map[string]*Abbr
+var AbbrsDDMap map[string]*Abbr
 
 
 // Represents an item in the abbreviations picklist
@@ -38,14 +38,14 @@ type Abbr struct {
 func GetAbbrs() ([]*Abbr, error) {
 
 	var keys []string
-	for k := range AbbrsMap {
+	for k := range AbbrsDDMap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 
 	abbrs := make([]*Abbr, 0, 0)
 	for _, k := range keys {
-		abbrs = append(abbrs, AbbrsMap[k])
+		abbrs = append(abbrs, AbbrsDDMap[k])
 	}
 	return abbrs, nil
 }
@@ -63,7 +63,7 @@ func GetAbbr(head_code string) (*Abbr, bool, error) {
 	parts := strings.Split(head_code, "_")
 	fmt.Println(parts)
 
-	ab, found := AbbrsMap[head_code]
+	ab, found := AbbrsDDMap[head_code]
 	return ab, found, nil
 }
 
@@ -74,13 +74,13 @@ func LoadAbbrsFromFile(file_path string) (error) {
 	if err != nil {
 		return err
 	}
-	abbrsMap  := make(map[string]*Abbr)
-	err = json.Unmarshal(bites, &abbrsMap)
+	abbrsddMap  := make(map[string]*Abbr)
+	err = json.Unmarshal(bites, &abbrsddMap)
 	if err != nil {
 		return err
 	}
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
-	AbbrsMap = abbrsMap
+	AbbrsDDMap = abbrsddMap
 	return nil
 }

@@ -40,7 +40,7 @@ func NewGroupData(grp_code string) *GroupData {
 	gdata.Headings = make([]DataHeading, 0, 0)
 
 	// Check the definition exists and use it
-	grp_def, ok := GroupsMap[gdata.GroupCode]
+	grp_def, ok := GroupsDDMap[gdata.GroupCode]
 	if ok {
 		gdata.GroupDescription = grp_def.GroupDescription
 		gdata.Class = grp_def.Class
@@ -56,7 +56,7 @@ func NewDataHeading(head_code string) DataHeading {
 	//h.Data = make([]DataCell, 0)
 
 	parts := strings.Split(head_code, "_")
-	grp, gok := GroupsMap[parts[0]]
+	grp, gok := GroupsDDMap[parts[0]]
 	if gok {
 		for _, hd := range grp.Headings {
 			if hd.HeadCode == head_code {

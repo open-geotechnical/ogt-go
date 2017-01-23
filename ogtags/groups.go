@@ -10,7 +10,8 @@ import (
 	"sync"
 )
 
-type Group struct {
+// Groups data def contains and reads a Group
+type GroupDD struct {
 	GroupCode   string    		`json:"group_code"`
 	Class       string   		 `json:"class"`
 	GroupDescription string    	`json:"group_description"`
@@ -24,37 +25,37 @@ type Group struct {
 
 func init() {
 	Classes = make([]string, 0, 0)
-	GroupsMap = make(map[string]*Group)
+	GroupsDDMap = make(map[string]*GroupDD)
 }
 
 // Memory cache for classes and a filter
 var Classes []string
 
 // Memory cache for the groups is a map offour char  group_code
-var GroupsMap map[string]*Group
+var GroupsDDMap map[string]*GroupDD
 
 
 
 // Returns the ags4 groups sorted in a list/array
-func GetGroups() ([]*Group, error) {
+func GetGroups() ([]*GroupDD, error) {
 	// first get key from map and sort
 	var keys []string
-	for k := range GroupsMap {
+	for k := range GroupsDDMap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 
 	// construct list to return
-	groups := make([]*Group, 0, 0)
+	groups := make([]*GroupDD, 0, 0)
 	for _, k := range keys {
-		groups = append(groups, GroupsMap[k])
+		groups = append(groups, GroupsDDMap[k])
 	}
 
 	return groups, nil
 }
 
 // Returns the ags4 Group definition if found,
-func GetGroup(group_code string) (*Group, error) {
+func GetGroup(group_code string) (*GroupDD, error) {
 
 	// validate group_code
 	group_code = strings.ToUpper(strings.TrimSpace(group_code))
@@ -63,7 +64,7 @@ func GetGroup(group_code string) (*Group, error) {
 		return nil, errors.New("Need four character  `group_code` ")
 	}
 
-	grp, found := GroupsMap[group_code]
+	grp, found := GroupsDDMap[group_code]
 	if found {
 		return grp, nil
 	}
@@ -79,7 +80,7 @@ func LoadGroupsFromFile(file_path string)  error {
 	}
 
 	// need mutex here
-	groupsMap := make(map[string]*Group)
+	groupsMap := make(map[string]*GroupDD)
 	err = json.Unmarshal(bites, &groupsMap)
 	if err != nil {
 		return err
@@ -87,7 +88,7 @@ func LoadGroupsFromFile(file_path string)  error {
 
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
-	GroupsMap = groupsMap
+	GroupsDDMap = groupsMap
 	mutex.Unlock()
 	// TODO classes
 	//for code, grp := range GroupsMap {

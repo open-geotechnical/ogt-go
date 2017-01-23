@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"sync"
+	"strings"
 )
 
 // Represent and AGS unit and its description.
@@ -21,8 +22,7 @@ type Unit struct {
 	//Symbol string 	` json:"symbol" `
 }
 
-// The memory cache variable loaded at startup (and relodable ?? )
-var Units []Unit
+var UnitsMap map[string]Unit
 
 
 func LoadUnitsFromFile(file_path string) error {
@@ -39,7 +39,9 @@ func LoadUnitsFromFile(file_path string) error {
 	}
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
-	Units = units
+	for _, u := range units {
+		UnitsMap[u.Unit] = u
+	}
 	mutex.Unlock()
 	return nil
 
@@ -47,37 +49,20 @@ func LoadUnitsFromFile(file_path string) error {
 
 
 // Returns true if the unit exists
-func UnitExists(unit string) bool {
-	if unit == "" {
+func UnitExists(unit_str string) bool {
+	unit_str = strings.TrimSpace(unit_str)
+	if unit_str == "" {
 		return false
 	}
-	for _, u := range Units {
-		if u.Unit == unit {
-			return true
-		}
+	_, found := UnitsMap[unit_str]
+	return found
+}
+
+
+func UnitsList() []Unit {
+	lst := make([]Unit, 0, len(UnitsMap))
+	for _, u := range UnitsMap {
+		lst = append(lst, u)
 	}
-	return false
-}
-
-// Unit autocomplete and valid an hints
-func UnitAutocomplete(txt string) (bool, []string){
-
-	yipee := UnitExists(txt)
-
-	hints := UnitsMatching(txt)
-
-	return yipee, hints
-
-}
-
-func UnitsMatching(txt string) []string {
-
-	matches := make([]string, 0, 0)
-	// Do some clever searches
-	// of the memtree and terun some matchin, case insensitive
-
-
-	return matches
-
-
+	return lst
 }
