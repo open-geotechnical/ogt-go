@@ -7,7 +7,7 @@ import (
 //"fmt"
 )
 
-type Heading struct {
+type HeadingDD struct {
 	HeadCode    string       ` json:"head_code" `
 	HeadDescription string   ` json:"head_description" `
 	DataType    string       ` json:"data_type" `
@@ -19,7 +19,7 @@ type Heading struct {
 	//Picklist    []AbbrevItem ` json:"picklist" `
 }
 
-func (head *Heading)PickList() (*Abbr, bool, error) {
+func (head *HeadingDD)PickList() (*AbbrDD, bool, error) {
 	return GetAbbr(head.HeadCode)
 }
 

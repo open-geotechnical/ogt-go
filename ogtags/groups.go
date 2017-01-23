@@ -19,7 +19,7 @@ type GroupDD struct {
 	Parent string       `json:"parent"`
 	Child string  `json:"child"`
 
-	Headings    []Heading		 `json:"headings"`
+	Headings    []HeadingDD		 `json:"headings"`
 	Notes    []string		 `json:"notes"`
 }
 

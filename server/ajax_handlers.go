@@ -106,7 +106,7 @@ func AX_Info(resp http.ResponseWriter, req *http.Request) {
 
 type AbbrsPayload struct {
 	Success bool           ` json:"success" `
-	Abbrs []*ogtags.Abbr ` json:"abbrs" `
+	Abbrs []*ogtags.AbbrDD ` json:"abbrs" `
 }
 
 // handles /ags4/abbreviations
@@ -127,7 +127,7 @@ func AX_Abbrs(resp http.ResponseWriter, req *http.Request) {
 type AbbrPayload struct {
 	Success bool         ` json:"success" `
 	Found   bool         ` json:"found" `
-	Abbr  *ogtags.Abbr   ` json:"abbr" `
+	Abbr  *ogtags.AbbrDD   ` json:"abbr" `
 }
 
 // handles /ajax/ags4/abbr/<head_code>*

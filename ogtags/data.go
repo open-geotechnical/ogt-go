@@ -20,7 +20,7 @@ type GroupData struct {
 
 
 type DataHeading struct {
-	Heading
+	HeadingDD
 	AGSValid bool `json:"ags_valid"`
 	//Data []DataCell ` json:"data" `
 }

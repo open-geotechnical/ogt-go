@@ -11,16 +11,15 @@ import (
 )
 
 func init() {
-	AbbrsDDMap = make(map[string]*Abbr)
+	AbbrsDDMap = make(map[string]*AbbrDD)
 }
 
-// AbbrsMap is the abbreviations mem_store/reader
-// with head_code pointer to abbr and items
-var AbbrsDDMap map[string]*Abbr
-
+// AbbrsMap is the abbreviations mem variable
+// with `head_code` pointer to abbr and items
+var AbbrsDDMap map[string]*AbbrDD
 
 // Represents an item in the abbreviations picklist
-type AbbrItem struct {
+type AbbrDDItem struct {
 	Code        string ` json:"code" `
 	Description string ` json:"description" `
 	//DateAdded   string ` json:"date_added" `
@@ -29,13 +28,13 @@ type AbbrItem struct {
 }
 
 // Represents an abbreviation picklist for the headcode, type PA
-type Abbr struct {
+type AbbrDD struct {
 	HeadCode    string       ` json:"head_code" `
-	Items       []AbbrItem   ` json:"abbrs" `
+	Picklist       []AbbrDDItem   ` json:"picklist" `
 }
 
 // Returns a list sorted hy headcode
-func GetAbbrs() ([]*Abbr, error) {
+func GetAbbrs() ([]*AbbrDD, error) {
 
 	var keys []string
 	for k := range AbbrsDDMap {
@@ -43,7 +42,7 @@ func GetAbbrs() ([]*Abbr, error) {
 	}
 	sort.Strings(keys)
 
-	abbrs := make([]*Abbr, 0, 0)
+	abbrs := make([]*AbbrDD, 0, 0)
 	for _, k := range keys {
 		abbrs = append(abbrs, AbbrsDDMap[k])
 	}
@@ -51,7 +50,7 @@ func GetAbbrs() ([]*Abbr, error) {
 }
 
 // Returns data on an abbreviation if found
-func GetAbbr(head_code string) (*Abbr, bool, error) {
+func GetAbbr(head_code string) (*AbbrDD, bool, error) {
 
 	head_code = strings.ToUpper(strings.TrimSpace(head_code))
 
@@ -74,7 +73,7 @@ func LoadAbbrsFromFile(file_path string) (error) {
 	if err != nil {
 		return err
 	}
-	abbrsddMap  := make(map[string]*Abbr)
+	abbrsddMap  := make(map[string]*AbbrDD)
 	err = json.Unmarshal(bites, &abbrsddMap)
 	if err != nil {
 		return err
