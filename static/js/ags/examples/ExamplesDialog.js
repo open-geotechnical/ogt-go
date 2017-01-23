@@ -44,7 +44,7 @@ Ext.define('ags.examples.ExamplesDialog' ,{
 				store: Ext.create("Ext.data.JsonStore", {
 						proxy: {
 							type: 'ajax',
-							url: '/ajax/ags/4/examples',
+							url: '/ajax/ags4/examples',
 							reader: {
 								type: 'json',
 								root: 'examples',

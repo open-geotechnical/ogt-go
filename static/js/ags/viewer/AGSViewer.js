@@ -62,7 +62,7 @@ Ext.define('ags.viewer.AGSViewer' ,{
 		Ext.Ajax.request({
 
 			scope: this,
-			url: '/ajax/ags/4/parse',
+			url: '/ajax/ags4/parse',
 			method: "GET",
 			params: {
 				example: file_name

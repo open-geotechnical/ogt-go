@@ -9,7 +9,6 @@ import (
 	"strings"
 )
 
-// AGS Group .
 type Group struct {
 	GroupCode   string    		`json:"group_code"`
 	Class       string   		 `json:"class"`
@@ -83,5 +82,9 @@ func LoadGroupsFromFile(file_path string)  error {
 	if err != nil {
 		return err
 	}
+	// TODO classes
+	//for code, grp := range GroupsMap {
+
+	//}
 	return nil
 }

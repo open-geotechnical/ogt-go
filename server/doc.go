@@ -1,5 +1,5 @@
 
-// The ags server is the rest/ajax/http interface
+// The `server` is the rest/ajax/http interface
 package server
 
 // The AGS server is considered to be a microservice..

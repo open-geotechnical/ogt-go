@@ -25,8 +25,14 @@ type Document struct {
 
 func NewDocument() *Document {
 	d := new(Document)
-	d.Lines = make([]*Line, 0, 0)
+	d.Init()
 	return d
+}
+
+func (doc *Document) Init(){
+	doc.Lines = make([]*Line, 0, 0)
+	doc.GroupsIndex = make([]string, 0, 0)
+	doc.Groups = make([]*GroupData, 0, 0)
 }
 
 func NewDocumentFromFile(file_path string) (*Document, error) {
@@ -51,10 +57,11 @@ type Line struct {
 }
 
 
-func (this *Document) Parse() error {
+func (doc *Document) Parse() error {
 
+	doc.Init()
 	// cleanup source, and split  into lines (unix style)
-	raw_lines := strings.Split( strings.Replace(this.Source, "\r", "", -1), "\n")
+	raw_lines := strings.Split( strings.Replace(doc.Source, "\r", "", -1), "\n")
 
 	// parse each csv_line into a Line object
 	for idx, raw_line := range raw_lines {
@@ -63,7 +70,7 @@ func (this *Document) Parse() error {
 		line.No = idx + 1
 		line.Raw = strings.TrimSpace(raw_line)
 
-		// create records
+		// create records/columns for each line
 		r := csv.NewReader(strings.NewReader(line.Raw))
 		records, err := r.Read()
 		if err != nil {
@@ -74,11 +81,9 @@ func (this *Document) Parse() error {
 		} else {
 			line.Columns = records
 		}
-		this.Lines = append(this.Lines, line)
+		doc.Lines = append(doc.Lines, line)
 	}
 
-	// Keep track of the groups "order" for serialisation
-	groups_index_list := make([]string, 0, 0)
 
 	// Map by "GROUP_CODE" to the data
 	groups_map := make(map[string]*GroupData)
@@ -86,12 +91,12 @@ func (this *Document) Parse() error {
 	// Pointer to current group
 	var grp *GroupData
 
-	// Current active group code
+	// Current active group_code
 	curr_group_code := ""
 
 
-	// Walk though all the lines
-	for _, line := range this.Lines {
+	// Walk though all the lines and extract group blocks
+	for _, line := range doc.Lines {
 
 		if line.Columns == nil {
 			// ignore a blank line
@@ -100,12 +105,12 @@ func (this *Document) Parse() error {
 
 		col_count := len(line.Columns)
 
-		// Record[0] in first column in the row type,
+		// first column in the row type,
 		switch line.Columns[0] {
 
 		// The "GROUP","FOUR" = four character group name
 		case GROUP:
-
+			// A new groups, so set current object
 			curr_group_code = line.Columns[1]
 			// check group exists in map already...
 			// this should always be ok,
@@ -115,7 +120,7 @@ func (this *Document) Parse() error {
 				// were now in this group
 				grp = NewGroupData(curr_group_code)
 				groups_map[curr_group_code] = grp
-				groups_index_list = append(groups_index_list, curr_group_code)
+				doc.GroupsIndex = append(doc.GroupsIndex, curr_group_code)
 			} else {
 				// OOPS, same groupname already exists wtf ??
 				// recover with ??
@@ -151,80 +156,10 @@ func (this *Document) Parse() error {
 	}
 
 	// Serialise out in correct order
-	for _, g := range groups_index_list {
-		this.Groups = append(this.Groups, groups_map[g])
+	for _, g := range doc.GroupsIndex {
+		doc.Groups = append(doc.Groups, groups_map[g])
 	}
 
-	/*
-		//fmt.Println("l=", idx, line)
-		r := csv.NewReader(strings.NewReader(line))
-		record, err := r.Read()
-		if err != nil {
-			fmt.Println("err=", idx, err)
-		} else {
-
-
-			switch record[0] {
-			case GROUP:
-				curr_group := record[0]
-
-				grp := NewGroupData(curr_group)
-				//grpd.GroupCode = curr_group
-
-
-
-				//group_codes = append(group_codes, curr_group)
-				//group_lines[curr_group] = make([]string, 0, 0)
-
-				//grp, ok := groupsMap[grp_code]
-				//if !ok {
-					// complain group not found
-					//fmt.Println("err=", idx, "group not found")
-				//} else {
-					//grpd := new(GroupData)
-					//grpd.GroupCode = grp.GroupCode
-					//grpd.Description = grp.Description
-					//grpd.Description = grp.Class
-				//}
-
-
-
-			//case DATA:
-				//data = append(data, token)
-
-
-
-			//case HEADING:
-				//node.Heading = append(node.Heading, token)
-
-			//case TYPE:
-				//node.Type = append(node.Type, token)
-
-			//case UNIT:
-				//node.Unit = append(node.Unit, token)
-			//default:
-				//group_lines[curr_group] = append
-			}
-
-			//fmt.Println("ok=", idx, record[0], record[1])
-
-		}
-		*/
-		/*
-		for {
-			record, err := r.Read()
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				fmt.Println("fatal", err)
-				return err
-			}
-
-			fmt.Println("record=", len(record), record)
-		}
-		*/
-	//}
 
 	return nil
 }

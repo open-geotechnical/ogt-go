@@ -8,7 +8,7 @@ import (
 type GroupData struct {
 	GroupCode   string    `json:"group_code"`
 	Class       string    `json:"class"`
-	Description string    `json:"description"`
+	GroupDescription string    `json:"group_description"`
 
 	// True if this in the Official Data dictionary
 	AGSValid bool `json:"ags_valid"`
@@ -39,9 +39,10 @@ func NewGroupData(grp_code string) *GroupData {
 	gdata.GroupCode = grp_code
 	gdata.Headings = make([]DataHeading, 0, 0)
 
+	// Check the definition exists and use it
 	grp_def, ok := GroupsMap[gdata.GroupCode]
 	if ok {
-		gdata.Description = grp_def.GroupDescription
+		gdata.GroupDescription = grp_def.GroupDescription
 		gdata.Class = grp_def.Class
 		gdata.AGSValid = true
 	}

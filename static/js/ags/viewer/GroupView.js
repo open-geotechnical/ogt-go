@@ -72,7 +72,7 @@ Ext.define('ags.viewer.GroupView' ,{
 			model_fields.push(  fld );
 
 			// col def for grid, also hide data in `geo_data`
-			var col = {header: h.head_code + "<br>" + h.description + "&nbsp;" + "<br>" + h.data_type + "&nbsp;",
+			var col = {header: h.head_code + "<br>" + h.head_description + "&nbsp;" + "<br>" + h.dtype + "&nbsp;",
 						dataIndex: h.head_code,
 						sortable: true, menuDisabled: true,
 						head_code: h.head_code
