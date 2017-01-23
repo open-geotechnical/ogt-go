@@ -10,8 +10,8 @@ type GroupData struct {
 	Class       string    `json:"class"`
 	GroupDescription string    `json:"group_description"`
 
-	// True if this in the Official Data dictionary
-	AGSValid bool `json:"ags_valid"`
+	// True if this in the unOfficial Data dictionary
+	Valid bool `json:"valid"`
 
 	Headings    []DataHeading ` json:"headings" `
 
@@ -21,8 +21,7 @@ type GroupData struct {
 
 type DataHeading struct {
 	HeadingDD
-	AGSValid bool `json:"ags_valid"`
-	//Data []DataCell ` json:"data" `
+	Valid bool `json:"valid"`
 }
 
 type DataCell struct {
@@ -30,7 +29,7 @@ type DataCell struct {
 	Value   string    ` json:"value" `
 	Error   error    ` json:"error" `
 	LineNo int  	` json:"line_no" `
-	ColNo int  	` json:"col_no" `
+	ColIndex int  	` json:"col_index" `
 }
 
 func NewGroupData(grp_code string) *GroupData {
@@ -40,11 +39,11 @@ func NewGroupData(grp_code string) *GroupData {
 	gdata.Headings = make([]DataHeading, 0, 0)
 
 	// Check the definition exists and use it
-	grp_def, ok := GroupsDDMap[gdata.GroupCode]
+	grpdd, ok := GroupsDDMap[gdata.GroupCode]
 	if ok {
-		gdata.GroupDescription = grp_def.GroupDescription
-		gdata.Class = grp_def.Class
-		gdata.AGSValid = true
+		gdata.GroupDescription = grpdd.GroupDescription
+		gdata.Class = grpdd.Class
+		gdata.Valid = true
 	}
 	return gdata
 }
@@ -60,7 +59,7 @@ func NewDataHeading(head_code string) DataHeading {
 	if gok {
 		for _, hd := range grp.Headings {
 			if hd.HeadCode == head_code {
-				h.AGSValid = true
+				h.Valid = true
 				//h.Description = hd.Description
 				//h.Picklist = hd.Picklist
 				return h

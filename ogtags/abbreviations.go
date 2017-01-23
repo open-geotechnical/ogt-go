@@ -14,8 +14,8 @@ func init() {
 	AbbrsDDMap = make(map[string]*AbbrDD)
 }
 
-// AbbrsMap is the abbreviations mem variable
-// with `head_code` pointer to abbr and items
+// AbbrsDDMap is the abbreviations data dict mem variable
+// with `head_code` as key to abbr and picklist
 var AbbrsDDMap map[string]*AbbrDD
 
 // Represents an item in the abbreviations picklist
@@ -27,7 +27,7 @@ type AbbrDDItem struct {
 	List      string ` json:"list" `
 }
 
-// Represents an abbreviation picklist for the headcode, type PA
+// Represents an abbreviations for the headcode, type PA
 type AbbrDD struct {
 	HeadCode    string       ` json:"head_code" `
 	Picklist       []AbbrDDItem   ` json:"picklist" `

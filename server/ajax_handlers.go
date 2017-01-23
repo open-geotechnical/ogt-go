@@ -158,7 +158,7 @@ func AX_Groups(resp http.ResponseWriter, req *http.Request) {
 	var e error
 	payload := new(GroupsPayload)
 	payload.Success = true
-	payload.Groups, e = ogtags.GetGroups()
+	payload.Groups, e = ogtags.GroupsDD()
 	if e != nil {
 		SendAjaxError(resp, req, e)
 		return

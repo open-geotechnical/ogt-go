@@ -148,7 +148,7 @@ func (doc *Document) Parse() error {
 			row := make(map[string]DataCell)
 			for c := 1; c < col_count; c++ {
 				hc := cgrp.Headings[c - 1].HeadCode
-				row[hc] = DataCell{Value: line.Columns[c], HeadCode: hc, LineNo: line.No, ColNo: c}
+				row[hc] = DataCell{Value: line.Columns[c], HeadCode: hc, LineNo: line.No, ColIndex: c}
 				// TODO validate type and accuracy eg 2dp vs 3dp
 
 			}

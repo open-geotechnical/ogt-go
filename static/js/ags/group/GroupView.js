@@ -9,11 +9,16 @@ Ext.define('ags.group.GroupView' ,{
 
 
 		 Ext.apply(this, {
-			title : 'Group ',
+			title : 'Group: ',
 			height: HEIGHT,
   			layout: "border",
 			items: [
-				Ext.create("ags.group.HeadingsGrid", {flex: 1, region: "center"})
+			    {xtype: "tabpanel",
+			        items: [
+				        Ext.create("ags.group.HeadingsGrid", {
+				        title: "Headings", flex: 1, region: "center"})
+				    ]
+				}
 			]
 		});
 		this.callParent();

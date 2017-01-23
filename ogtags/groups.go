@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-// Groups data def contains and reads a Group
+// GroupDD is the data_dict of an agsgroup
 type GroupDD struct {
 	GroupCode   string    		`json:"group_code"`
 	Class       string   		 `json:"class"`
@@ -31,13 +31,13 @@ func init() {
 // Memory cache for classes and a filter
 var Classes []string
 
-// Memory cache for the groups is a map offour char  group_code
+// Memory cache for the Groups data dict is a map of four char group_code
 var GroupsDDMap map[string]*GroupDD
 
 
 
-// Returns the ags4 groups sorted in a list/array
-func GetGroups() ([]*GroupDD, error) {
+// Returns the Groups data dict as a simple list/rows
+func GroupsDD() ([]*GroupDD, error) {
 	// first get key from map and sort
 	var keys []string
 	for k := range GroupsDDMap {
@@ -50,7 +50,6 @@ func GetGroups() ([]*GroupDD, error) {
 	for _, k := range keys {
 		groups = append(groups, GroupsDDMap[k])
 	}
-
 	return groups, nil
 }
 
