@@ -25,7 +25,7 @@ type Unit struct {
 var UnitsMap map[string]Unit
 
 
-func LoadUnitsFromFile(file_path string) error {
+func LoadUnitsDDFromFile(file_path string) error {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {

@@ -71,7 +71,7 @@ func GetGroupDD(group_code string) (*GroupDD, error) {
 }
 
 // Loads the ags4 groups.json file from json into memory
-func LoadGroupsFromFile(file_path string)  error {
+func LoadGroupsDDFromFile(file_path string)  error {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {

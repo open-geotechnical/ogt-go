@@ -15,7 +15,7 @@ var SiteInfo = map[string]string{"name": "ogt-ags-go", "version": "0.1"}
 
 func Start(address_port string) {
 
-	// Setup www router and config modules
+	// Setup www router
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", H_Home)

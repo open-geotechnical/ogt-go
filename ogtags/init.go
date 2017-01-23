@@ -37,17 +37,17 @@ func InitLoad(ags_data_dict_dir string) {
 	var all_errors []error
 	var err error
 
-	err = LoadUnitsFromFile(filepath.FromSlash(unitsFile))
+	err = LoadUnitsDDFromFile(filepath.FromSlash(unitsFile))
 	if err != nil {
 		all_errors = append(all_errors, err)
 	}
 
-	err = LoadGroupsFromFile(filepath.FromSlash(groupsFile))
+	err = LoadGroupsDDFromFile(filepath.FromSlash(groupsFile))
 	if err != nil {
 		all_errors = append(all_errors, err)
 	}
 
-	err = LoadAbbrsFromFile(filepath.FromSlash(abbrsFile))
+	err = LoadAbbrsDDFromFile(filepath.FromSlash(abbrsFile))
 	if err != nil {
 		all_errors = append(all_errors, err)
 	}

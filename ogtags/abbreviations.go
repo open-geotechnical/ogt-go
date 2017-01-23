@@ -67,7 +67,7 @@ func GetAbbrDD(head_code string) (*AbbrDD, bool, error) {
 }
 
 // Loads AGS abbreviations.json
-func LoadAbbrsFromFile(file_path string) (error) {
+func LoadAbbrsDDFromFile(file_path string) (error) {
 
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {

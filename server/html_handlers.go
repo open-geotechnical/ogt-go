@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/flosch/pongo2"
-
 )
 
 type NavItem struct {
@@ -30,7 +29,6 @@ func init(){
 func addNav(url, title string)  {
 	Nav = append(Nav, NavItem{Url: url, Title: title})
 }
-
 
 func NewContext(url string) pongo2.Context {
 
@@ -64,14 +62,14 @@ var tplAbout = pongo2.Must( pongo2.FromFile("templates/about.html") )
 var tplWidget = pongo2.Must( pongo2.FromFile("templates/widget.html") )
 var tplView = pongo2.Must( pongo2.FromFile("templates/viewer.html") )
 
-// Home page
+// `/home` page
 func H_Home(resp http.ResponseWriter, request *http.Request){
 
 	c := NewContext("/")
 	RenderTemplate(resp, request, tplHome, c)
 }
 
-// About page TODO
+// `/about` page
 func H_About(resp http.ResponseWriter, request *http.Request){
 	c := NewContext("/about")
 	RenderTemplate(resp, request,

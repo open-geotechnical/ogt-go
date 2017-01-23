@@ -1,12 +1,11 @@
 
 // The `server` is the rest/ajax/http interface
+//
+// Its into three parts atmo
+// - run_init_routes.go = setups the routes to handlers
+// - ajax handlers - start with AX_* and return json and machine stuff
+// - html_handlers - start with H_ and return html from templates/
 package server
 
-// The AGS server is considered to be a microservice..
-// and a light weight, run it on a RPI system
-// to contain the ags data.. with some addons..
-
-// at its most basic it provides some urls..
-// and url_routing.go is where to find this
 
 
