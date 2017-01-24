@@ -6,10 +6,10 @@ import (
 	"sync"
 )
 
+
 type DataTypeDD struct {
 	Code string
 	Description string
-
 }
 
 var DataTypesDDMap  map[string]*DataTypeDD

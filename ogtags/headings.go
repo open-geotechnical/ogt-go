@@ -7,6 +7,7 @@ import (
 //"fmt"
 )
 
+// The Heading DataDict container
 type HeadingDD struct {
 	HeadCode    string       ` json:"head_code" `
 	HeadDescription string   ` json:"head_description" `
@@ -16,9 +17,9 @@ type HeadingDD struct {
 	RevDate     string       ` json:"rev_date" `
 	SortOrder   int          ` json:"sort_order" `
 	Status      string       ` json:"head_status" `
-	//Picklist    []AbbrevItem ` json:"picklist" `
 }
 
+// Returns a picklist for this headings.hHeadCode if found
 func (head *HeadingDD)PickList() (*AbbrDD, bool, error) {
 	return GetAbbrDD(head.HeadCode)
 }
