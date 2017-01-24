@@ -73,18 +73,20 @@ func GetGroupDD(group_code string) (*GroupDD, error) {
 // Loads the ags4 groups.json file from json into memory
 func LoadGroupsDDFromFile(file_path string)  error {
 
+	// read file
 	bites, err := ioutil.ReadFile(file_path)
 	if err != nil {
 		return err
 	}
 
-	// need mutex here
+	// Read into memory
 	groupsMap := make(map[string]*GroupDD)
 	err = json.Unmarshal(bites, &groupsMap)
 	if err != nil {
 		return err
 	}
 
+	// Success so update memory cache
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
 	GroupsDDMap = groupsMap

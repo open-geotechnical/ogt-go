@@ -7,18 +7,21 @@ import (
 	"github.com/flosch/pongo2"
 )
 
-type NavItem struct {
-	Url string
-	Title string
-	//Selected bool
-}
 type Page struct {
 	Title string
 	Url string
 }
 
+type NavItem struct {
+	Url string
+	Title string
+	//Selected bool
+}
 var Nav []NavItem
 
+func addNav(url, title string)  {
+	Nav = append(Nav, NavItem{Url: url, Title: title})
+}
 func init(){
 	addNav("/", "Home")
 	addNav("/about", "About")
@@ -26,9 +29,7 @@ func init(){
 	addNav("/viewer", "Viewer")
 	//addNav("/ags4", "AGS4")
 }
-func addNav(url, title string)  {
-	Nav = append(Nav, NavItem{Url: url, Title: title})
-}
+
 
 func NewContext(url string) pongo2.Context {
 

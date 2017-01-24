@@ -42,6 +42,11 @@ func InitLoad(ags_data_dict_dir string) {
 		all_errors = append(all_errors, err)
 	}
 
+	err = LoadDataTypesDDFromFile(filepath.FromSlash(dataTypesFile))
+	if err != nil {
+		all_errors = append(all_errors, err)
+	}
+
 	err = LoadGroupsDDFromFile(filepath.FromSlash(groupsFile))
 	if err != nil {
 		all_errors = append(all_errors, err)
