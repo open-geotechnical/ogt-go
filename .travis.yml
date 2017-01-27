@@ -15,5 +15,5 @@ branches:
     - master
 
 script:
-  - go build main.go
+  - go build -v main.go
 
