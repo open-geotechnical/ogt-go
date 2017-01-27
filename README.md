@@ -11,6 +11,7 @@ Disclaimer: This is experimental, open source, not to be taken seriously.yet, an
 
 [![GoDoc](https://godoc.org/github.com/open-geotechnical/ogt-ags-go?status.svg)](https://godoc.org/github.com/open-geotechnical/ogt-ags-go)
 
+[![Build Status](https://travis-ci.org/open-geotechnical/ogt-ags-go.svg?branch=master)](https://travis-ci.org/open-geotechnical/ogt-ags-go)
 
 
 Dev Guide
