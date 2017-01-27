@@ -1,5 +1,5 @@
 
-
+ags-data-dict
 workspace/
 temp/
 
@@ -13,4 +13,4 @@ temp/
 
 *.zip
 
-
+*.exe

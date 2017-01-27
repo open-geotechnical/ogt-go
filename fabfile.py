@@ -59,5 +59,13 @@ def r_run():
 	"""Start/Reboot remote server"""
 	sudo("/usr/local/bin/supervisorctl restart ags", pty=True)
 
-def dev_upload():
-	rrr
+def compile_win():
+	"""Build app on remote server"""
+	return
+	"""
+	for oss in [["windows", "exe"]]:
+		for ar in ["386", "amd64"]
+			with shell_env(GOOS=oss[0], GOARCH=):
+		with cd(LIVE_DIR):
+			run("go build -v")
+	"""
