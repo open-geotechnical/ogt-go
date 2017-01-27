@@ -10,6 +10,10 @@ install:
   - go get github.com/gorilla/mux
   - go get gopkg.in/yaml.v2
 
+branches:
+  only:
+    - master
+
 script:
   - go build main.go
 
