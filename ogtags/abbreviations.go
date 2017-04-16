@@ -10,31 +10,35 @@ import (
 	"sync"
 )
 
-func init() {
-	AbbrsDDMap = make(map[string]*AbbrDD)
-}
-
 // AbbrsDDMap is the abbreviations data dict mem variable
 // with `head_code` as key to abbr and picklist
-var AbbrsDDMap map[string]*AbbrDD
+var AbbrsDataDictMap map[string]*AbbrItem
 
-// Represents an item in the abbreviations picklist
-type AbbrDDItem struct {
-	Code        string ` json:"code" `
+func init() {
+	AbbrsDataDictMap = make(map[string]*AbbrItem)
+}
+
+// Represents an Abbreviation item (a PA = pick abbr picklist)
+// eg SAMP_TYPE = sample type
+//   B =
+//   CONC
+//   W
+type AbbrItem struct {
+	Code        string ` json:"head_code" `
 	Description string ` json:"description" `
 	//DateAdded   string ` json:"date_added" `
 	//AddedBy     string ` json:"added_by" `
-	List      string ` json:"list" `
+	//List      string ` json:"list" `
 }
 
 // Represents an abbreviations for the headcode, type PA
-type AbbrDD struct {
+type AbbrDataDict struct {
 	HeadCode    string       ` json:"head_code" `
-	Picklist       []AbbrDDItem   ` json:"picklist" `
+	Abbrs       []AbbrItem   ` json:"abbrs" `
 }
 
-// Returns a list sorted hy headcode
-func GetAbbrsDD() ([]*AbbrDD, error) {
+// Returns a list of abbreviations sorted hy head_code
+func AbbrsDataDict() ([]*AbbrDataDict, error) {
 
 	var keys []string
 	for k := range AbbrsDDMap {
@@ -42,7 +46,7 @@ func GetAbbrsDD() ([]*AbbrDD, error) {
 	}
 	sort.Strings(keys)
 
-	abbrs := make([]*AbbrDD, 0, 0)
+	abbrs := make([]*AbbrDataDict, 0, 0)
 	for _, k := range keys {
 		abbrs = append(abbrs, AbbrsDDMap[k])
 	}
@@ -50,7 +54,7 @@ func GetAbbrsDD() ([]*AbbrDD, error) {
 }
 
 // Returns data on an abbreviation if found
-func GetAbbrDD(head_code string) (*AbbrDD, bool, error) {
+func GetAbbrDD(head_code string) (*AbbrDataDict, bool, error) {
 
 	head_code = strings.ToUpper(strings.TrimSpace(head_code))
 

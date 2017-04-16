@@ -1,5 +1,4 @@
 
-
 package ogtags
 
 import (
@@ -9,7 +8,13 @@ import (
 	"strings"
 )
 
-// Represent and AGS unit and its description.
+// Represent's an AGS defined unit and its description, etc, eg
+//   DegC = Degrees Centigrade
+//   yyymmdd = Date in Internatinal format
+//
+// Note that the developer is interested in this in returning
+// different measures.. eg x.Kg, x.Lbs, x.m, x.Ki, x.convert()
+
 type Unit struct {
 
 	// eg DegC, kN/m2  (latin remember)
@@ -19,9 +24,11 @@ type Unit struct {
 	Description string 	` json:"description"  `
 
 	// This is idea with an UTF-8 symbol (breaks spec)
-	//Symbol string 	` json:"symbol" `
+	// TODO Symbol could be interesting to return degc, html, etc
+	Symbol string 	` json:"symbol" `
 }
 
+// Memory cache for unit to data, validation etc
 var UnitsMap map[string]Unit
 
 
@@ -48,7 +55,8 @@ func LoadUnitsDDFromFile(file_path string) error {
 }
 
 
-// Returns true if the unit exists
+// Returns true if the unit exists/reconginsed..
+// Note is case sensitive.. as in k / K  = kilo / Kelvin
 func UnitExists(unit_str string) bool {
 	unit_str = strings.TrimSpace(unit_str)
 	if unit_str == "" {
@@ -58,8 +66,8 @@ func UnitExists(unit_str string) bool {
 	return found
 }
 
-
-func GetUnits() []Unit {
+// Returns a list of recognised units of measuring stuff
+func Units() []Unit {
 	lst := make([]Unit, 0, len(UnitsMap))
 	for _, u := range UnitsMap {
 		lst = append(lst, u)

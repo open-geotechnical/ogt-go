@@ -3,12 +3,17 @@ package ogtags
 import (
 //"encoding/json"
 //"io/ioutil"
+	"errors"
 //"sort"
 //"fmt"
 )
 
+var ErrHeadingInputInvalid = errors.New("Invalid heading code needs to be ABCD_XXX")
+var ErrHeadingInvalidGroupCode = errors.New("Invalid heading code needs to be ABCD_XXX")
+var ErrHeadingCodeNotInDataDict = errors.New("Heading code not in Data Dict")
+
 // The Heading DataDict container
-type HeadingDD struct {
+type HeadingDataDict struct {
 	HeadCode    string       ` json:"head_code" `
 	HeadDescription string   ` json:"head_description" `
 	DataType    string       ` json:"data_type" `
@@ -19,8 +24,8 @@ type HeadingDD struct {
 	Status      string       ` json:"head_status" `
 }
 
-// Returns a picklist for this headings.hHeadCode if found
-func (head *HeadingDD)PickList() (*AbbrDD, bool, error) {
+// Returns the abbreviation picklist for this headings.hHeadCode if found
+func (head *HeadingDataDict)PickList() (*AbbrDD, bool, error) {
 	return GetAbbrDD(head.HeadCode)
 }
 
