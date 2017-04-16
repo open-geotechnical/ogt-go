@@ -21,7 +21,7 @@ func GetExamples()([]string, error){
 }
 
 
-
+// Returns a
 func ParseExample(ex_file string) (*Document, error){
 
 	file_path := examplesDir + "/" + ex_file

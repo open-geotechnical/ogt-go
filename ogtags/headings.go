@@ -8,7 +8,7 @@ import (
 )
 
 // The Heading DataDict container
-type HeadingDD struct {
+type HeadDataDict struct {
 	HeadCode    string       ` json:"head_code" `
 	HeadDescription string   ` json:"head_description" `
 	DataType    string       ` json:"data_type" `
@@ -20,8 +20,8 @@ type HeadingDD struct {
 }
 
 // Returns a picklist for this headings.hHeadCode if found
-func (head *HeadingDD)PickList() (*AbbrDD, bool, error) {
-	return GetAbbrDD(head.HeadCode)
+func (head *HeadingDataDict)PickList() (*AbbrDD, bool, error) {
+	return GetAbbrDD(head.HeadDataDict)
 }
 
 

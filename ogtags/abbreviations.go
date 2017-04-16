@@ -14,37 +14,38 @@ func init() {
 	AbbrsDDMap = make(map[string]*AbbrDD)
 }
 
-// AbbrsDDMap is the abbreviations data dict mem variable
+// AbbrsDDMap is the abbreviations data dict
+// and memory loaded  variable
 // with `head_code` as key to abbr and picklist
-var AbbrsDDMap map[string]*AbbrDD
+var AbbrsDataDictDMap map[string]*AbbrDD
 
 // Represents an item in the abbreviations picklist
-type AbbrDDItem struct {
+type AbbrDataDictItem struct {
 	Code        string ` json:"code" `
 	Description string ` json:"description" `
-	//DateAdded   string ` json:"date_added" `
-	//AddedBy     string ` json:"added_by" `
+	DateAdded   string ` json:"date_added" `
+	AddedBy     string ` json:"added_by" `
 	List      string ` json:"list" `
 }
 
 // Represents an abbreviations for the headcode, type PA
 type AbbrDD struct {
 	HeadCode    string       ` json:"head_code" `
-	Picklist       []AbbrDDItem   ` json:"picklist" `
+	Picklist       []AbbrDataDictItem   ` json:"picklist" `
 }
 
 // Returns a list sorted hy headcode
 func GetAbbrsDD() ([]*AbbrDD, error) {
 
 	var keys []string
-	for k := range AbbrsDDMap {
+	for k := range AbbrDataDictItem {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 
 	abbrs := make([]*AbbrDD, 0, 0)
 	for _, k := range keys {
-		abbrs = append(abbrs, AbbrsDDMap[k])
+		abbrs = append(abbrs, AbbrDataDictItem[k])
 	}
 	return abbrs, nil
 }
@@ -62,7 +63,7 @@ func GetAbbrDD(head_code string) (*AbbrDD, bool, error) {
 	parts := strings.Split(head_code, "_")
 	fmt.Println(parts)
 
-	ab, found := AbbrsDDMap[head_code]
+	ab, found := AbbrDataDictItem[head_code]
 	return ab, found, nil
 }
 
@@ -80,6 +81,6 @@ func LoadAbbrsDDFromFile(file_path string) (error) {
 	}
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
-	AbbrsDDMap = abbrsddMap
+	AbbrDataDictItem = abbrsddMap
 	return nil
 }
