@@ -1,18 +1,21 @@
 
-
 package ogtags
 
-
 import (
-
 	"strings"
 	"encoding/csv"
 	"io/ioutil"
 	"path"
 )
 
-// The `Document` contains the data structure
-// for an ags file, including the Raw source, lines and Groups of data
+// The `Document` represents the data structure of an ags4 file
+//
+// It contains some meta data about the ags document,
+// and parses the file into a mempry object for manipulation
+// and output into various formats.
+//
+//
+// of an ags file, including the Raw source, lines and Groups of data
 //
 type Document struct {
 	FileName string  	 ` json:"file_name"  `
@@ -22,19 +25,16 @@ type Document struct {
 	GroupsIndex []string ` json:"groups_index" `
 	GroupsDataMap map[string]*GroupData  ` json:"groups"  `
 }
-
+// Create and initializes a Document pointer in mem
 func NewDocument() *Document {
-	d := new(Document)
-	d.Init()
-	return d
-}
-
-func (doc *Document) Init(){
+	doc := new(Document)
 	doc.Lines = make([]*Line, 0, 0)
 	doc.GroupsIndex = make([]string, 0, 0)
 	doc.GroupsDataMap = make(map[string]*GroupData)
+	return doc
 }
 
+// Returns a loaded Document object from a text ags file path, otherwise the err
 func NewDocumentFromFile(file_path string) (*Document, error) {
 
 	doc := NewDocument()

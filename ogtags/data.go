@@ -6,16 +6,13 @@ import (
 )
 
 type GroupData struct {
-	GroupCode   string    `json:"group_code"`
-	Class       string    `json:"class"`
-	GroupDescription string    `json:"group_description"`
 
-	// True if this in the unOfficial Data dictionary
-	Valid bool `json:"valid"`
+	Class       string    	` json:"class" 		yaml:"class" `
+	GroupCode   string    	` json:"group_code" yaml:"group_code" `
+	GroupDescription string	` json:"group_description" yaml:"group_description" `
 
-	Headings    []DataHeading ` json:"headings" `
-
-	Data []map[string]DataCell ` json:"data" `
+	Headings    []DataHeading ` json:"headings" yaml:"headings" `
+	Data []map[string]DataCell ` json:"data" yaml:"data" `
 }
 
 
@@ -39,7 +36,7 @@ func NewGroupData(grp_code string) *GroupData {
 	gdata.Headings = make([]DataHeading, 0, 0)
 
 	// Check the definition exists and use it
-	grpdd, ok := GroupsDDMap[gdata.GroupCode]
+	grpdd, ok := GroupsDataDictMap[gdata.GroupCode]
 	if ok {
 		gdata.GroupDescription = grpdd.GroupDescription
 		gdata.Class = grpdd.Class
@@ -55,7 +52,7 @@ func NewDataHeading(head_code string) DataHeading {
 	//h.Data = make([]DataCell, 0)
 
 	parts := strings.Split(head_code, "_")
-	grp, gok := GroupsDDMap[parts[0]]
+	grp, gok := GroupsDataDictMap[parts[0]]
 	if gok {
 		for _, hd := range grp.Headings {
 			if hd.HeadCode == head_code {

@@ -9,13 +9,25 @@ import (
 	"strings"
 	"sync"
 )
+const (
+	GROUP   = "GROUP" // the ags descriptor for a group
+)
 
+var ErrInvalidGroupCodeInput = errors.New("Invalid group code arg, must be four characters")
+var ErrGroupCodeNotFound = errors.New("Group code not found in data dict")
+
+<<<<<<< HEAD
 // GroupDataDict is the data_dict of an ags4group
 // from the data dictonary
 type GroupDataDict struct {
 
 	// Classification
 	// TODO sort out classification eg insitu, lab, intermeddiate
+=======
+// GroupDataDict is the representation of of an AGS Group
+type GroupDataDict struct {
+	GroupCode   string    		`json:"group_code"`
+>>>>>>> rename
 	Class       string   		 `json:"class"`
 
 	// The group CODE which is 4 upper case charecters eg
@@ -27,18 +39,28 @@ type GroupDataDict struct {
 	Parent string       		`json:"parent"`
 	Child string  				`json:"child"`
 
+<<<<<<< HEAD
 	Headings    []HeadingDD		`json:"headings"`
 	Notes    []string		 	`json:"notes"`
+=======
+	Headings    []HeadingDataDict		 `json:"headings"`
+	Notes    []string		 `json:"notes"`
+>>>>>>> rename
 }
 
 func init() {
 	Classes = make([]string, 0, 0)
+<<<<<<< HEAD
 	GroupsDDMap = make(map[string]*GroupDataDict)
+=======
+	GroupsDataDictMap = make(map[string]*GroupDataDict)
+>>>>>>> rename
 }
 
-// Memory cache for classes and a filter
+// Memory cache for the classes, uniquie and used for filter
 var Classes []string
 
+<<<<<<< HEAD
 // Memory cache for the Groups data dict is a map of four char group_code
 var GroupsDDMap map[string]*GroupDataDict
 
@@ -46,9 +68,18 @@ var GroupsDDMap map[string]*GroupDataDict
 
 // Returns the Groups data dict as a simple list/rows
 func GetGroupsDD() ([]*GroupDataDict, error) {
+=======
+// Memory cache of the four digit group code to a GroupDataDict
+var GroupsDataDictMap map[string]*GroupDataDict
+
+
+
+// Returns the Groups data dict as a list, sorted by group code
+func GroupsDataDict() ([]*GroupDataDict, error) {
+>>>>>>> rename
 	// first get key from map and sort
 	var keys []string
-	for k := range GroupsDDMap {
+	for k := range GroupsDataDictMap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
@@ -56,13 +87,13 @@ func GetGroupsDD() ([]*GroupDataDict, error) {
 	// construct list to return
 	groups := make([]*GroupDataDict, 0, 0)
 	for _, k := range keys {
-		groups = append(groups, GroupsDDMap[k])
+		groups = append(groups, GroupsDataDictMap[k])
 	}
 	return groups, nil
 }
 
-// Returns the ags4 Group definition if found,
-func GetGroupDD(group_code string) (*GroupDataDict, error) {
+// Returns the Group Data Dict definition if found, else error
+func GroupDataDict(group_code string) (*GroupDataDict, error) {
 
 	// validate group_code
 	group_code = strings.ToUpper(strings.TrimSpace(group_code))
@@ -71,7 +102,7 @@ func GetGroupDD(group_code string) (*GroupDataDict, error) {
 		return nil, errors.New("Need four character  `group_code` ")
 	}
 
-	grp, found := GroupsDDMap[group_code]
+	grp, found := GroupsDataDictMap[group_code]
 	if found {
 		return grp, nil
 	}
@@ -97,7 +128,7 @@ func LoadGroupsDDFromFile(file_path string)  error {
 	// Success so update memory cache
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
-	GroupsDDMap = groupsMap
+	GroupsDataDictMap = groupsMap
 	mutex.Unlock()
 	// TODO classes
 	//for code, grp := range GroupsMap {
