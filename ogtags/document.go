@@ -12,9 +12,20 @@ import (
 //
 // It contains some meta data about the ags document,
 // and parses the file into a mempry object for manipulation
-// and output into various formats.
+// and output into various other formats, eg json, yaml, odf, email
 //
+// IMPORTANT:
+// The ags file only contains the "data", other stuff such as images are
+// contained within the Project
 //
+// ** Developer Goals **
+//
+// To make manipulation and validation of ags documents online
+// and into workflow of
+// - site pre research
+// - and adding to stuff as we go along
+//
+// WIP:
 // of an ags file, including the Raw source, lines and Groups of data
 //
 type Document struct {
@@ -25,7 +36,8 @@ type Document struct {
 	GroupsIndex []string ` json:"groups_index" `
 	GroupsDataMap map[string]*GroupData  ` json:"groups"  `
 }
-// Create and initializes a Document pointer in mem
+
+// Create and initializes a Document pointer in memory
 func NewDocument() *Document {
 	doc := new(Document)
 	doc.Lines = make([]*Line, 0, 0)
@@ -48,18 +60,26 @@ func NewDocumentFromFile(file_path string) (*Document, error) {
 	return doc, err
 }
 
+// The Line object represents a line single from and ags file
+// and is embedded within the Document
 type Line struct {
+
+	// The line no eg 1 for first (not zero index based)
 	No 		int ` json:"no"  `
+
+	// The raw string line as read, eg "GROUP","PROJ" stripped of white space ie no dangling \r or tabs
 	Raw 	string  ` json:"raw"  `
+
+	// The Columns is the result of golangs cvs parser PER line (cvs cant parse document as unequal column, etc)
 	Columns []string  ` json:"columns"  `
+
+	// Errors and warnings are WIP for indicating errors in file structure and data..
 	Errors 		[]string 	` json:"errors"  `
 	Warnings 	[]string 	` json:"warnings"  `
 }
 
 
 func (doc *Document) Parse() error {
-
-	doc.Init()
 
 	// cleanup source, and split  into lines (unix style)
 	raw_lines := strings.Split( strings.Replace(doc.Source, "\r", "", -1), "\n")

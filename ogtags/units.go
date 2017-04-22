@@ -10,9 +10,9 @@ import (
 
 // Represent's an AGS defined unit and its description, etc, eg
 //   DegC = Degrees Centigrade
-//   yyymmdd = Date in Internatinal format
+//   yyymmdd = Date in Internatinayl formati
 //
-// Note that the developer is interested in this in returning
+// Note that the developeri is interestedo in this in returning
 // different measures.. eg x.Kg, x.Lbs, x.m, x.Ki, x.convert()
 
 type Unit struct {
@@ -28,7 +28,7 @@ type Unit struct {
 	Symbol string 	` json:"symbol" `
 }
 
-// Memory cache for unit to data, validation etc
+// Memory cache for an unit loop up, automcomplete and validation etc
 var UnitsMap map[string]Unit
 
 

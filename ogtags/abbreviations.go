@@ -10,24 +10,26 @@ import (
 	"sync"
 )
 
-// AbbrsDataDictMap is the abbreviations in memonry,
-// and a fast lookup variable in go..
-// the MAP's key is the HEAD_CODE..
-// with `head_code` as key to abbr and picklist
+// The AbbrsDataDictMap is the abbreviations in memory,
+// and a lookup variable
+// - The AGS data type is `PA` ie pick abbreviation
+// - the map's key is the HEADING code eg SAMP_TYPE
+// - pointing to the abbreviiation definition
 var AbbrsDataDictMap map[string]*AbbrItem
 
 func init() {
 	AbbrsDataDictMap = make(map[string]*AbbrItem)
 }
 
-// Represents an Abbreviation item (a PA = pick abbr picklist)
+// Represents an Abbreviation item from a PA = pick abbr picklist)
 // eg SAMP_TYPE = sample type
-//   B =
-//   CONC
-//   W
+//   B = BUlk SAMPLE
+//   CONC = Concrete Cube
+//   W = Water
 type AbbrItem struct {
-	Code        string ` json:"head_code" `
-	Description string ` json:"description" `
+	Code        string ` json:"abbr" `
+	Description string ` json:"abbr_description" `
+
 }
 
 // Represents an abbreviations for the headcode, type PA
@@ -37,18 +39,18 @@ type AbbrDataDict struct {
 	Abbrs       []AbbrItem   ` json:"abbrs" `
 }
 
-// Returns a list of abbreviations sorted hy head_code
-func AbbrsDataDict() ([]*AbbrDataDict, error) {
+// Returns a list of abbreviations sorted by head_code
+func AbbrsDataDictItems() ([]*AbbrDataDict, error) {
 
 	var keys []string
-	for k := range AbbrDataDictItem {
+	for k := range AbbrItem {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 
 	abbrs := make([]*AbbrDataDict, 0, 0)
 	for _, k := range keys {
-		abbrs = append(abbrs, AbbrDataDictItem[k])
+		abbrs = append(abbrs, AbbrItem[k])
 	}
 	return abbrs, nil
 }

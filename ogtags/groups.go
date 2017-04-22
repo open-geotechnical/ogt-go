@@ -16,33 +16,24 @@ const (
 var ErrInvalidGroupCodeInput = errors.New("Invalid group code arg, must be four characters")
 var ErrGroupCodeNotFound = errors.New("Group code not found in data dict")
 
-<<<<<<< HEAD
+
 // GroupDataDict is the data_dict of an ags4group
 // from the data dictonary
 type GroupDataDict struct {
 
-	// Classification
-	// TODO sort out classification eg insitu, lab, intermeddiate
-=======
-// GroupDataDict is the representation of of an AGS Group
-type GroupDataDict struct {
-	GroupCode   string    		`json:"group_code"`
->>>>>>> rename
 	Class       string   		 `json:"class"`
 
-	// The group CODE which is 4 upper case charecters eg
+	// The group CODE
 	GroupCode   string    		`json:"group_code"`
 
-	// The groups
+	// The groups simple description
 	GroupDescription string    	`json:"group_description"`
 
+	// The parent group code
 	Parent string       		`json:"parent"`
+	// The child groups code
 	Child string  				`json:"child"`
 
-<<<<<<< HEAD
-	Headings    []HeadingDD		`json:"headings"`
-	Notes    []string		 	`json:"notes"`
-=======
 	Headings    []HeadingDataDict		 `json:"headings"`
 	Notes    []string		 `json:"notes"`
 >>>>>>> rename

@@ -6,8 +6,9 @@ import (
 	"sync"
 )
 
-
-type DataTypeDD struct {
+// The DataType represents the Headings Type expected,
+// and is defined in AGS see
+type DataType struct {
 	Code string
 	Description string
 }

@@ -1,19 +1,27 @@
 package ogtags
 
 import (
-//"encoding/json"
-//"io/ioutil"
+	//"encoding/json"
+	//"io/ioutil"
 	"errors"
-//"sort"
-//"fmt"
+	//"sort"
+	//"fmt"
+)
+
+
+const (
+	HEADING   = "HEADING" // the ags descriptor for a heading
 )
 
 var ErrHeadingInputInvalid = errors.New("Invalid heading code needs to be ABCD_XXX")
 var ErrHeadingInvalidGroupCode = errors.New("Invalid heading code needs to be ABCD_XXX")
 var ErrHeadingCodeNotInDataDict = errors.New("Heading code not in Data Dict")
 
-// The Heading DataDict container
+// In ags the `Header` (think column) contains stuff about that column and its data
+// The GROUP_HEADER in ags comprised the heading, type and unit..
+//
 type HeadingDataDict struct {
+	// The
 	HeadCode    string       ` json:"head_code" `
 	HeadDescription string   ` json:"head_description" `
 	DataType    string       ` json:"data_type" `
