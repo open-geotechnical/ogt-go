@@ -36,30 +36,16 @@ type GroupDataDict struct {
 
 	Headings    []HeadingDataDict		 `json:"headings"`
 	Notes    []string		 `json:"notes"`
->>>>>>> rename
 }
 
 func init() {
 	Classes = make([]string, 0, 0)
-<<<<<<< HEAD
-	GroupsDDMap = make(map[string]*GroupDataDict)
-=======
 	GroupsDataDictMap = make(map[string]*GroupDataDict)
->>>>>>> rename
 }
 
 // Memory cache for the classes, uniquie and used for filter
 var Classes []string
 
-<<<<<<< HEAD
-// Memory cache for the Groups data dict is a map of four char group_code
-var GroupsDDMap map[string]*GroupDataDict
-
-
-
-// Returns the Groups data dict as a simple list/rows
-func GetGroupsDD() ([]*GroupDataDict, error) {
-=======
 // Memory cache of the four digit group code to a GroupDataDict
 var GroupsDataDictMap map[string]*GroupDataDict
 
@@ -67,7 +53,6 @@ var GroupsDataDictMap map[string]*GroupDataDict
 
 // Returns the Groups data dict as a list, sorted by group code
 func GroupsDataDict() ([]*GroupDataDict, error) {
->>>>>>> rename
 	// first get key from map and sort
 	var keys []string
 	for k := range GroupsDataDictMap {

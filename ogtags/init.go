@@ -21,6 +21,13 @@ var examplesDir string = ""
 
 // Ide here is to read all the def files..
 // This needs to be a spperate function and reloadable with mutex
+//
+// The initialize loop lock sout any requests bases on update..
+// we expect ags to updates..
+// and in memory foroever as in a count..
+// However we can be fast by keeping th top 20 or so
+// hit list.. TO do this as its a process we keep  here..
+//
 func InitLoad(ags_data_dict_dir string) {
 
 	fmt.Println("Loading AGS", ags_data_dict_dir)

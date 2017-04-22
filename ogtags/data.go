@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+
 type GroupData struct {
 
 	Class       string    	` json:"class" 		yaml:"class" `
@@ -21,6 +22,13 @@ type DataHeading struct {
 	Valid bool `json:"valid"`
 }
 
+// The data cell represent an indivudual Cell, or row column of data,
+// The DataCell has its code and atrributes
+// The "FIELD" must also comform to validation
+// This might mean achecking values against one anothere.
+// or labeling samples, and inputs outta sequence..
+// BUt ?? whats your input ??
+//
 type DataCell struct {
 	HeadCode string   ` json:"head_code" `
 	Value   string    ` json:"value" `

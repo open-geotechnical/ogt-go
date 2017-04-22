@@ -13,10 +13,10 @@ type DataType struct {
 	Description string
 }
 
-var DataTypesDDMap  map[string]*DataTypeDD
+var DataTypesDDMap  map[string]*DataType
 
 func init(){
-	DataTypesDDMap = make(map[string]*DataTypeDD)
+	DataTypesDDMap = make(map[string]*DataType)
 }
 
 func LoadDataTypesDDFromFile(file_path string) error{
@@ -26,7 +26,7 @@ func LoadDataTypesDDFromFile(file_path string) error{
 		return err
 	}
 
-	dataTypesDDMap := make(map[string]*DataTypeDD)
+	dataTypesDDMap := make(map[string]*DataType)
 	err = json.Unmarshal(bites, &dataTypesDDMap)
 	if err != nil {
 		return err

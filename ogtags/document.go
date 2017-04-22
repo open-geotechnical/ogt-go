@@ -8,7 +8,7 @@ import (
 	"path"
 )
 
-// The `Document` represents the data structure of an ags4 file
+// The `Document` represents the data structure of geotechincal stuff
 //
 // It contains some meta data about the ags document,
 // and parses the file into a mempry object for manipulation
@@ -47,14 +47,16 @@ func NewDocument() *Document {
 }
 
 // Returns a loaded Document object from a text ags file path, otherwise the err
-func NewDocumentFromFile(file_path string) (*Document, error) {
+// the loaded file could be an url or a file path,
+// whicheved way doc will be loaded...
+func LoadDocumentFromFile(url_path string) (*Document, error) {
 
 	doc := NewDocument()
-	bites, err := ioutil.ReadFile(file_path)
+	bites, err := ioutil.ReadFile(url_path)
 	if err != nil {
 		return doc, err
 	}
-	doc.FileName = path.Base(file_path)
+	doc.FileName = path.Base(url_path)
 	doc.Source = string(bites)
 	err = doc.Parse()
 	return doc, err

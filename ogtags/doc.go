@@ -1,9 +1,15 @@
 
-// Package `ogtags` handles transformation (and later validation) of ags4 formatted text.multi.csv files
+// The open-geotechincal-ags ala `ogtags` handles parsing, validation, transformationv
+// and manupulating within an API environment...
 //
 // The code consists of two parts
-// = the DataDict [FooDD] such as GroupDD, HeadingDD whcih contain the ags4 data dict
+// - the AGS DataDict which is the definition of the data
 // - and a Document, with its lines and structure
+// - and serialising the data in an out.. and having fun with computers
+// - and some more efficiency is saving.. whatever they may be.. ie reality vs IT..
+//   Note to developers from Alex was u cant get a singnal under an ubmrella in pourungg rain,,
+//   when there's a kinda flash flood.. Point taken (yes on railway also)
+//
 //
 // The general idea is that at application launch, the data dict DD's are loaded
 // and browsable via a www site (an alternate to AGS's site)

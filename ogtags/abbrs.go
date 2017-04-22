@@ -10,11 +10,12 @@ import (
 	"sync"
 )
 
-// The AbbrsDataDictMap is the abbreviations in memory,
+// The AbbrsDataDictMap is lookup of the abbreviations in memory,
 // and a lookup variable
 // - The AGS data type is `PA` ie pick abbreviation
 // - the map's key is the HEADING code eg SAMP_TYPE
 // - pointing to the abbreviiation definition
+// - Please create your own validation schema at will
 var AbbrsDataDictMap map[string]*AbbrItem
 
 func init() {
